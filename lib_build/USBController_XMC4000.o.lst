@@ -1,0 +1,2585 @@
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"USBController_XMC4000.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.comm	device,320,4
+  17              		.comm	endpoint0_in_buffer,256,4
+  18              		.comm	endpoint0_out_buffer,256,4
+  19              		.section	.text.USBD_HandleEP0_Stall,"ax",%progbits
+  20              		.align	1
+  21              		.global	USBD_HandleEP0_Stall
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  25              		.fpu fpv4-sp-d16
+  27              	USBD_HandleEP0_Stall:
+  28              	.LFB188:
+  29              		.file 1 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/US
+   1:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /*
+   2:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****              LUFA Library
+   3:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****      Copyright (C) Dean Camera, 2014.
+   4:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+   5:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   dean [at] fourwalledcubicle [dot] com
+   6:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****            www.lufa-lib.org
+   7:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** */
+   8:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+   9:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /*
+  10:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   Copyright 2014  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  11:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+  12:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   Permission to use, copy, modify, distribute, and sell this
+  13:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   software and its documentation for any purpose is hereby granted
+  14:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   without fee, provided that the above copyright notice appear in
+  15:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   all copies and that both that the copyright notice and this
+  16:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   permission notice and warranty disclaimer appear in supporting
+  17:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   documentation, and that the name of the author not be used in
+  18:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   advertising or publicity pertaining to distribution of the
+  19:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   software without specific, written prior permission.
+  20:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+  21:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   The author disclaims all warranties with regard to this
+  22:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   software, including all implied warranties of merchantability
+  23:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   and fitness.  In no event shall the author be liable for any
+  24:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   special, indirect or consequential damages or any damages
+  25:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   whatsoever resulting from loss of use, data or profits, whether
+  26:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   in an action of contract, negligence or other tortious action,
+  27:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   arising out of or in connection with the use or performance of
+  28:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****   this software.
+  29:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** */
+  30:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+  31:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** #include "../../Common/Common.h"
+  32:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+  33:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** #define  __INCLUDE_FROM_USB_DRIVER
+  34:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** #define  __INCLUDE_FROM_USB_CONTROLLER_C
+  35:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** #include "../USBController.h"
+  36:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+  37:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** USB_Device_t device;
+  38:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+  39:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** uint8_t endpoint0_in_buffer[256];
+  40:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** uint8_t endpoint0_out_buffer[256];
+  41:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+  42:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /**
+  43:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \ingroup USBD_Core_Driver
+  44:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \defgroup EP0_Handling Handling of EP0 Control Request
+  45:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \brief
+  46:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * @{
+  47:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  */
+  48:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+  49:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /**
+  50:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \brief Handle protocol stall on EP0
+  51:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+  52:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * Stalls EP0 and then restarts a new transfer including setting state to \ref IDLE.
+  53:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  */
+  54:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** void USBD_HandleEP0_Stall() {
+  30              		.loc 1 54 0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 1, uses_anonymous_args = 0
+  34 0000 80B5     		push	{r7, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 7, -8
+  38              		.cfi_offset 14, -4
+  39 0002 00AF     		add	r7, sp, #0
+  40              	.LCFI1:
+  41              		.cfi_def_cfa_register 7
+  55:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	/* When we stall ep0 as protocol stall, we go back into idle state and start a new read */
+  56:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.Driver->EndpointStall(ENDPOINT_DIR_IN | 0,1);
+  42              		.loc 1 56 0
+  43 0004 084B     		ldr	r3, .L2
+  44 0006 1B68     		ldr	r3, [r3]
+  45 0008 5B6A     		ldr	r3, [r3, #36]
+  46 000a 0121     		movs	r1, #1
+  47 000c 8020     		movs	r0, #128
+  48 000e 9847     		blx	r3
+  49              	.LVL0:
+  57:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.EP0_State = IDLE;
+  50              		.loc 1 57 0
+  51 0010 054B     		ldr	r3, .L2
+  52 0012 0122     		movs	r2, #1
+  53 0014 83F83B21 		strb	r2, [r3, #315]
+  58:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.Driver->EndpointReadStart(0,24);
+  54              		.loc 1 58 0
+  55 0018 034B     		ldr	r3, .L2
+  56 001a 1B68     		ldr	r3, [r3]
+  57 001c 9B6A     		ldr	r3, [r3, #40]
+  58 001e 1821     		movs	r1, #24
+  59 0020 0020     		movs	r0, #0
+  60 0022 9847     		blx	r3
+  61              	.LVL1:
+  59:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** }
+  62              		.loc 1 59 0
+  63 0024 00BF     		nop
+  64 0026 80BD     		pop	{r7, pc}
+  65              	.L3:
+  66              		.align	2
+  67              	.L2:
+  68 0028 00000000 		.word	device
+  69              		.cfi_endproc
+  70              	.LFE188:
+  72              		.section	.text.USB_Device_ProcessControlRequest,"ax",%progbits
+  73              		.align	1
+  74              		.global	USB_Device_ProcessControlRequest
+  75              		.syntax unified
+  76              		.thumb
+  77              		.thumb_func
+  78              		.fpu fpv4-sp-d16
+  80              	USB_Device_ProcessControlRequest:
+  81              	.LFB189:
+  60:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+  61:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /**
+  62:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \brief Handle device request on endpoint 0
+  63:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+  64:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * By default any USB device has to support a subset of device control request defiened by
+  65:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * the USB specification. All request required by the spec are handle within this function.
+  66:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * Before a handling of the request is done by this function, it dispatches it to the
+  67:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \ref EVENT_USB_Device_ControlRequest function. There the user has the chance to complete
+  68:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * some custom request or override the handling of this function. If the user has handled the
+  69:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * request, he has to call \ref Endpoint_ClearSETUP.
+  70:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+  71:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  */
+  72:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** void USB_Device_ProcessControlRequest() {
+  82              		.loc 1 72 0
+  83              		.cfi_startproc
+  84              		@ args = 0, pretend = 0, frame = 24
+  85              		@ frame_needed = 1, uses_anonymous_args = 0
+  86 0000 80B5     		push	{r7, lr}
+  87              	.LCFI2:
+  88              		.cfi_def_cfa_offset 8
+  89              		.cfi_offset 7, -8
+  90              		.cfi_offset 14, -4
+  91 0002 86B0     		sub	sp, sp, #24
+  92              	.LCFI3:
+  93              		.cfi_def_cfa_offset 32
+  94 0004 00AF     		add	r7, sp, #0
+  95              	.LCFI4:
+  96              		.cfi_def_cfa_register 7
+  73:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	uint32_t length = 0,ret;
+  97              		.loc 1 73 0
+  98 0006 0023     		movs	r3, #0
+  99 0008 7B61     		str	r3, [r7, #20]
+  74:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	uint16_t status = 0;
+ 100              		.loc 1 74 0
+ 101 000a 0023     		movs	r3, #0
+ 102 000c 3B81     		strh	r3, [r7, #8]	@ movhi
+  75:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	void *buffer;
+  76:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	uint8_t Value;
+  77:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	uint16_t Index;
+  78:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+  79:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	Value = USB_ControlRequest.wValue & 0x00FF;
+ 103              		.loc 1 79 0
+ 104 000e AB4B     		ldr	r3, .L53
+ 105 0010 5B88     		ldrh	r3, [r3, #2]	@ unaligned
+ 106 0012 9BB2     		uxth	r3, r3
+ 107 0014 FB74     		strb	r3, [r7, #19]
+  80:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+  81:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	/* Handling of descriptors */
+  82:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	EVENT_USB_Device_ControlRequest();
+ 108              		.loc 1 82 0
+ 109 0016 FFF7FEFF 		bl	EVENT_USB_Device_ControlRequest
+  83:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	if (!device.IsSetupRecieved)
+ 110              		.loc 1 83 0
+ 111 001a A94B     		ldr	r3, .L53+4
+ 112 001c 93F83E31 		ldrb	r3, [r3, #318]
+ 113 0020 C3F34003 		ubfx	r3, r3, #1, #1
+ 114 0024 DBB2     		uxtb	r3, r3
+ 115 0026 002B     		cmp	r3, #0
+ 116 0028 00F0FD81 		beq	.L49
+  84:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		return;
+  85:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+  86:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	/* default request handling */
+  87:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	switch (USB_ControlRequest.bRequest) {
+ 117              		.loc 1 87 0
+ 118 002c A34B     		ldr	r3, .L53
+ 119 002e 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 120 0030 0C2B     		cmp	r3, #12
+ 121 0032 00F2EA81 		bhi	.L7
+ 122 0036 01A2     		adr	r2, .L9
+ 123 0038 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 124              		.p2align 2
+ 125              	.L9:
+ 126 003c B3010000 		.word	.L8+1
+ 127 0040 71000000 		.word	.L10+1
+ 128 0044 0B040000 		.word	.L7+1
+ 129 0048 3F030000 		.word	.L11+1
+ 130 004c 0B040000 		.word	.L7+1
+ 131 0050 97020000 		.word	.L12+1
+ 132 0054 17010000 		.word	.L13+1
+ 133 0058 05030000 		.word	.L14+1
+ 134 005c 07010000 		.word	.L15+1
+ 135 0060 CD020000 		.word	.L16+1
+ 136 0064 7B010000 		.word	.L17+1
+ 137 0068 0B030000 		.word	.L18+1
+ 138 006c 05040000 		.word	.L19+1
+ 139              		.p2align 1
+ 140              	.L10:
+  88:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case REQ_ClearFeature:
+  89:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if ((USB_ControlRequest.bmRequestType & 0x3) == REQREC_ENDPOINT) {
+ 141              		.loc 1 89 0
+ 142 0070 924B     		ldr	r3, .L53
+ 143 0072 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 144 0074 03F00303 		and	r3, r3, #3
+ 145 0078 022B     		cmp	r3, #2
+ 146 007a 33D1     		bne	.L20
+  90:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			Index = USB_ControlRequest.wIndex & ENDPOINT_EPNUM_MASK;
+ 147              		.loc 1 90 0
+ 148 007c 8F4B     		ldr	r3, .L53
+ 149 007e 9B88     		ldrh	r3, [r3, #4]	@ unaligned
+ 150 0080 9BB2     		uxth	r3, r3
+ 151 0082 03F00F03 		and	r3, r3, #15
+ 152 0086 7B81     		strh	r3, [r7, #10]	@ movhi
+  91:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			if ((USB_DeviceState == DEVICE_STATE_Configured || USB_ControlRequest.wIndex==0)  &&
+ 153              		.loc 1 91 0
+ 154 0088 8E4B     		ldr	r3, .L53+8
+ 155 008a 1B78     		ldrb	r3, [r3]
+ 156 008c DBB2     		uxtb	r3, r3
+ 157 008e 042B     		cmp	r3, #4
+ 158 0090 04D0     		beq	.L21
+ 159              		.loc 1 91 0 is_stmt 0 discriminator 2
+ 160 0092 8A4B     		ldr	r3, .L53
+ 161 0094 9B88     		ldrh	r3, [r3, #4]	@ unaligned
+ 162 0096 9BB2     		uxth	r3, r3
+ 163 0098 002B     		cmp	r3, #0
+ 164 009a 20D1     		bne	.L22
+ 165              	.L21:
+  92:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 					device.Endpoints[Index].IsConfigured==1) {
+ 166              		.loc 1 92 0 is_stmt 1 discriminator 3
+ 167 009c 7B89     		ldrh	r3, [r7, #10]
+ 168 009e 884A     		ldr	r2, .L53+4
+ 169 00a0 2C21     		movs	r1, #44
+ 170 00a2 01FB03F3 		mul	r3, r1, r3
+ 171 00a6 1344     		add	r3, r3, r2
+ 172 00a8 1B7A     		ldrb	r3, [r3, #8]
+ 173 00aa C3F30003 		ubfx	r3, r3, #0, #1
+ 174 00ae DBB2     		uxtb	r3, r3
+  91:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			if ((USB_DeviceState == DEVICE_STATE_Configured || USB_ControlRequest.wIndex==0)  &&
+ 175              		.loc 1 91 0 discriminator 3
+ 176 00b0 012B     		cmp	r3, #1
+ 177 00b2 14D1     		bne	.L22
+  93:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				device.Endpoints[Index].IsHalted = 0;
+ 178              		.loc 1 93 0
+ 179 00b4 7B89     		ldrh	r3, [r7, #10]
+ 180 00b6 824A     		ldr	r2, .L53+4
+ 181 00b8 2C21     		movs	r1, #44
+ 182 00ba 01FB03F3 		mul	r3, r1, r3
+ 183 00be 1A44     		add	r2, r2, r3
+ 184 00c0 137A     		ldrb	r3, [r2, #8]
+ 185 00c2 6FF38203 		bfc	r3, #2, #1
+ 186 00c6 1372     		strb	r3, [r2, #8]
+  94:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				device.Driver->EndpointStall(USB_ControlRequest.wIndex,0);
+ 187              		.loc 1 94 0
+ 188 00c8 7D4B     		ldr	r3, .L53+4
+ 189 00ca 1B68     		ldr	r3, [r3]
+ 190 00cc 5B6A     		ldr	r3, [r3, #36]
+ 191 00ce 7B4A     		ldr	r2, .L53
+ 192 00d0 9288     		ldrh	r2, [r2, #4]	@ unaligned
+ 193 00d2 92B2     		uxth	r2, r2
+ 194 00d4 D2B2     		uxtb	r2, r2
+ 195 00d6 0021     		movs	r1, #0
+ 196 00d8 1046     		mov	r0, r2
+ 197 00da 9847     		blx	r3
+ 198              	.LVL2:
+  95:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			} else {
+  96:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				USBD_HandleEP0_Stall();
+  97:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			}
+  98:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 199              		.loc 1 98 0
+ 200 00dc 9BE1     		b	.L24
+ 201              	.L22:
+  96:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			}
+ 202              		.loc 1 96 0
+ 203 00de FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 204              		.loc 1 98 0
+ 205 00e2 98E1     		b	.L24
+ 206              	.L20:
+  99:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 100:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if ((USB_ControlRequest.bmRequestType & 0x3) == REQREC_DEVICE) {
+ 207              		.loc 1 100 0
+ 208 00e4 754B     		ldr	r3, .L53
+ 209 00e6 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 210 00e8 03F00303 		and	r3, r3, #3
+ 211 00ec 002B     		cmp	r3, #0
+ 212 00ee 07D1     		bne	.L25
+ 101:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			 device.RemoteWakeUp = 0;
+ 213              		.loc 1 101 0
+ 214 00f0 734A     		ldr	r2, .L53+4
+ 215 00f2 92F83E31 		ldrb	r3, [r2, #318]
+ 216 00f6 6FF38203 		bfc	r3, #2, #1
+ 217 00fa 82F83E31 		strb	r3, [r2, #318]
+ 102:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			 break;
+ 218              		.loc 1 102 0
+ 219 00fe 8AE1     		b	.L24
+ 220              	.L25:
+ 103:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 104:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		USBD_HandleEP0_Stall();
+ 221              		.loc 1 104 0
+ 222 0100 FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 105:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 223              		.loc 1 105 0
+ 224 0104 87E1     		b	.L24
+ 225              	.L15:
+ 106:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 107:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case REQ_GetConfiguration:
+ 108:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Driver->EndpointWrite(0,&device.Configuration,1);
+ 226              		.loc 1 108 0
+ 227 0106 6E4B     		ldr	r3, .L53+4
+ 228 0108 1B68     		ldr	r3, [r3]
+ 229 010a 1B6B     		ldr	r3, [r3, #48]
+ 230 010c 0122     		movs	r2, #1
+ 231 010e 6E49     		ldr	r1, .L53+12
+ 232 0110 0020     		movs	r0, #0
+ 233 0112 9847     		blx	r3
+ 234              	.LVL3:
+ 109:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 235              		.loc 1 109 0
+ 236 0114 7FE1     		b	.L24
+ 237              	.L13:
+ 110:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 111:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case REQ_GetDescriptor:
+ 112:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		length = CALLBACK_USB_GetDescriptor(USB_ControlRequest.wValue,USB_ControlRequest.wIndex,(void*)&b
+ 238              		.loc 1 112 0
+ 239 0116 694B     		ldr	r3, .L53
+ 240 0118 5B88     		ldrh	r3, [r3, #2]	@ unaligned
+ 241 011a 98B2     		uxth	r0, r3
+ 242 011c 674B     		ldr	r3, .L53
+ 243 011e 9B88     		ldrh	r3, [r3, #4]	@ unaligned
+ 244 0120 9BB2     		uxth	r3, r3
+ 245 0122 DBB2     		uxtb	r3, r3
+ 246 0124 3A1D     		adds	r2, r7, #4
+ 247 0126 1946     		mov	r1, r3
+ 248 0128 FFF7FEFF 		bl	CALLBACK_USB_GetDescriptor
+ 249 012c 0346     		mov	r3, r0
+ 250 012e 7B61     		str	r3, [r7, #20]
+ 113:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (length==0)
+ 251              		.loc 1 113 0
+ 252 0130 7B69     		ldr	r3, [r7, #20]
+ 253 0132 002B     		cmp	r3, #0
+ 254 0134 02D1     		bne	.L26
+ 114:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			USBD_HandleEP0_Stall();
+ 255              		.loc 1 114 0
+ 256 0136 FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 115:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		else {
+ 116:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			length = length < USB_ControlRequest.wLength ?
+ 117:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 					length : USB_ControlRequest.wLength;
+ 118:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			ret = device.Driver->EndpointWrite(0,buffer,length);
+ 119:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Endpoints[0].InDataLeft = length - ret;
+ 120:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Endpoints[0].InDataBuffer = (uint8_t *)((uint32_t)buffer + ret);
+ 121:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 122:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 257              		.loc 1 122 0
+ 258 013a 6CE1     		b	.L24
+ 259              	.L26:
+ 116:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 					length : USB_ControlRequest.wLength;
+ 260              		.loc 1 116 0
+ 261 013c 5F4B     		ldr	r3, .L53
+ 262 013e DB88     		ldrh	r3, [r3, #6]	@ unaligned
+ 263 0140 9BB2     		uxth	r3, r3
+ 264 0142 1A46     		mov	r2, r3
+ 265 0144 7B69     		ldr	r3, [r7, #20]
+ 266 0146 9342     		cmp	r3, r2
+ 267 0148 28BF     		it	cs
+ 268 014a 1346     		movcs	r3, r2
+ 269 014c 7B61     		str	r3, [r7, #20]
+ 118:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Endpoints[0].InDataLeft = length - ret;
+ 270              		.loc 1 118 0
+ 271 014e 5C4B     		ldr	r3, .L53+4
+ 272 0150 1B68     		ldr	r3, [r3]
+ 273 0152 1B6B     		ldr	r3, [r3, #48]
+ 274 0154 7968     		ldr	r1, [r7, #4]
+ 275 0156 7A69     		ldr	r2, [r7, #20]
+ 276 0158 0020     		movs	r0, #0
+ 277 015a 9847     		blx	r3
+ 278              	.LVL4:
+ 279 015c 0346     		mov	r3, r0
+ 280 015e FB60     		str	r3, [r7, #12]
+ 119:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Endpoints[0].InDataBuffer = (uint8_t *)((uint32_t)buffer + ret);
+ 281              		.loc 1 119 0
+ 282 0160 7A69     		ldr	r2, [r7, #20]
+ 283 0162 FB68     		ldr	r3, [r7, #12]
+ 284 0164 D31A     		subs	r3, r2, r3
+ 285 0166 564A     		ldr	r2, .L53+4
+ 286 0168 9362     		str	r3, [r2, #40]
+ 120:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 287              		.loc 1 120 0
+ 288 016a 7B68     		ldr	r3, [r7, #4]
+ 289 016c 1A46     		mov	r2, r3
+ 290 016e FB68     		ldr	r3, [r7, #12]
+ 291 0170 1344     		add	r3, r3, r2
+ 292 0172 1A46     		mov	r2, r3
+ 293 0174 524B     		ldr	r3, .L53+4
+ 294 0176 DA62     		str	r2, [r3, #44]
+ 295              		.loc 1 122 0
+ 296 0178 4DE1     		b	.L24
+ 297              	.L17:
+ 123:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 124:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case REQ_GetInterface:
+ 125:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (USB_DeviceState == DEVICE_STATE_Configured) {
+ 298              		.loc 1 125 0
+ 299 017a 524B     		ldr	r3, .L53+8
+ 300 017c 1B78     		ldrb	r3, [r3]
+ 301 017e DBB2     		uxtb	r3, r3
+ 302 0180 042B     		cmp	r3, #4
+ 303 0182 0DD1     		bne	.L28
+ 126:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Driver->EndpointWrite(0,&device.InterfaceSettings[USB_ControlRequest.wIndex],1);
+ 304              		.loc 1 126 0
+ 305 0184 4E4B     		ldr	r3, .L53+4
+ 306 0186 1B68     		ldr	r3, [r3]
+ 307 0188 1B6B     		ldr	r3, [r3, #48]
+ 308 018a 4C4A     		ldr	r2, .L53
+ 309 018c 9288     		ldrh	r2, [r2, #4]	@ unaligned
+ 310 018e 92B2     		uxth	r2, r2
+ 311 0190 02F59C72 		add	r2, r2, #312
+ 312 0194 4A49     		ldr	r1, .L53+4
+ 313 0196 1144     		add	r1, r1, r2
+ 314 0198 0122     		movs	r2, #1
+ 315 019a 0020     		movs	r0, #0
+ 316 019c 9847     		blx	r3
+ 317              	.LVL5:
+ 127:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 318              		.loc 1 127 0
+ 319 019e 3AE1     		b	.L24
+ 320              	.L28:
+ 128:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 129:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (USB_DeviceState == DEVICE_STATE_Addressed) {
+ 321              		.loc 1 129 0
+ 322 01a0 484B     		ldr	r3, .L53+8
+ 323 01a2 1B78     		ldrb	r3, [r3]
+ 324 01a4 DBB2     		uxtb	r3, r3
+ 325 01a6 032B     		cmp	r3, #3
+ 326 01a8 40F03281 		bne	.L50
+ 130:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			USBD_HandleEP0_Stall();
+ 327              		.loc 1 130 0
+ 328 01ac FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 131:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 329              		.loc 1 131 0
+ 330 01b0 31E1     		b	.L24
+ 331              	.L8:
+ 132:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 133:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 134:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 135:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case REQ_GetStatus:
+ 136:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if ((USB_ControlRequest.bmRequestType & 0x3) == REQREC_DEVICE) {
+ 332              		.loc 1 136 0
+ 333 01b2 424B     		ldr	r3, .L53
+ 334 01b4 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 335 01b6 03F00303 		and	r3, r3, #3
+ 336 01ba 002B     		cmp	r3, #0
+ 337 01bc 1BD1     		bne	.L30
+ 137:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			status = device.RemoteWakeUp << 1 | device.SelfPowered;
+ 338              		.loc 1 137 0
+ 339 01be 404B     		ldr	r3, .L53+4
+ 340 01c0 93F83E31 		ldrb	r3, [r3, #318]
+ 341 01c4 C3F38003 		ubfx	r3, r3, #2, #1
+ 342 01c8 DBB2     		uxtb	r3, r3
+ 343 01ca 5B00     		lsls	r3, r3, #1
+ 344 01cc 1AB2     		sxth	r2, r3
+ 345 01ce 3C4B     		ldr	r3, .L53+4
+ 346 01d0 93F83E31 		ldrb	r3, [r3, #318]
+ 347 01d4 C3F3C003 		ubfx	r3, r3, #3, #1
+ 348 01d8 DBB2     		uxtb	r3, r3
+ 349 01da 1BB2     		sxth	r3, r3
+ 350 01dc 1343     		orrs	r3, r3, r2
+ 351 01de 1BB2     		sxth	r3, r3
+ 352 01e0 9BB2     		uxth	r3, r3
+ 353 01e2 3B81     		strh	r3, [r7, #8]	@ movhi
+ 138:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Driver->EndpointWrite(0,(uint8_t*)&status,2);
+ 354              		.loc 1 138 0
+ 355 01e4 364B     		ldr	r3, .L53+4
+ 356 01e6 1B68     		ldr	r3, [r3]
+ 357 01e8 1B6B     		ldr	r3, [r3, #48]
+ 358 01ea 07F10801 		add	r1, r7, #8
+ 359 01ee 0222     		movs	r2, #2
+ 360 01f0 0020     		movs	r0, #0
+ 361 01f2 9847     		blx	r3
+ 362              	.LVL6:
+ 139:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 363              		.loc 1 139 0
+ 364 01f4 0FE1     		b	.L24
+ 365              	.L30:
+ 140:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 141:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if ((USB_ControlRequest.bmRequestType & 0x3) == REQREC_INTERFACE && USB_DeviceState == DEVICE_STA
+ 366              		.loc 1 141 0
+ 367 01f6 314B     		ldr	r3, .L53
+ 368 01f8 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 369 01fa 03F00303 		and	r3, r3, #3
+ 370 01fe 012B     		cmp	r3, #1
+ 371 0200 0FD1     		bne	.L31
+ 372              		.loc 1 141 0 is_stmt 0 discriminator 1
+ 373 0202 304B     		ldr	r3, .L53+8
+ 374 0204 1B78     		ldrb	r3, [r3]
+ 375 0206 DBB2     		uxtb	r3, r3
+ 376 0208 042B     		cmp	r3, #4
+ 377 020a 0AD1     		bne	.L31
+ 142:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			status = 0;
+ 378              		.loc 1 142 0 is_stmt 1
+ 379 020c 0023     		movs	r3, #0
+ 380 020e 3B81     		strh	r3, [r7, #8]	@ movhi
+ 143:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Driver->EndpointWrite(0,(uint8_t*)&status,2);
+ 381              		.loc 1 143 0
+ 382 0210 2B4B     		ldr	r3, .L53+4
+ 383 0212 1B68     		ldr	r3, [r3]
+ 384 0214 1B6B     		ldr	r3, [r3, #48]
+ 385 0216 07F10801 		add	r1, r7, #8
+ 386 021a 0222     		movs	r2, #2
+ 387 021c 0020     		movs	r0, #0
+ 388 021e 9847     		blx	r3
+ 389              	.LVL7:
+ 144:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 390              		.loc 1 144 0
+ 391 0220 F9E0     		b	.L24
+ 392              	.L31:
+ 145:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 146:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* print endpoint status only when(or):
+ 147:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 * - Device_Address_state and ep == 0
+ 148:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 * - Device_configured_state and ep is configured
+ 149:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 */
+ 150:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if ((USB_ControlRequest.bmRequestType & 0x3) == REQREC_ENDPOINT) {
+ 393              		.loc 1 150 0
+ 394 0222 264B     		ldr	r3, .L53
+ 395 0224 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 396 0226 03F00303 		and	r3, r3, #3
+ 397 022a 022B     		cmp	r3, #2
+ 398 022c 30D1     		bne	.L32
+ 151:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			Index = USB_ControlRequest.wIndex & 0xFF & ENDPOINT_EPNUM_MASK;
+ 399              		.loc 1 151 0
+ 400 022e 234B     		ldr	r3, .L53
+ 401 0230 9B88     		ldrh	r3, [r3, #4]	@ unaligned
+ 402 0232 9BB2     		uxth	r3, r3
+ 403 0234 03F00F03 		and	r3, r3, #15
+ 404 0238 7B81     		strh	r3, [r7, #10]	@ movhi
+ 152:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			if ((USB_DeviceState == DEVICE_STATE_Configured || USB_ControlRequest.wIndex==0) &&
+ 405              		.loc 1 152 0
+ 406 023a 224B     		ldr	r3, .L53+8
+ 407 023c 1B78     		ldrb	r3, [r3]
+ 408 023e DBB2     		uxtb	r3, r3
+ 409 0240 042B     		cmp	r3, #4
+ 410 0242 04D0     		beq	.L33
+ 411              		.loc 1 152 0 is_stmt 0 discriminator 2
+ 412 0244 1D4B     		ldr	r3, .L53
+ 413 0246 9B88     		ldrh	r3, [r3, #4]	@ unaligned
+ 414 0248 9BB2     		uxth	r3, r3
+ 415 024a 002B     		cmp	r3, #0
+ 416 024c 20D1     		bne	.L32
+ 417              	.L33:
+ 153:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 					device.Endpoints[Index].IsConfigured==1) {
+ 418              		.loc 1 153 0 is_stmt 1 discriminator 3
+ 419 024e 7B89     		ldrh	r3, [r7, #10]
+ 420 0250 1B4A     		ldr	r2, .L53+4
+ 421 0252 2C21     		movs	r1, #44
+ 422 0254 01FB03F3 		mul	r3, r1, r3
+ 423 0258 1344     		add	r3, r3, r2
+ 424 025a 1B7A     		ldrb	r3, [r3, #8]
+ 425 025c C3F30003 		ubfx	r3, r3, #0, #1
+ 426 0260 DBB2     		uxtb	r3, r3
+ 152:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			if ((USB_DeviceState == DEVICE_STATE_Configured || USB_ControlRequest.wIndex==0) &&
+ 427              		.loc 1 152 0 discriminator 3
+ 428 0262 012B     		cmp	r3, #1
+ 429 0264 14D1     		bne	.L32
+ 154:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				status = device.Endpoints[Index].IsHalted;
+ 430              		.loc 1 154 0
+ 431 0266 7B89     		ldrh	r3, [r7, #10]
+ 432 0268 154A     		ldr	r2, .L53+4
+ 433 026a 2C21     		movs	r1, #44
+ 434 026c 01FB03F3 		mul	r3, r1, r3
+ 435 0270 1344     		add	r3, r3, r2
+ 436 0272 1B7A     		ldrb	r3, [r3, #8]
+ 437 0274 C3F38003 		ubfx	r3, r3, #2, #1
+ 438 0278 DBB2     		uxtb	r3, r3
+ 439 027a 9BB2     		uxth	r3, r3
+ 440 027c 3B81     		strh	r3, [r7, #8]	@ movhi
+ 155:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				device.Driver->EndpointWrite(0,(uint8_t*)&status,2);
+ 441              		.loc 1 155 0
+ 442 027e 104B     		ldr	r3, .L53+4
+ 443 0280 1B68     		ldr	r3, [r3]
+ 444 0282 1B6B     		ldr	r3, [r3, #48]
+ 445 0284 07F10801 		add	r1, r7, #8
+ 446 0288 0222     		movs	r2, #2
+ 447 028a 0020     		movs	r0, #0
+ 448 028c 9847     		blx	r3
+ 449              	.LVL8:
+ 156:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				break;
+ 450              		.loc 1 156 0
+ 451 028e C2E0     		b	.L24
+ 452              	.L32:
+ 157:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			}
+ 158:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 159:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* default stall */
+ 160:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		USBD_HandleEP0_Stall();
+ 453              		.loc 1 160 0
+ 454 0290 FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 161:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 455              		.loc 1 161 0
+ 456 0294 BFE0     		b	.L24
+ 457              	.L12:
+ 162:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 163:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case REQ_SetAddress:
+ 164:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (Value == 0)
+ 458              		.loc 1 164 0
+ 459 0296 FB7C     		ldrb	r3, [r7, #19]	@ zero_extendqisi2
+ 460 0298 002B     		cmp	r3, #0
+ 461 029a 03D1     		bne	.L34
+ 165:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			USB_DeviceState = DEVICE_STATE_Default;
+ 462              		.loc 1 165 0
+ 463 029c 094B     		ldr	r3, .L53+8
+ 464 029e 0222     		movs	r2, #2
+ 465 02a0 1A70     		strb	r2, [r3]
+ 466 02a2 02E0     		b	.L35
+ 467              	.L34:
+ 166:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		else
+ 167:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			USB_DeviceState = DEVICE_STATE_Addressed;
+ 468              		.loc 1 167 0
+ 469 02a4 074B     		ldr	r3, .L53+8
+ 470 02a6 0322     		movs	r2, #3
+ 471 02a8 1A70     		strb	r2, [r3]
+ 472              	.L35:
+ 168:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Driver->DeviceSetAddress(Value,XMC_USBD_SET_ADDRESS_STAGE_SETUP);
+ 473              		.loc 1 168 0
+ 474 02aa 054B     		ldr	r3, .L53+4
+ 475 02ac 1B68     		ldr	r3, [r3]
+ 476 02ae 9B69     		ldr	r3, [r3, #24]
+ 477 02b0 FA7C     		ldrb	r2, [r7, #19]	@ zero_extendqisi2
+ 478 02b2 0021     		movs	r1, #0
+ 479 02b4 1046     		mov	r0, r2
+ 480 02b6 9847     		blx	r3
+ 481              	.LVL9:
+ 169:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 482              		.loc 1 169 0
+ 483 02b8 ADE0     		b	.L24
+ 484              	.L54:
+ 485 02ba 00BF     		.align	2
+ 486              	.L53:
+ 487 02bc 00000000 		.word	USB_ControlRequest
+ 488 02c0 00000000 		.word	device
+ 489 02c4 00000000 		.word	USB_DeviceState
+ 490 02c8 39010000 		.word	device+313
+ 491              	.L16:
+ 170:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 171:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case REQ_SetConfiguration:
+ 172:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* Regardless the state update the configuration to unconfigure endpoints */
+ 173:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Configuration = Value;
+ 492              		.loc 1 173 0
+ 493 02cc 584A     		ldr	r2, .L55
+ 494 02ce FB7C     		ldrb	r3, [r7, #19]
+ 495 02d0 82F83931 		strb	r3, [r2, #313]
+ 174:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		EVENT_USB_Device_ConfigurationChanged();
+ 496              		.loc 1 174 0
+ 497 02d4 FFF7FEFF 		bl	EVENT_USB_Device_ConfigurationChanged
+ 175:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* when config 0 is choosen, we are back in address state */
+ 176:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (Value == 0) {
+ 498              		.loc 1 176 0
+ 499 02d8 FB7C     		ldrb	r3, [r7, #19]	@ zero_extendqisi2
+ 500 02da 002B     		cmp	r3, #0
+ 501 02dc 03D1     		bne	.L36
+ 177:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			USB_DeviceState = DEVICE_STATE_Addressed;
+ 502              		.loc 1 177 0
+ 503 02de 554B     		ldr	r3, .L55+4
+ 504 02e0 0322     		movs	r2, #3
+ 505 02e2 1A70     		strb	r2, [r3]
+ 178:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 506              		.loc 1 178 0
+ 507 02e4 97E0     		b	.L24
+ 508              	.L36:
+ 179:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 180:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* go ahead only with vailid config. (must be set in event) */
+ 181:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (device.IsConfigured == 1)
+ 509              		.loc 1 181 0
+ 510 02e6 524B     		ldr	r3, .L55
+ 511 02e8 93F83E31 		ldrb	r3, [r3, #318]	@ zero_extendqisi2
+ 512 02ec 03F00103 		and	r3, r3, #1
+ 513 02f0 DBB2     		uxtb	r3, r3
+ 514 02f2 002B     		cmp	r3, #0
+ 515 02f4 03D0     		beq	.L37
+ 182:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			USB_DeviceState = DEVICE_STATE_Configured;
+ 516              		.loc 1 182 0
+ 517 02f6 4F4B     		ldr	r3, .L55+4
+ 518 02f8 0422     		movs	r2, #4
+ 519 02fa 1A70     		strb	r2, [r3]
+ 183:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		else
+ 184:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			USBD_HandleEP0_Stall();
+ 185:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 520              		.loc 1 185 0
+ 521 02fc 8BE0     		b	.L24
+ 522              	.L37:
+ 184:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 523              		.loc 1 184 0
+ 524 02fe FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 525              		.loc 1 185 0
+ 526 0302 88E0     		b	.L24
+ 527              	.L14:
+ 186:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 187:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case REQ_SetDescriptor:
+ 188:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* Set Descriptor not supported, so stall */
+ 189:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		USBD_HandleEP0_Stall();
+ 528              		.loc 1 189 0
+ 529 0304 FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 190:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 530              		.loc 1 190 0
+ 531 0308 85E0     		b	.L24
+ 532              	.L18:
+ 191:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 192:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case REQ_SetInterface:
+ 193:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (USB_DeviceState == DEVICE_STATE_Configured) {
+ 533              		.loc 1 193 0
+ 534 030a 4A4B     		ldr	r3, .L55+4
+ 535 030c 1B78     		ldrb	r3, [r3]
+ 536 030e DBB2     		uxtb	r3, r3
+ 537 0310 042B     		cmp	r3, #4
+ 538 0312 0CD1     		bne	.L39
+ 194:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			/* TODO: Check if interface and altsetting exists and configuration is allowed, else stall */
+ 195:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.InterfaceSettings[USB_ControlRequest.wIndex] = USB_ControlRequest.wValue;
+ 539              		.loc 1 195 0
+ 540 0314 484B     		ldr	r3, .L55+8
+ 541 0316 5B88     		ldrh	r3, [r3, #2]	@ unaligned
+ 542 0318 9AB2     		uxth	r2, r3
+ 543 031a 474B     		ldr	r3, .L55+8
+ 544 031c 9B88     		ldrh	r3, [r3, #4]	@ unaligned
+ 545 031e 9BB2     		uxth	r3, r3
+ 546 0320 1946     		mov	r1, r3
+ 547 0322 D2B2     		uxtb	r2, r2
+ 548 0324 424B     		ldr	r3, .L55
+ 549 0326 0B44     		add	r3, r3, r1
+ 550 0328 83F83821 		strb	r2, [r3, #312]
+ 196:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 551              		.loc 1 196 0
+ 552 032c 73E0     		b	.L24
+ 553              	.L39:
+ 197:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 198:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (USB_DeviceState == DEVICE_STATE_Addressed) {
+ 554              		.loc 1 198 0
+ 555 032e 414B     		ldr	r3, .L55+4
+ 556 0330 1B78     		ldrb	r3, [r3]
+ 557 0332 DBB2     		uxtb	r3, r3
+ 558 0334 032B     		cmp	r3, #3
+ 559 0336 6DD1     		bne	.L51
+ 199:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			USBD_HandleEP0_Stall();
+ 560              		.loc 1 199 0
+ 561 0338 FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 200:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 562              		.loc 1 200 0
+ 563 033c 6BE0     		b	.L24
+ 564              	.L11:
+ 201:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 202:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 203:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 204:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case REQ_SetFeature:
+ 205:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* we do not support test mode */
+ 206:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (Value == FEATURE_SEL_TestMode) {
+ 565              		.loc 1 206 0
+ 566 033e FB7C     		ldrb	r3, [r7, #19]	@ zero_extendqisi2
+ 567 0340 022B     		cmp	r3, #2
+ 568 0342 02D1     		bne	.L41
+ 207:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			USBD_HandleEP0_Stall();
+ 569              		.loc 1 207 0
+ 570 0344 FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 208:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 571              		.loc 1 208 0
+ 572 0348 65E0     		b	.L24
+ 573              	.L41:
+ 209:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 210:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* configured state */
+ 211:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (USB_DeviceState == DEVICE_STATE_Configured) {
+ 574              		.loc 1 211 0
+ 575 034a 3A4B     		ldr	r3, .L55+4
+ 576 034c 1B78     		ldrb	r3, [r3]
+ 577 034e DBB2     		uxtb	r3, r3
+ 578 0350 042B     		cmp	r3, #4
+ 579 0352 38D1     		bne	.L42
+ 212:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			switch (Value) {
+ 580              		.loc 1 212 0
+ 581 0354 FB7C     		ldrb	r3, [r7, #19]	@ zero_extendqisi2
+ 582 0356 002B     		cmp	r3, #0
+ 583 0358 0AD0     		beq	.L44
+ 584 035a 012B     		cmp	r3, #1
+ 585 035c 00D0     		beq	.L45
+ 213:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			case FEATURE_SEL_DeviceRemoteWakeup:
+ 214:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				device.RemoteWakeUp = 1;
+ 215:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				break;
+ 216:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			case FEATURE_SEL_EndpointHalt:
+ 217:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				Index = USB_ControlRequest.wIndex & 0xFF & (uint8_t)XMC_USBD_ENDPOINT_NUMBER_MASK;
+ 218:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				if (device.Endpoints[Index].IsConfigured == 0)
+ 219:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 					USBD_HandleEP0_Stall();
+ 220:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				else {
+ 221:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 					device.Endpoints[Index].IsHalted = 1;
+ 222:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 					device.Driver->EndpointStall(USB_ControlRequest.wIndex,1);
+ 223:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				}
+ 224:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				break;
+ 225:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			}
+ 226:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 586              		.loc 1 226 0
+ 587 035e 5AE0     		b	.L24
+ 588              	.L45:
+ 214:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				break;
+ 589              		.loc 1 214 0
+ 590 0360 334A     		ldr	r2, .L55
+ 591 0362 92F83E31 		ldrb	r3, [r2, #318]
+ 592 0366 43F00403 		orr	r3, r3, #4
+ 593 036a 82F83E31 		strb	r3, [r2, #318]
+ 215:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			case FEATURE_SEL_EndpointHalt:
+ 594              		.loc 1 215 0
+ 595 036e 29E0     		b	.L43
+ 596              	.L44:
+ 217:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				if (device.Endpoints[Index].IsConfigured == 0)
+ 597              		.loc 1 217 0
+ 598 0370 314B     		ldr	r3, .L55+8
+ 599 0372 9B88     		ldrh	r3, [r3, #4]	@ unaligned
+ 600 0374 9BB2     		uxth	r3, r3
+ 601 0376 03F00F03 		and	r3, r3, #15
+ 602 037a 7B81     		strh	r3, [r7, #10]	@ movhi
+ 218:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 					USBD_HandleEP0_Stall();
+ 603              		.loc 1 218 0
+ 604 037c 7B89     		ldrh	r3, [r7, #10]
+ 605 037e 2C4A     		ldr	r2, .L55
+ 606 0380 2C21     		movs	r1, #44
+ 607 0382 01FB03F3 		mul	r3, r1, r3
+ 608 0386 1344     		add	r3, r3, r2
+ 609 0388 1B7A     		ldrb	r3, [r3, #8]
+ 610 038a C3F30003 		ubfx	r3, r3, #0, #1
+ 611 038e DBB2     		uxtb	r3, r3
+ 612 0390 002B     		cmp	r3, #0
+ 613 0392 02D1     		bne	.L46
+ 219:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				else {
+ 614              		.loc 1 219 0
+ 615 0394 FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 224:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			}
+ 616              		.loc 1 224 0
+ 617 0398 13E0     		b	.L52
+ 618              	.L46:
+ 221:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 					device.Driver->EndpointStall(USB_ControlRequest.wIndex,1);
+ 619              		.loc 1 221 0
+ 620 039a 7B89     		ldrh	r3, [r7, #10]
+ 621 039c 244A     		ldr	r2, .L55
+ 622 039e 2C21     		movs	r1, #44
+ 623 03a0 01FB03F3 		mul	r3, r1, r3
+ 624 03a4 1A44     		add	r2, r2, r3
+ 625 03a6 137A     		ldrb	r3, [r2, #8]
+ 626 03a8 43F00403 		orr	r3, r3, #4
+ 627 03ac 1372     		strb	r3, [r2, #8]
+ 222:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				}
+ 628              		.loc 1 222 0
+ 629 03ae 204B     		ldr	r3, .L55
+ 630 03b0 1B68     		ldr	r3, [r3]
+ 631 03b2 5B6A     		ldr	r3, [r3, #36]
+ 632 03b4 204A     		ldr	r2, .L55+8
+ 633 03b6 9288     		ldrh	r2, [r2, #4]	@ unaligned
+ 634 03b8 92B2     		uxth	r2, r2
+ 635 03ba D2B2     		uxtb	r2, r2
+ 636 03bc 0121     		movs	r1, #1
+ 637 03be 1046     		mov	r0, r2
+ 638 03c0 9847     		blx	r3
+ 639              	.LVL10:
+ 640              	.L52:
+ 224:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			}
+ 641              		.loc 1 224 0
+ 642 03c2 00BF     		nop
+ 643              	.L43:
+ 644              		.loc 1 226 0 discriminator 6
+ 645 03c4 27E0     		b	.L24
+ 646              	.L42:
+ 227:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 228:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* when addressed, only ep0 can be halted */
+ 229:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (USB_DeviceState == DEVICE_STATE_Addressed) {
+ 647              		.loc 1 229 0
+ 648 03c6 1B4B     		ldr	r3, .L55+4
+ 649 03c8 1B78     		ldrb	r3, [r3]
+ 650 03ca DBB2     		uxtb	r3, r3
+ 651 03cc 032B     		cmp	r3, #3
+ 652 03ce 16D1     		bne	.L48
+ 230:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			if (Value == FEATURE_SEL_EndpointHalt &&
+ 653              		.loc 1 230 0
+ 654 03d0 FB7C     		ldrb	r3, [r7, #19]	@ zero_extendqisi2
+ 655 03d2 002B     		cmp	r3, #0
+ 656 03d4 13D1     		bne	.L48
+ 231:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 					(USB_ControlRequest.bmRequestType & 0x3) == REQREC_ENDPOINT &&
+ 657              		.loc 1 231 0 discriminator 1
+ 658 03d6 184B     		ldr	r3, .L55+8
+ 659 03d8 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 660 03da 03F00303 		and	r3, r3, #3
+ 230:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			if (Value == FEATURE_SEL_EndpointHalt &&
+ 661              		.loc 1 230 0 discriminator 1
+ 662 03de 022B     		cmp	r3, #2
+ 663 03e0 0DD1     		bne	.L48
+ 232:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 					(USB_ControlRequest.wIndex & 0x00FF) == 0x0) {
+ 664              		.loc 1 232 0
+ 665 03e2 154B     		ldr	r3, .L55+8
+ 666 03e4 9B88     		ldrh	r3, [r3, #4]	@ unaligned
+ 667 03e6 9BB2     		uxth	r3, r3
+ 668 03e8 DBB2     		uxtb	r3, r3
+ 231:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 					(USB_ControlRequest.bmRequestType & 0x3) == REQREC_ENDPOINT &&
+ 669              		.loc 1 231 0
+ 670 03ea 002B     		cmp	r3, #0
+ 671 03ec 07D1     		bne	.L48
+ 233:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				device.Endpoints[0].IsHalted = 1;
+ 672              		.loc 1 233 0
+ 673 03ee 104A     		ldr	r2, .L55
+ 674 03f0 137A     		ldrb	r3, [r2, #8]
+ 675 03f2 43F00403 		orr	r3, r3, #4
+ 676 03f6 1372     		strb	r3, [r2, #8]
+ 234:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				USBD_HandleEP0_Stall();
+ 677              		.loc 1 234 0
+ 678 03f8 FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 235:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				break;
+ 679              		.loc 1 235 0
+ 680 03fc 0BE0     		b	.L24
+ 681              	.L48:
+ 236:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			}
+ 237:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 238:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* default behaviour is stall */
+ 239:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		USBD_HandleEP0_Stall();
+ 682              		.loc 1 239 0
+ 683 03fe FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 240:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 684              		.loc 1 240 0
+ 685 0402 08E0     		b	.L24
+ 686              	.L19:
+ 241:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 242:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case REQ_SynchFrame:
+ 243:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* Not yet supported */
+ 244:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		USBD_HandleEP0_Stall();
+ 687              		.loc 1 244 0
+ 688 0404 FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 245:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 689              		.loc 1 245 0
+ 690 0408 05E0     		b	.L24
+ 691              	.L7:
+ 246:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 247:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	default:
+ 248:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		USBD_HandleEP0_Stall();
+ 692              		.loc 1 248 0
+ 693 040a FFF7FEFF 		bl	USBD_HandleEP0_Stall
+ 694 040e 02E0     		b	.L24
+ 695              	.L50:
+ 133:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 696              		.loc 1 133 0
+ 697 0410 00BF     		nop
+ 698 0412 00E0     		b	.L24
+ 699              	.L51:
+ 202:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 700              		.loc 1 202 0
+ 701 0414 00BF     		nop
+ 702              	.L24:
+ 249:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	}
+ 250:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.IsSetupRecieved = 0;
+ 703              		.loc 1 250 0 discriminator 7
+ 704 0416 064A     		ldr	r2, .L55
+ 705 0418 92F83E31 		ldrb	r3, [r2, #318]
+ 706 041c 6FF34103 		bfc	r3, #1, #1
+ 707 0420 82F83E31 		strb	r3, [r2, #318]
+ 708 0424 00E0     		b	.L4
+ 709              	.L49:
+  84:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 710              		.loc 1 84 0
+ 711 0426 00BF     		nop
+ 712              	.L4:
+ 251:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** }
+ 713              		.loc 1 251 0
+ 714 0428 1837     		adds	r7, r7, #24
+ 715              	.LCFI5:
+ 716              		.cfi_def_cfa_offset 8
+ 717 042a BD46     		mov	sp, r7
+ 718              	.LCFI6:
+ 719              		.cfi_def_cfa_register 13
+ 720              		@ sp needed
+ 721 042c 80BD     		pop	{r7, pc}
+ 722              	.L56:
+ 723 042e 00BF     		.align	2
+ 724              	.L55:
+ 725 0430 00000000 		.word	device
+ 726 0434 00000000 		.word	USB_DeviceState
+ 727 0438 00000000 		.word	USB_ControlRequest
+ 728              		.cfi_endproc
+ 729              	.LFE189:
+ 731              		.section	.text.USBD_HandleEP0_IN,"ax",%progbits
+ 732              		.align	1
+ 733              		.global	USBD_HandleEP0_IN
+ 734              		.syntax unified
+ 735              		.thumb
+ 736              		.thumb_func
+ 737              		.fpu fpv4-sp-d16
+ 739              	USBD_HandleEP0_IN:
+ 740              	.LFB190:
+ 252:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 253:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /**
+ 254:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \brief Handle complete IN transfer on EP0
+ 255:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+ 256:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * In \ref IN_DATA state it starts a receive and switches to \ref OUT_STATUS state.
+ 257:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * In \ref IN_STATUS state its starts a new read of setup packets and switches to \ref IDLE.
+ 258:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  */
+ 259:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** void USBD_HandleEP0_IN() {
+ 741              		.loc 1 259 0
+ 742              		.cfi_startproc
+ 743              		@ args = 0, pretend = 0, frame = 0
+ 744              		@ frame_needed = 1, uses_anonymous_args = 0
+ 745 0000 80B5     		push	{r7, lr}
+ 746              	.LCFI7:
+ 747              		.cfi_def_cfa_offset 8
+ 748              		.cfi_offset 7, -8
+ 749              		.cfi_offset 14, -4
+ 750 0002 00AF     		add	r7, sp, #0
+ 751              	.LCFI8:
+ 752              		.cfi_def_cfa_register 7
+ 260:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	if (device.EP0_State == IN_DATA) {
+ 753              		.loc 1 260 0
+ 754 0004 104B     		ldr	r3, .L61
+ 755 0006 93F83B31 		ldrb	r3, [r3, #315]	@ zero_extendqisi2
+ 756 000a 022B     		cmp	r3, #2
+ 757 000c 09D1     		bne	.L58
+ 261:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* Read zero length out data packet */
+ 262:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Driver->EndpointReadStart(0,0);
+ 758              		.loc 1 262 0
+ 759 000e 0E4B     		ldr	r3, .L61
+ 760 0010 1B68     		ldr	r3, [r3]
+ 761 0012 9B6A     		ldr	r3, [r3, #40]
+ 762 0014 0021     		movs	r1, #0
+ 763 0016 0020     		movs	r0, #0
+ 764 0018 9847     		blx	r3
+ 765              	.LVL11:
+ 263:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.EP0_State = OUT_STATUS;
+ 766              		.loc 1 263 0
+ 767 001a 0B4B     		ldr	r3, .L61
+ 768 001c 0522     		movs	r2, #5
+ 769 001e 83F83B21 		strb	r2, [r3, #315]
+ 770              	.L58:
+ 264:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	}
+ 265:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	if (device.EP0_State == IN_STATUS) {
+ 771              		.loc 1 265 0
+ 772 0022 094B     		ldr	r3, .L61
+ 773 0024 93F83B31 		ldrb	r3, [r3, #315]	@ zero_extendqisi2
+ 774 0028 032B     		cmp	r3, #3
+ 775 002a 0BD1     		bne	.L60
+ 266:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* Request new setup packet */
+ 267:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Driver->EndpointReadStart(device.Endpoints[0].Address,24);
+ 776              		.loc 1 267 0
+ 777 002c 064B     		ldr	r3, .L61
+ 778 002e 1B68     		ldr	r3, [r3]
+ 779 0030 9B6A     		ldr	r3, [r3, #40]
+ 780 0032 054A     		ldr	r2, .L61
+ 781 0034 1279     		ldrb	r2, [r2, #4]	@ zero_extendqisi2
+ 782 0036 1821     		movs	r1, #24
+ 783 0038 1046     		mov	r0, r2
+ 784 003a 9847     		blx	r3
+ 785              	.LVL12:
+ 268:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.EP0_State = IDLE;
+ 786              		.loc 1 268 0
+ 787 003c 024B     		ldr	r3, .L61
+ 788 003e 0122     		movs	r2, #1
+ 789 0040 83F83B21 		strb	r2, [r3, #315]
+ 790              	.L60:
+ 269:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	}
+ 270:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** }
+ 791              		.loc 1 270 0
+ 792 0044 00BF     		nop
+ 793 0046 80BD     		pop	{r7, pc}
+ 794              	.L62:
+ 795              		.align	2
+ 796              	.L61:
+ 797 0048 00000000 		.word	device
+ 798              		.cfi_endproc
+ 799              	.LFE190:
+ 801              		.section	.text.USBD_HandleEP0_OUT,"ax",%progbits
+ 802              		.align	1
+ 803              		.global	USBD_HandleEP0_OUT
+ 804              		.syntax unified
+ 805              		.thumb
+ 806              		.thumb_func
+ 807              		.fpu fpv4-sp-d16
+ 809              	USBD_HandleEP0_OUT:
+ 810              	.LFB191:
+ 271:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 272:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 273:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /**
+ 274:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \brief Handle complete OUT transfer on EP0
+ 275:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+ 276:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * Handles the OUT packet based on the state of endpoint 0. Starts a new read for new SETUP packets
+ 277:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * When endpoint 0 is in \ref OUT_DATA state, it handles the received data and starts a write trans
+ 278:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  */
+ 279:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** void USBD_HandleEP0_OUT() {
+ 811              		.loc 1 279 0
+ 812              		.cfi_startproc
+ 813              		@ args = 0, pretend = 0, frame = 0
+ 814              		@ frame_needed = 1, uses_anonymous_args = 0
+ 815 0000 80B5     		push	{r7, lr}
+ 816              	.LCFI9:
+ 817              		.cfi_def_cfa_offset 8
+ 818              		.cfi_offset 7, -8
+ 819              		.cfi_offset 14, -4
+ 820 0002 00AF     		add	r7, sp, #0
+ 821              	.LCFI10:
+ 822              		.cfi_def_cfa_register 7
+ 280:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	if (device.EP0_State == OUT_DATA) {
+ 823              		.loc 1 280 0
+ 824 0004 124B     		ldr	r3, .L67
+ 825 0006 93F83B31 		ldrb	r3, [r3, #315]	@ zero_extendqisi2
+ 826 000a 042B     		cmp	r3, #4
+ 827 000c 0CD1     		bne	.L64
+ 281:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* Now we have the data for handling the request */
+ 282:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		USB_Device_ProcessControlRequest();
+ 828              		.loc 1 282 0
+ 829 000e FFF7FEFF 		bl	USB_Device_ProcessControlRequest
+ 283:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* Zero length packet for status stage */
+ 284:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Driver->EndpointWrite(ENDPOINT_DIR_MASK & 0,0,0);
+ 830              		.loc 1 284 0
+ 831 0012 0F4B     		ldr	r3, .L67
+ 832 0014 1B68     		ldr	r3, [r3]
+ 833 0016 1B6B     		ldr	r3, [r3, #48]
+ 834 0018 0022     		movs	r2, #0
+ 835 001a 0021     		movs	r1, #0
+ 836 001c 0020     		movs	r0, #0
+ 837 001e 9847     		blx	r3
+ 838              	.LVL13:
+ 285:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.EP0_State = IN_STATUS;
+ 839              		.loc 1 285 0
+ 840 0020 0B4B     		ldr	r3, .L67
+ 841 0022 0322     		movs	r2, #3
+ 842 0024 83F83B21 		strb	r2, [r3, #315]
+ 843              	.L64:
+ 286:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	}
+ 287:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	if (device.EP0_State == OUT_STATUS) {
+ 844              		.loc 1 287 0
+ 845 0028 094B     		ldr	r3, .L67
+ 846 002a 93F83B31 		ldrb	r3, [r3, #315]	@ zero_extendqisi2
+ 847 002e 052B     		cmp	r3, #5
+ 848 0030 0BD1     		bne	.L66
+ 288:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* Request new setup packet */
+ 289:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Driver->EndpointReadStart(device.Endpoints[0].Address,24);
+ 849              		.loc 1 289 0
+ 850 0032 074B     		ldr	r3, .L67
+ 851 0034 1B68     		ldr	r3, [r3]
+ 852 0036 9B6A     		ldr	r3, [r3, #40]
+ 853 0038 054A     		ldr	r2, .L67
+ 854 003a 1279     		ldrb	r2, [r2, #4]	@ zero_extendqisi2
+ 855 003c 1821     		movs	r1, #24
+ 856 003e 1046     		mov	r0, r2
+ 857 0040 9847     		blx	r3
+ 858              	.LVL14:
+ 290:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.EP0_State = IDLE;
+ 859              		.loc 1 290 0
+ 860 0042 034B     		ldr	r3, .L67
+ 861 0044 0122     		movs	r2, #1
+ 862 0046 83F83B21 		strb	r2, [r3, #315]
+ 863              	.L66:
+ 291:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	}
+ 292:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** }
+ 864              		.loc 1 292 0
+ 865 004a 00BF     		nop
+ 866 004c 80BD     		pop	{r7, pc}
+ 867              	.L68:
+ 868 004e 00BF     		.align	2
+ 869              	.L67:
+ 870 0050 00000000 		.word	device
+ 871              		.cfi_endproc
+ 872              	.LFE191:
+ 874              		.section	.text.USBD_HandleEP0_SETUP,"ax",%progbits
+ 875              		.align	1
+ 876              		.global	USBD_HandleEP0_SETUP
+ 877              		.syntax unified
+ 878              		.thumb
+ 879              		.thumb_func
+ 880              		.fpu fpv4-sp-d16
+ 882              	USBD_HandleEP0_SETUP:
+ 883              	.LFB192:
+ 293:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 294:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /**
+ 295:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \brief Handle SETUP packet on EP0
+ 296:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+ 297:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * Handles the setup package an switches to correct state. If data is send from host to device it s
+ 298:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * When the hosts sends all data within the setup package and \ref wLength equals zero, starts proc
+ 299:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * in status reponse including the switch to \ref IN_STATUS.
+ 300:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * When the host expects data from the device, the function processes the control request and switc
+ 301:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  */
+ 302:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** void USBD_HandleEP0_SETUP() {
+ 884              		.loc 1 302 0
+ 885              		.cfi_startproc
+ 886              		@ args = 0, pretend = 0, frame = 8
+ 887              		@ frame_needed = 1, uses_anonymous_args = 0
+ 888 0000 80B5     		push	{r7, lr}
+ 889              	.LCFI11:
+ 890              		.cfi_def_cfa_offset 8
+ 891              		.cfi_offset 7, -8
+ 892              		.cfi_offset 14, -4
+ 893 0002 82B0     		sub	sp, sp, #8
+ 894              	.LCFI12:
+ 895              		.cfi_def_cfa_offset 16
+ 896 0004 00AF     		add	r7, sp, #0
+ 897              	.LCFI13:
+ 898              		.cfi_def_cfa_register 7
+ 303:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	/* read setup package from ep0 */
+ 304:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	int32_t ret_val = device.Driver->EndpointRead(0,(void*)&USB_ControlRequest,8);
+ 899              		.loc 1 304 0
+ 900 0006 214B     		ldr	r3, .L75
+ 901 0008 1B68     		ldr	r3, [r3]
+ 902 000a DB6A     		ldr	r3, [r3, #44]
+ 903 000c 0822     		movs	r2, #8
+ 904 000e 2049     		ldr	r1, .L75+4
+ 905 0010 0020     		movs	r0, #0
+ 906 0012 9847     		blx	r3
+ 907              	.LVL15:
+ 908 0014 7860     		str	r0, [r7, #4]
+ 305:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** #if NO_COPY_DRIVER
+ 306:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	MEMCPY(&USB_ControlRequest,device.Endpoints[0].OutBuffer,sizeof(USB_ControlRequest));
+ 307:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** #endif
+ 308:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.IsSetupRecieved = true;
+ 909              		.loc 1 308 0
+ 910 0016 1D4A     		ldr	r2, .L75
+ 911 0018 92F83E31 		ldrb	r3, [r2, #318]
+ 912 001c 43F00203 		orr	r3, r3, #2
+ 913 0020 82F83E31 		strb	r3, [r2, #318]
+ 309:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	if (ret_val != 8 )
+ 914              		.loc 1 309 0
+ 915 0024 7B68     		ldr	r3, [r7, #4]
+ 916 0026 082B     		cmp	r3, #8
+ 917 0028 2CD1     		bne	.L74
+ 310:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		return;
+ 311:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 312:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	/* preprocess */
+ 313:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	/* if length is zero we have only a in_status phase */
+ 314:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	if (USB_ControlRequest.wLength==0) {
+ 918              		.loc 1 314 0
+ 919 002a 194B     		ldr	r3, .L75+4
+ 920 002c DB88     		ldrh	r3, [r3, #6]	@ unaligned
+ 921 002e 9BB2     		uxth	r3, r3
+ 922 0030 002B     		cmp	r3, #0
+ 923 0032 0DD1     		bne	.L72
+ 315:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.EP0_State = IN_STATUS;
+ 924              		.loc 1 315 0
+ 925 0034 154B     		ldr	r3, .L75
+ 926 0036 0322     		movs	r2, #3
+ 927 0038 83F83B21 		strb	r2, [r3, #315]
+ 316:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		USB_Device_ProcessControlRequest();
+ 928              		.loc 1 316 0
+ 929 003c FFF7FEFF 		bl	USB_Device_ProcessControlRequest
+ 317:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Driver->EndpointWrite(0,0,0);
+ 930              		.loc 1 317 0
+ 931 0040 124B     		ldr	r3, .L75
+ 932 0042 1B68     		ldr	r3, [r3]
+ 933 0044 1B6B     		ldr	r3, [r3, #48]
+ 934 0046 0022     		movs	r2, #0
+ 935 0048 0021     		movs	r1, #0
+ 936 004a 0020     		movs	r0, #0
+ 937 004c 9847     		blx	r3
+ 938              	.LVL16:
+ 939 004e 1AE0     		b	.L69
+ 940              	.L72:
+ 318:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	} else {
+ 319:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (USB_ControlRequest.bmRequestType & CONTROL_REQTYPE_DIRECTION) {
+ 941              		.loc 1 319 0
+ 942 0050 0F4B     		ldr	r3, .L75+4
+ 943 0052 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 944 0054 5BB2     		sxtb	r3, r3
+ 945 0056 002B     		cmp	r3, #0
+ 946 0058 06DA     		bge	.L73
+ 320:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.EP0_State = IN_DATA;
+ 947              		.loc 1 320 0
+ 948 005a 0C4B     		ldr	r3, .L75
+ 949 005c 0222     		movs	r2, #2
+ 950 005e 83F83B21 		strb	r2, [r3, #315]
+ 321:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			USB_Device_ProcessControlRequest();
+ 951              		.loc 1 321 0
+ 952 0062 FFF7FEFF 		bl	USB_Device_ProcessControlRequest
+ 953 0066 0EE0     		b	.L69
+ 954              	.L73:
+ 322:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 323:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		else {
+ 324:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.EP0_State = OUT_DATA;
+ 955              		.loc 1 324 0
+ 956 0068 084B     		ldr	r3, .L75
+ 957 006a 0422     		movs	r2, #4
+ 958 006c 83F83B21 		strb	r2, [r3, #315]
+ 325:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			/* Do not process request here, first read data */
+ 326:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Driver->EndpointReadStart(0,USB_ControlRequest.wLength);
+ 959              		.loc 1 326 0
+ 960 0070 064B     		ldr	r3, .L75
+ 961 0072 1B68     		ldr	r3, [r3]
+ 962 0074 9B6A     		ldr	r3, [r3, #40]
+ 963 0076 064A     		ldr	r2, .L75+4
+ 964 0078 D288     		ldrh	r2, [r2, #6]	@ unaligned
+ 965 007a 92B2     		uxth	r2, r2
+ 966 007c 1146     		mov	r1, r2
+ 967 007e 0020     		movs	r0, #0
+ 968 0080 9847     		blx	r3
+ 969              	.LVL17:
+ 970 0082 00E0     		b	.L69
+ 971              	.L74:
+ 310:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 972              		.loc 1 310 0
+ 973 0084 00BF     		nop
+ 974              	.L69:
+ 327:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 328:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	}
+ 329:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** }
+ 975              		.loc 1 329 0
+ 976 0086 0837     		adds	r7, r7, #8
+ 977              	.LCFI14:
+ 978              		.cfi_def_cfa_offset 8
+ 979 0088 BD46     		mov	sp, r7
+ 980              	.LCFI15:
+ 981              		.cfi_def_cfa_register 13
+ 982              		@ sp needed
+ 983 008a 80BD     		pop	{r7, pc}
+ 984              	.L76:
+ 985              		.align	2
+ 986              	.L75:
+ 987 008c 00000000 		.word	device
+ 988 0090 00000000 		.word	USB_ControlRequest
+ 989              		.cfi_endproc
+ 990              	.LFE192:
+ 992              		.section	.text.USBD_SignalDeviceEventHandler,"ax",%progbits
+ 993              		.align	1
+ 994              		.global	USBD_SignalDeviceEventHandler
+ 995              		.syntax unified
+ 996              		.thumb
+ 997              		.thumb_func
+ 998              		.fpu fpv4-sp-d16
+ 1000              	USBD_SignalDeviceEventHandler:
+ 1001              	.LFB193:
+ 330:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 331:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /**
+ 332:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * @}
+ 333:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  */
+ 334:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 335:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /**
+ 336:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \brief Device event handler for XMC Driver
+ 337:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+ 338:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * The device can have several events, where it notifies the application about.
+ 339:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+ 340:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \note Not all events are available on all chip series. (Power Events are only supported on XMC45
+ 341:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \see USB_USBD_EVENT
+ 342:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  */
+ 343:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** void USBD_SignalDeviceEventHandler(XMC_USBD_EVENT_t event) {
+ 1002              		.loc 1 343 0
+ 1003              		.cfi_startproc
+ 1004              		@ args = 0, pretend = 0, frame = 16
+ 1005              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1006 0000 80B5     		push	{r7, lr}
+ 1007              	.LCFI16:
+ 1008              		.cfi_def_cfa_offset 8
+ 1009              		.cfi_offset 7, -8
+ 1010              		.cfi_offset 14, -4
+ 1011 0002 84B0     		sub	sp, sp, #16
+ 1012              	.LCFI17:
+ 1013              		.cfi_def_cfa_offset 24
+ 1014 0004 00AF     		add	r7, sp, #0
+ 1015              	.LCFI18:
+ 1016              		.cfi_def_cfa_register 7
+ 1017 0006 0346     		mov	r3, r0
+ 1018 0008 FB71     		strb	r3, [r7, #7]
+ 344:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	int i;
+ 345:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	switch (event) {
+ 1019              		.loc 1 345 0
+ 1020 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 1021 000c 092B     		cmp	r3, #9
+ 1022 000e 00F2FD80 		bhi	.L95
+ 1023 0012 01A2     		adr	r2, .L80
+ 1024 0014 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 1025              		.p2align 2
+ 1026              	.L80:
+ 1027 0018 6F010000 		.word	.L79+1
+ 1028 001c 5D010000 		.word	.L81+1
+ 1029 0020 4B010000 		.word	.L82+1
+ 1030 0024 51010000 		.word	.L83+1
+ 1031 0028 41000000 		.word	.L84+1
+ 1032 002c 0D020000 		.word	.L95+1
+ 1033 0030 F5010000 		.word	.L85+1
+ 1034 0034 E5010000 		.word	.L86+1
+ 1035 0038 0D020000 		.word	.L95+1
+ 1036 003c 45010000 		.word	.L88+1
+ 1037              		.p2align 1
+ 1038              	.L84:
+ 346:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case XMC_USBD_EVENT_RESET:
+ 347:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		USB_DeviceState = DEVICE_STATE_Default;
+ 1039              		.loc 1 347 0
+ 1040 0040 744B     		ldr	r3, .L96
+ 1041 0042 0222     		movs	r2, #2
+ 1042 0044 1A70     		strb	r2, [r3]
+ 348:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.EP0_State = IDLE;
+ 1043              		.loc 1 348 0
+ 1044 0046 744B     		ldr	r3, .L96+4
+ 1045 0048 0122     		movs	r2, #1
+ 1046 004a 83F83B21 		strb	r2, [r3, #315]
+ 349:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.RemoteWakeUp = 0;
+ 1047              		.loc 1 349 0
+ 1048 004e 724A     		ldr	r2, .L96+4
+ 1049 0050 92F83E31 		ldrb	r3, [r2, #318]
+ 1050 0054 6FF38203 		bfc	r3, #2, #1
+ 1051 0058 82F83E31 		strb	r3, [r2, #318]
+ 350:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* Reset endpoints and configuration */
+ 351:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		for (i=0;i<(uint8_t)XMC_USBD_NUM_EPS; i++) {
+ 1052              		.loc 1 351 0
+ 1053 005c 0023     		movs	r3, #0
+ 1054 005e FB60     		str	r3, [r7, #12]
+ 1055 0060 50E0     		b	.L89
+ 1056              	.L91:
+ 352:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Endpoints[i].InInUse = 0;
+ 1057              		.loc 1 352 0
+ 1058 0062 6D4A     		ldr	r2, .L96+4
+ 1059 0064 FB68     		ldr	r3, [r7, #12]
+ 1060 0066 2C21     		movs	r1, #44
+ 1061 0068 01FB03F3 		mul	r3, r1, r3
+ 1062 006c 1A44     		add	r2, r2, r3
+ 1063 006e 1389     		ldrh	r3, [r2, #8]	@ movhi
+ 1064 0070 6FF30413 		bfc	r3, #4, #1
+ 1065 0074 1381     		strh	r3, [r2, #8]	@ movhi
+ 353:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Endpoints[i].OutInUse = 0;
+ 1066              		.loc 1 353 0
+ 1067 0076 684A     		ldr	r2, .L96+4
+ 1068 0078 FB68     		ldr	r3, [r7, #12]
+ 1069 007a 2C21     		movs	r1, #44
+ 1070 007c 01FB03F3 		mul	r3, r1, r3
+ 1071 0080 1A44     		add	r2, r2, r3
+ 1072 0082 1389     		ldrh	r3, [r2, #8]	@ movhi
+ 1073 0084 6FF3C303 		bfc	r3, #3, #1
+ 1074 0088 1381     		strh	r3, [r2, #8]	@ movhi
+ 354:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Endpoints[i].IsHalted = 0;
+ 1075              		.loc 1 354 0
+ 1076 008a 634A     		ldr	r2, .L96+4
+ 1077 008c FB68     		ldr	r3, [r7, #12]
+ 1078 008e 2C21     		movs	r1, #44
+ 1079 0090 01FB03F3 		mul	r3, r1, r3
+ 1080 0094 1A44     		add	r2, r2, r3
+ 1081 0096 137A     		ldrb	r3, [r2, #8]
+ 1082 0098 6FF38203 		bfc	r3, #2, #1
+ 1083 009c 1372     		strb	r3, [r2, #8]
+ 355:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			if (i!=0 && device.Endpoints[i].IsConfigured) {
+ 1084              		.loc 1 355 0
+ 1085 009e FB68     		ldr	r3, [r7, #12]
+ 1086 00a0 002B     		cmp	r3, #0
+ 1087 00a2 2CD0     		beq	.L90
+ 1088              		.loc 1 355 0 is_stmt 0 discriminator 1
+ 1089 00a4 5C4A     		ldr	r2, .L96+4
+ 1090 00a6 FB68     		ldr	r3, [r7, #12]
+ 1091 00a8 2C21     		movs	r1, #44
+ 1092 00aa 01FB03F3 		mul	r3, r1, r3
+ 1093 00ae 1344     		add	r3, r3, r2
+ 1094 00b0 1B7A     		ldrb	r3, [r3, #8]
+ 1095 00b2 C3F30003 		ubfx	r3, r3, #0, #1
+ 1096 00b6 DBB2     		uxtb	r3, r3
+ 1097 00b8 002B     		cmp	r3, #0
+ 1098 00ba 20D0     		beq	.L90
+ 356:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				device.Driver->EndpointUnconfigure(device.Endpoints[i].Address);
+ 1099              		.loc 1 356 0 is_stmt 1
+ 1100 00bc 564B     		ldr	r3, .L96+4
+ 1101 00be 1B68     		ldr	r3, [r3]
+ 1102 00c0 1B6A     		ldr	r3, [r3, #32]
+ 1103 00c2 5549     		ldr	r1, .L96+4
+ 1104 00c4 FA68     		ldr	r2, [r7, #12]
+ 1105 00c6 2C20     		movs	r0, #44
+ 1106 00c8 00FB02F2 		mul	r2, r0, r2
+ 1107 00cc 0A44     		add	r2, r2, r1
+ 1108 00ce 0432     		adds	r2, r2, #4
+ 1109 00d0 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 1110 00d2 1046     		mov	r0, r2
+ 1111 00d4 9847     		blx	r3
+ 1112              	.LVL18:
+ 357:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				device.Endpoints[i].IsConfigured = 0;
+ 1113              		.loc 1 357 0
+ 1114 00d6 504A     		ldr	r2, .L96+4
+ 1115 00d8 FB68     		ldr	r3, [r7, #12]
+ 1116 00da 2C21     		movs	r1, #44
+ 1117 00dc 01FB03F3 		mul	r3, r1, r3
+ 1118 00e0 1A44     		add	r2, r2, r3
+ 1119 00e2 137A     		ldrb	r3, [r2, #8]
+ 1120 00e4 6FF30003 		bfc	r3, #0, #1
+ 1121 00e8 1372     		strb	r3, [r2, #8]
+ 358:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 				device.Endpoints[i].IsEnabled = 0;
+ 1122              		.loc 1 358 0
+ 1123 00ea 4B4A     		ldr	r2, .L96+4
+ 1124 00ec FB68     		ldr	r3, [r7, #12]
+ 1125 00ee 2C21     		movs	r1, #44
+ 1126 00f0 01FB03F3 		mul	r3, r1, r3
+ 1127 00f4 1A44     		add	r2, r2, r3
+ 1128 00f6 137A     		ldrb	r3, [r2, #8]
+ 1129 00f8 6FF34103 		bfc	r3, #1, #1
+ 1130 00fc 1372     		strb	r3, [r2, #8]
+ 1131              	.L90:
+ 351:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Endpoints[i].InInUse = 0;
+ 1132              		.loc 1 351 0 discriminator 2
+ 1133 00fe FB68     		ldr	r3, [r7, #12]
+ 1134 0100 0133     		adds	r3, r3, #1
+ 1135 0102 FB60     		str	r3, [r7, #12]
+ 1136              	.L89:
+ 351:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Endpoints[i].InInUse = 0;
+ 1137              		.loc 1 351 0 is_stmt 0 discriminator 1
+ 1138 0104 FB68     		ldr	r3, [r7, #12]
+ 1139 0106 062B     		cmp	r3, #6
+ 1140 0108 ABDD     		ble	.L91
+ 359:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			}
+ 360:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 361:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Configuration = 0;
+ 1141              		.loc 1 361 0 is_stmt 1
+ 1142 010a 434B     		ldr	r3, .L96+4
+ 1143 010c 0022     		movs	r2, #0
+ 1144 010e 83F83921 		strb	r2, [r3, #313]
+ 362:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		for (i=0;i<NUM_INTERFACES;i++) {
+ 1145              		.loc 1 362 0
+ 1146 0112 0023     		movs	r3, #0
+ 1147 0114 FB60     		str	r3, [r7, #12]
+ 1148 0116 09E0     		b	.L92
+ 1149              	.L93:
+ 363:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.InterfaceSettings[i] = 0;
+ 1150              		.loc 1 363 0 discriminator 3
+ 1151 0118 3F4A     		ldr	r2, .L96+4
+ 1152 011a FB68     		ldr	r3, [r7, #12]
+ 1153 011c 1344     		add	r3, r3, r2
+ 1154 011e 03F59C73 		add	r3, r3, #312
+ 1155 0122 0022     		movs	r2, #0
+ 1156 0124 1A70     		strb	r2, [r3]
+ 362:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		for (i=0;i<NUM_INTERFACES;i++) {
+ 1157              		.loc 1 362 0 discriminator 3
+ 1158 0126 FB68     		ldr	r3, [r7, #12]
+ 1159 0128 0133     		adds	r3, r3, #1
+ 1160 012a FB60     		str	r3, [r7, #12]
+ 1161              	.L92:
+ 362:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		for (i=0;i<NUM_INTERFACES;i++) {
+ 1162              		.loc 1 362 0 is_stmt 0 discriminator 1
+ 1163 012c FB68     		ldr	r3, [r7, #12]
+ 1164 012e 002B     		cmp	r3, #0
+ 1165 0130 F2DD     		ble	.L93
+ 364:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 365:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Driver->EndpointReadStart(device.Endpoints[0].Address,24);
+ 1166              		.loc 1 365 0 is_stmt 1
+ 1167 0132 394B     		ldr	r3, .L96+4
+ 1168 0134 1B68     		ldr	r3, [r3]
+ 1169 0136 9B6A     		ldr	r3, [r3, #40]
+ 1170 0138 374A     		ldr	r2, .L96+4
+ 1171 013a 1279     		ldrb	r2, [r2, #4]	@ zero_extendqisi2
+ 1172 013c 1821     		movs	r1, #24
+ 1173 013e 1046     		mov	r0, r2
+ 1174 0140 9847     		blx	r3
+ 1175              	.LVL19:
+ 366:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 1176              		.loc 1 366 0
+ 1177 0142 64E0     		b	.L77
+ 1178              	.L88:
+ 367:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case XMC_USBD_EVENT_SOF:
+ 368:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		EVENT_USB_Device_StartOfFrame();
+ 1179              		.loc 1 368 0
+ 1180 0144 FFF7FEFF 		bl	EVENT_USB_Device_StartOfFrame
+ 369:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 1181              		.loc 1 369 0
+ 1182 0148 61E0     		b	.L77
+ 1183              	.L82:
+ 370:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case XMC_USBD_EVENT_CONNECT:
+ 371:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		EVENT_USB_Device_Connect();
+ 1184              		.loc 1 371 0
+ 1185 014a FFF7FEFF 		bl	EVENT_USB_Device_Connect
+ 372:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 1186              		.loc 1 372 0
+ 1187 014e 5EE0     		b	.L77
+ 1188              	.L83:
+ 373:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case XMC_USBD_EVENT_DISCONNECT:
+ 374:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		USB_DeviceState = DEVICE_STATE_Powered;
+ 1189              		.loc 1 374 0
+ 1190 0150 304B     		ldr	r3, .L96
+ 1191 0152 0122     		movs	r2, #1
+ 1192 0154 1A70     		strb	r2, [r3]
+ 375:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		EVENT_USB_Device_Disconnect();
+ 1193              		.loc 1 375 0
+ 1194 0156 FFF7FEFF 		bl	EVENT_USB_Device_Disconnect
+ 376:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 1195              		.loc 1 376 0
+ 1196 015a 58E0     		b	.L77
+ 1197              	.L81:
+ 377:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case XMC_USBD_EVENT_POWER_OFF:
+ 378:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 USB_DeviceState = DEVICE_STATE_Unattached;
+ 1198              		.loc 1 378 0
+ 1199 015c 2D4B     		ldr	r3, .L96
+ 1200 015e 0022     		movs	r2, #0
+ 1201 0160 1A70     		strb	r2, [r3]
+ 379:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 device.Driver->EndpointUnconfigure(0);
+ 1202              		.loc 1 379 0
+ 1203 0162 2D4B     		ldr	r3, .L96+4
+ 1204 0164 1B68     		ldr	r3, [r3]
+ 1205 0166 1B6A     		ldr	r3, [r3, #32]
+ 1206 0168 0020     		movs	r0, #0
+ 1207 016a 9847     		blx	r3
+ 1208              	.LVL20:
+ 380:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 break;
+ 1209              		.loc 1 380 0
+ 1210 016c 4FE0     		b	.L77
+ 1211              	.L79:
+ 381:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****     case XMC_USBD_EVENT_POWER_ON:
+ 382:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 USB_DeviceState = DEVICE_STATE_Powered;
+ 1212              		.loc 1 382 0
+ 1213 016e 294B     		ldr	r3, .L96
+ 1214 0170 0122     		movs	r2, #1
+ 1215 0172 1A70     		strb	r2, [r3]
+ 383:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 memset(&device,0x0,sizeof(USB_Device_t));
+ 1216              		.loc 1 383 0
+ 1217 0174 4FF4A072 		mov	r2, #320
+ 1218 0178 0021     		movs	r1, #0
+ 1219 017a 2748     		ldr	r0, .L96+4
+ 1220 017c FFF7FEFF 		bl	memset
+ 384:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 device.Driver = &Driver_USBD0;
+ 1221              		.loc 1 384 0
+ 1222 0180 254B     		ldr	r3, .L96+4
+ 1223 0182 264A     		ldr	r2, .L96+8
+ 1224 0184 1A60     		str	r2, [r3]
+ 385:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 device.EP0_State = IDLE;
+ 1225              		.loc 1 385 0
+ 1226 0186 244B     		ldr	r3, .L96+4
+ 1227 0188 0122     		movs	r2, #1
+ 1228 018a 83F83B21 		strb	r2, [r3, #315]
+ 386:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 device.Endpoints[0].InBuffer = endpoint0_in_buffer;
+ 1229              		.loc 1 386 0
+ 1230 018e 224B     		ldr	r3, .L96+4
+ 1231 0190 234A     		ldr	r2, .L96+12
+ 1232 0192 1A62     		str	r2, [r3, #32]
+ 387:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 device.Endpoints[0].InBufferLength = 256;
+ 1233              		.loc 1 387 0
+ 1234 0194 204B     		ldr	r3, .L96+4
+ 1235 0196 4FF48072 		mov	r2, #256
+ 1236 019a 5A62     		str	r2, [r3, #36]
+ 388:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 device.Endpoints[0].OutBuffer = endpoint0_out_buffer;
+ 1237              		.loc 1 388 0
+ 1238 019c 1E4B     		ldr	r3, .L96+4
+ 1239 019e 214A     		ldr	r2, .L96+16
+ 1240 01a0 5A61     		str	r2, [r3, #20]
+ 389:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 device.Endpoints[0].OutBufferLength = 256;
+ 1241              		.loc 1 389 0
+ 1242 01a2 1D4B     		ldr	r3, .L96+4
+ 1243 01a4 4FF48072 		mov	r2, #256
+ 1244 01a8 9A61     		str	r2, [r3, #24]
+ 390:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 device.Endpoints[0].Direction = 0;
+ 1245              		.loc 1 390 0
+ 1246 01aa 1B4A     		ldr	r2, .L96+4
+ 1247 01ac 1379     		ldrb	r3, [r2, #4]
+ 1248 01ae 6FF3C713 		bfc	r3, #7, #1
+ 1249 01b2 1371     		strb	r3, [r2, #4]
+ 391:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 device.Endpoints[0].IsConfigured = 1;
+ 1250              		.loc 1 391 0
+ 1251 01b4 184A     		ldr	r2, .L96+4
+ 1252 01b6 137A     		ldrb	r3, [r2, #8]
+ 1253 01b8 43F00103 		orr	r3, r3, #1
+ 1254 01bc 1372     		strb	r3, [r2, #8]
+ 392:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 device.Endpoints[0].IsEnabled = 1;
+ 1255              		.loc 1 392 0
+ 1256 01be 164A     		ldr	r2, .L96+4
+ 1257 01c0 137A     		ldrb	r3, [r2, #8]
+ 1258 01c2 43F00203 		orr	r3, r3, #2
+ 1259 01c6 1372     		strb	r3, [r2, #8]
+ 393:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 device.Endpoints[0].MaxPacketSize = 64;
+ 1260              		.loc 1 393 0
+ 1261 01c8 134A     		ldr	r2, .L96+4
+ 1262 01ca 1389     		ldrh	r3, [r2, #8]	@ movhi
+ 1263 01cc 4021     		movs	r1, #64
+ 1264 01ce 61F38C13 		bfi	r3, r1, #6, #7
+ 1265 01d2 1381     		strh	r3, [r2, #8]	@ movhi
+ 394:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 395:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		  /* then configure endpoint 0 */
+ 396:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		 device.Driver->EndpointConfigure(0,XMC_USBD_ENDPOINT_TYPE_CONTROL,
+ 1266              		.loc 1 396 0
+ 1267 01d4 104B     		ldr	r3, .L96+4
+ 1268 01d6 1B68     		ldr	r3, [r3]
+ 1269 01d8 DB69     		ldr	r3, [r3, #28]
+ 1270 01da 4022     		movs	r2, #64
+ 1271 01dc 0021     		movs	r1, #0
+ 1272 01de 0020     		movs	r0, #0
+ 1273 01e0 9847     		blx	r3
+ 1274              	.LVL21:
+ 397:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 					   (uint8_t)XMC_USBD_MAX_PACKET_SIZE);
+ 398:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 399:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 1275              		.loc 1 399 0
+ 1276 01e2 14E0     		b	.L77
+ 1277              	.L86:
+ 400:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case XMC_USBD_EVENT_REMOTE_WAKEUP:
+ 401:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 402:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case XMC_USBD_EVENT_RESUME:
+ 403:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		USB_DeviceState = device.PreSuspendDeviceState;
+ 1278              		.loc 1 403 0
+ 1279 01e4 0C4B     		ldr	r3, .L96+4
+ 1280 01e6 93F83A21 		ldrb	r2, [r3, #314]	@ zero_extendqisi2
+ 1281 01ea 0A4B     		ldr	r3, .L96
+ 1282 01ec 1A70     		strb	r2, [r3]
+ 404:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		EVENT_USB_Device_WakeUp();
+ 1283              		.loc 1 404 0
+ 1284 01ee FFF7FEFF 		bl	EVENT_USB_Device_WakeUp
+ 405:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 1285              		.loc 1 405 0
+ 1286 01f2 0CE0     		b	.L77
+ 1287              	.L85:
+ 406:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case XMC_USBD_EVENT_SUSPEND:
+ 407:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.PreSuspendDeviceState = USB_DeviceState;
+ 1288              		.loc 1 407 0
+ 1289 01f4 074B     		ldr	r3, .L96
+ 1290 01f6 1B78     		ldrb	r3, [r3]
+ 1291 01f8 DAB2     		uxtb	r2, r3
+ 1292 01fa 074B     		ldr	r3, .L96+4
+ 1293 01fc 83F83A21 		strb	r2, [r3, #314]
+ 408:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		USB_DeviceState = DEVICE_STATE_Suspended;
+ 1294              		.loc 1 408 0
+ 1295 0200 044B     		ldr	r3, .L96
+ 1296 0202 0522     		movs	r2, #5
+ 1297 0204 1A70     		strb	r2, [r3]
+ 409:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		EVENT_USB_Device_Suspend();
+ 1298              		.loc 1 409 0
+ 1299 0206 FFF7FEFF 		bl	EVENT_USB_Device_Suspend
+ 410:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 1300              		.loc 1 410 0
+ 1301 020a 00E0     		b	.L77
+ 1302              	.L95:
+ 411:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	default:
+ 412:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		return;
+ 1303              		.loc 1 412 0
+ 1304 020c 00BF     		nop
+ 1305              	.L77:
+ 413:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	}
+ 414:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** }
+ 1306              		.loc 1 414 0
+ 1307 020e 1037     		adds	r7, r7, #16
+ 1308              	.LCFI19:
+ 1309              		.cfi_def_cfa_offset 8
+ 1310 0210 BD46     		mov	sp, r7
+ 1311              	.LCFI20:
+ 1312              		.cfi_def_cfa_register 13
+ 1313              		@ sp needed
+ 1314 0212 80BD     		pop	{r7, pc}
+ 1315              	.L97:
+ 1316              		.align	2
+ 1317              	.L96:
+ 1318 0214 00000000 		.word	USB_DeviceState
+ 1319 0218 00000000 		.word	device
+ 1320 021c 00000000 		.word	Driver_USBD0
+ 1321 0220 00000000 		.word	endpoint0_in_buffer
+ 1322 0224 00000000 		.word	endpoint0_out_buffer
+ 1323              		.cfi_endproc
+ 1324              	.LFE193:
+ 1326              		.section	.text.USBD_SignalEndpointEvent_Handler,"ax",%progbits
+ 1327              		.align	1
+ 1328              		.global	USBD_SignalEndpointEvent_Handler
+ 1329              		.syntax unified
+ 1330              		.thumb
+ 1331              		.thumb_func
+ 1332              		.fpu fpv4-sp-d16
+ 1334              	USBD_SignalEndpointEvent_Handler:
+ 1335              	.LFB194:
+ 415:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 416:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /**
+ 417:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \brief Endpoint event handler for the XMC driver
+ 418:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+ 419:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * If the driver detects an event (See \ref USB_USBD_EP_EVENT) for a specified endpoint it
+ 420:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * calls this function. Based on the event some further action is taken, e.g. process control
+ 421:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * request or update transfer information and read data from the driver into the core buffer.
+ 422:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+ 423:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \param[in] ep_addr Endpoint address
+ 424:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \param[in] ep_event Endpoint event type
+ 425:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+ 426:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  */
+ 427:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** void USBD_SignalEndpointEvent_Handler (uint8_t ep_addr, XMC_USBD_EP_EVENT_t ep_event) {
+ 1336              		.loc 1 427 0
+ 1337              		.cfi_startproc
+ 1338              		@ args = 0, pretend = 0, frame = 24
+ 1339              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1340 0000 80B5     		push	{r7, lr}
+ 1341              	.LCFI21:
+ 1342              		.cfi_def_cfa_offset 8
+ 1343              		.cfi_offset 7, -8
+ 1344              		.cfi_offset 14, -4
+ 1345 0002 86B0     		sub	sp, sp, #24
+ 1346              	.LCFI22:
+ 1347              		.cfi_def_cfa_offset 32
+ 1348 0004 00AF     		add	r7, sp, #0
+ 1349              	.LCFI23:
+ 1350              		.cfi_def_cfa_register 7
+ 1351 0006 0346     		mov	r3, r0
+ 1352 0008 0A46     		mov	r2, r1
+ 1353 000a FB71     		strb	r3, [r7, #7]
+ 1354 000c 1346     		mov	r3, r2
+ 1355 000e BB71     		strb	r3, [r7, #6]
+ 428:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	USBD_Endpoint_t *ep =  &device.Endpoints[ep_addr & ENDPOINT_EPNUM_MASK];
+ 1356              		.loc 1 428 0
+ 1357 0010 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 1358 0012 03F00F03 		and	r3, r3, #15
+ 1359 0016 2C22     		movs	r2, #44
+ 1360 0018 02FB03F3 		mul	r3, r2, r3
+ 1361 001c 5D4A     		ldr	r2, .L116
+ 1362 001e 1344     		add	r3, r3, r2
+ 1363 0020 0433     		adds	r3, r3, #4
+ 1364 0022 7B61     		str	r3, [r7, #20]
+ 429:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	uint8_t temp_num,temp_dir;
+ 430:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	int32_t data_count;
+ 431:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	/* store CurrentEndpoint and direction for restore after handling */
+ 432:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	temp_num = device.CurrentEndpoint;
+ 1365              		.loc 1 432 0
+ 1366 0024 5B4B     		ldr	r3, .L116
+ 1367 0026 93F83C31 		ldrb	r3, [r3, #316]
+ 1368 002a FB74     		strb	r3, [r7, #19]
+ 433:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	temp_dir = device.CurrentDirection;
+ 1369              		.loc 1 433 0
+ 1370 002c 594B     		ldr	r3, .L116
+ 1371 002e 93F83D31 		ldrb	r3, [r3, #317]
+ 1372 0032 BB74     		strb	r3, [r7, #18]
+ 434:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	/* select the given endpoint */
+ 435:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.CurrentEndpoint = ep_addr & ENDPOINT_EPNUM_MASK;
+ 1373              		.loc 1 435 0
+ 1374 0034 FB79     		ldrb	r3, [r7, #7]
+ 1375 0036 03F00F03 		and	r3, r3, #15
+ 1376 003a DAB2     		uxtb	r2, r3
+ 1377 003c 554B     		ldr	r3, .L116
+ 1378 003e 83F83C21 		strb	r2, [r3, #316]
+ 436:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.CurrentDirection = ep_addr & ENDPOINT_DIR_MASK;
+ 1379              		.loc 1 436 0
+ 1380 0042 FB79     		ldrb	r3, [r7, #7]
+ 1381 0044 23F07F03 		bic	r3, r3, #127
+ 1382 0048 DAB2     		uxtb	r2, r3
+ 1383 004a 524B     		ldr	r3, .L116
+ 1384 004c 83F83D21 		strb	r2, [r3, #317]
+ 437:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	/* choose what to do based on the event */
+ 438:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	switch (ep_event) {
+ 1385              		.loc 1 438 0
+ 1386 0050 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 1387 0052 012B     		cmp	r3, #1
+ 1388 0054 13D0     		beq	.L100
+ 1389 0056 022B     		cmp	r3, #2
+ 1390 0058 3AD0     		beq	.L101
+ 1391 005a 002B     		cmp	r3, #0
+ 1392 005c 40F08E80 		bne	.L99
+ 439:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case XMC_USBD_EP_EVENT_SETUP:
+ 440:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		ep->OutInUse = 0;
+ 1393              		.loc 1 440 0
+ 1394 0060 7A69     		ldr	r2, [r7, #20]
+ 1395 0062 9388     		ldrh	r3, [r2, #4]	@ movhi
+ 1396 0064 6FF3C303 		bfc	r3, #3, #1
+ 1397 0068 9380     		strh	r3, [r2, #4]	@ movhi
+ 441:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		switch(device.CurrentEndpoint) {
+ 1398              		.loc 1 441 0
+ 1399 006a 4A4B     		ldr	r3, .L116
+ 1400 006c 93F83C31 		ldrb	r3, [r3, #316]	@ zero_extendqisi2
+ 1401 0070 002B     		cmp	r3, #0
+ 1402 0072 00D0     		beq	.L104
+ 442:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		case 0:
+ 443:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			USBD_HandleEP0_SETUP();
+ 444:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 445:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		default:
+ 446:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 1403              		.loc 1 446 0
+ 1404 0074 02E0     		b	.L105
+ 1405              	.L104:
+ 443:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 1406              		.loc 1 443 0
+ 1407 0076 FFF7FEFF 		bl	USBD_HandleEP0_SETUP
+ 444:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		default:
+ 1408              		.loc 1 444 0
+ 1409 007a 00BF     		nop
+ 1410              	.L105:
+ 447:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 448:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 1411              		.loc 1 448 0
+ 1412 007c 7EE0     		b	.L99
+ 1413              	.L100:
+ 449:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case XMC_USBD_EP_EVENT_OUT:
+ 450:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		ep->IsOutRecieved = 1;
+ 1414              		.loc 1 450 0
+ 1415 007e 7A69     		ldr	r2, [r7, #20]
+ 1416 0080 9388     		ldrh	r3, [r2, #4]	@ movhi
+ 1417 0082 43F02003 		orr	r3, r3, #32
+ 1418 0086 9380     		strh	r3, [r2, #4]	@ movhi
+ 451:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (ep->OutBytesAvailable == 0) {
+ 1419              		.loc 1 451 0
+ 1420 0088 7B69     		ldr	r3, [r7, #20]
+ 1421 008a 9B68     		ldr	r3, [r3, #8]
+ 1422 008c 002B     		cmp	r3, #0
+ 1423 008e 10D1     		bne	.L106
+ 452:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			ep->OutOffset = 0; /* clear offset, new data is there */
+ 1424              		.loc 1 452 0
+ 1425 0090 7B69     		ldr	r3, [r7, #20]
+ 1426 0092 0022     		movs	r2, #0
+ 1427 0094 DA60     		str	r2, [r3, #12]
+ 453:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			ep->OutBytesAvailable = device.Driver->EndpointRead(ep->Address,ep->OutBuffer,ep->OutBufferLengt
+ 1428              		.loc 1 453 0
+ 1429 0096 3F4B     		ldr	r3, .L116
+ 1430 0098 1B68     		ldr	r3, [r3]
+ 1431 009a DB6A     		ldr	r3, [r3, #44]
+ 1432 009c 7A69     		ldr	r2, [r7, #20]
+ 1433 009e 1078     		ldrb	r0, [r2]	@ zero_extendqisi2
+ 1434 00a0 7A69     		ldr	r2, [r7, #20]
+ 1435 00a2 1169     		ldr	r1, [r2, #16]
+ 1436 00a4 7A69     		ldr	r2, [r7, #20]
+ 1437 00a6 5269     		ldr	r2, [r2, #20]
+ 1438 00a8 9847     		blx	r3
+ 1439              	.LVL22:
+ 1440 00aa 0346     		mov	r3, r0
+ 1441 00ac 1A46     		mov	r2, r3
+ 1442 00ae 7B69     		ldr	r3, [r7, #20]
+ 1443 00b0 9A60     		str	r2, [r3, #8]
+ 1444              	.L106:
+ 454:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 455:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		ep->OutInUse = 0;
+ 1445              		.loc 1 455 0
+ 1446 00b2 7A69     		ldr	r2, [r7, #20]
+ 1447 00b4 9388     		ldrh	r3, [r2, #4]	@ movhi
+ 1448 00b6 6FF3C303 		bfc	r3, #3, #1
+ 1449 00ba 9380     		strh	r3, [r2, #4]	@ movhi
+ 456:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		switch(device.CurrentEndpoint) {
+ 1450              		.loc 1 456 0
+ 1451 00bc 354B     		ldr	r3, .L116
+ 1452 00be 93F83C31 		ldrb	r3, [r3, #316]	@ zero_extendqisi2
+ 1453 00c2 002B     		cmp	r3, #0
+ 1454 00c4 00D0     		beq	.L108
+ 457:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		case 0:
+ 458:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			USBD_HandleEP0_OUT();
+ 459:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 460:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		default:
+ 461:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 1455              		.loc 1 461 0
+ 1456 00c6 02E0     		b	.L109
+ 1457              	.L108:
+ 458:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 1458              		.loc 1 458 0
+ 1459 00c8 FFF7FEFF 		bl	USBD_HandleEP0_OUT
+ 459:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		default:
+ 1460              		.loc 1 459 0
+ 1461 00cc 00BF     		nop
+ 1462              	.L109:
+ 462:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 463:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 1463              		.loc 1 463 0
+ 1464 00ce 55E0     		b	.L99
+ 1465              	.L101:
+ 464:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	case XMC_USBD_EP_EVENT_IN:
+ 465:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		/* loop write transfers */
+ 466:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		if (ep->InDataLeft> 0) {
+ 1466              		.loc 1 466 0
+ 1467 00d0 7B69     		ldr	r3, [r7, #20]
+ 1468 00d2 5B6A     		ldr	r3, [r3, #36]
+ 1469 00d4 002B     		cmp	r3, #0
+ 1470 00d6 17D0     		beq	.L110
+ 467:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			data_count = device.Driver->EndpointWrite(ep->Address,ep->InDataBuffer,ep->InDataLeft);
+ 1471              		.loc 1 467 0
+ 1472 00d8 2E4B     		ldr	r3, .L116
+ 1473 00da 1B68     		ldr	r3, [r3]
+ 1474 00dc 1B6B     		ldr	r3, [r3, #48]
+ 1475 00de 7A69     		ldr	r2, [r7, #20]
+ 1476 00e0 1078     		ldrb	r0, [r2]	@ zero_extendqisi2
+ 1477 00e2 7A69     		ldr	r2, [r7, #20]
+ 1478 00e4 916A     		ldr	r1, [r2, #40]
+ 1479 00e6 7A69     		ldr	r2, [r7, #20]
+ 1480 00e8 526A     		ldr	r2, [r2, #36]
+ 1481 00ea 9847     		blx	r3
+ 1482              	.LVL23:
+ 1483 00ec F860     		str	r0, [r7, #12]
+ 468:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			ep->InDataLeft -= data_count;
+ 1484              		.loc 1 468 0
+ 1485 00ee 7B69     		ldr	r3, [r7, #20]
+ 1486 00f0 5A6A     		ldr	r2, [r3, #36]
+ 1487 00f2 FB68     		ldr	r3, [r7, #12]
+ 1488 00f4 D21A     		subs	r2, r2, r3
+ 1489 00f6 7B69     		ldr	r3, [r7, #20]
+ 1490 00f8 5A62     		str	r2, [r3, #36]
+ 469:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			ep->InDataBuffer+= data_count;
+ 1491              		.loc 1 469 0
+ 1492 00fa 7B69     		ldr	r3, [r7, #20]
+ 1493 00fc 9A6A     		ldr	r2, [r3, #40]
+ 1494 00fe FB68     		ldr	r3, [r7, #12]
+ 1495 0100 1A44     		add	r2, r2, r3
+ 1496 0102 7B69     		ldr	r3, [r7, #20]
+ 1497 0104 9A62     		str	r2, [r3, #40]
+ 470:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			return;
+ 1498              		.loc 1 470 0
+ 1499 0106 41E0     		b	.L98
+ 1500              	.L110:
+ 471:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		} else if (ep->Number == 0 && ep->InBytesAvailable > 0 && ep->InBytesAvailable!=USB_ControlReques
+ 1501              		.loc 1 471 0
+ 1502 0108 7B69     		ldr	r3, [r7, #20]
+ 1503 010a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1504 010c 03F00F03 		and	r3, r3, #15
+ 1505 0110 DBB2     		uxtb	r3, r3
+ 1506 0112 002B     		cmp	r3, #0
+ 1507 0114 20D1     		bne	.L112
+ 1508              		.loc 1 471 0 is_stmt 0 discriminator 1
+ 1509 0116 7B69     		ldr	r3, [r7, #20]
+ 1510 0118 9B69     		ldr	r3, [r3, #24]
+ 1511 011a 002B     		cmp	r3, #0
+ 1512 011c 1CD0     		beq	.L112
+ 1513              		.loc 1 471 0 discriminator 2
+ 1514 011e 7B69     		ldr	r3, [r7, #20]
+ 1515 0120 9B69     		ldr	r3, [r3, #24]
+ 1516 0122 1D4A     		ldr	r2, .L116+4
+ 1517 0124 D288     		ldrh	r2, [r2, #6]	@ unaligned
+ 1518 0126 92B2     		uxth	r2, r2
+ 1519 0128 9342     		cmp	r3, r2
+ 1520 012a 15D0     		beq	.L112
+ 1521              		.loc 1 471 0 discriminator 3
+ 1522 012c 7B69     		ldr	r3, [r7, #20]
+ 1523 012e 9B69     		ldr	r3, [r3, #24]
+ 1524 0130 7A69     		ldr	r2, [r7, #20]
+ 1525 0132 9288     		ldrh	r2, [r2, #4]	@ movhi
+ 1526 0134 C2F38612 		ubfx	r2, r2, #6, #7
+ 1527 0138 D2B2     		uxtb	r2, r2
+ 1528 013a B3FBF2F1 		udiv	r1, r3, r2
+ 1529 013e 02FB01F2 		mul	r2, r2, r1
+ 1530 0142 9B1A     		subs	r3, r3, r2
+ 1531 0144 002B     		cmp	r3, #0
+ 1532 0146 07D1     		bne	.L112
+ 472:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			/* if the amount of data for endpoint 0 is exact the requested amount, then no zlp has to be sen
+ 473:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			device.Driver->EndpointWrite(ep->Address,0,0);
+ 1533              		.loc 1 473 0 is_stmt 1
+ 1534 0148 124B     		ldr	r3, .L116
+ 1535 014a 1B68     		ldr	r3, [r3]
+ 1536 014c 1B6B     		ldr	r3, [r3, #48]
+ 1537 014e 7A69     		ldr	r2, [r7, #20]
+ 1538 0150 1078     		ldrb	r0, [r2]	@ zero_extendqisi2
+ 1539 0152 0022     		movs	r2, #0
+ 1540 0154 0021     		movs	r1, #0
+ 1541 0156 9847     		blx	r3
+ 1542              	.LVL24:
+ 1543              	.L112:
+ 474:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 475:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		ep->InBytesAvailable = 0;
+ 1544              		.loc 1 475 0
+ 1545 0158 7B69     		ldr	r3, [r7, #20]
+ 1546 015a 0022     		movs	r2, #0
+ 1547 015c 9A61     		str	r2, [r3, #24]
+ 476:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		ep->InInUse = 0;
+ 1548              		.loc 1 476 0
+ 1549 015e 7A69     		ldr	r2, [r7, #20]
+ 1550 0160 9388     		ldrh	r3, [r2, #4]	@ movhi
+ 1551 0162 6FF30413 		bfc	r3, #4, #1
+ 1552 0166 9380     		strh	r3, [r2, #4]	@ movhi
+ 477:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		switch(device.CurrentEndpoint) {
+ 1553              		.loc 1 477 0
+ 1554 0168 0A4B     		ldr	r3, .L116
+ 1555 016a 93F83C31 		ldrb	r3, [r3, #316]	@ zero_extendqisi2
+ 1556 016e 002B     		cmp	r3, #0
+ 1557 0170 00D0     		beq	.L114
+ 478:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		case 0:
+ 479:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			USBD_HandleEP0_IN();
+ 480:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 481:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		default:
+ 482:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 1558              		.loc 1 482 0
+ 1559 0172 02E0     		b	.L115
+ 1560              	.L114:
+ 479:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			break;
+ 1561              		.loc 1 479 0
+ 1562 0174 FFF7FEFF 		bl	USBD_HandleEP0_IN
+ 480:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		default:
+ 1563              		.loc 1 480 0
+ 1564 0178 00BF     		nop
+ 1565              	.L115:
+ 483:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		}
+ 484:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		break;
+ 1566              		.loc 1 484 0
+ 1567 017a 00BF     		nop
+ 1568              	.L99:
+ 485:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	}
+ 486:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.CurrentEndpoint = temp_num;
+ 1569              		.loc 1 486 0
+ 1570 017c 054A     		ldr	r2, .L116
+ 1571 017e FB7C     		ldrb	r3, [r7, #19]
+ 1572 0180 82F83C31 		strb	r3, [r2, #316]
+ 487:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.CurrentDirection = temp_dir;
+ 1573              		.loc 1 487 0
+ 1574 0184 034A     		ldr	r2, .L116
+ 1575 0186 BB7C     		ldrb	r3, [r7, #18]
+ 1576 0188 82F83D31 		strb	r3, [r2, #317]
+ 1577              	.L98:
+ 488:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** }
+ 1578              		.loc 1 488 0
+ 1579 018c 1837     		adds	r7, r7, #24
+ 1580              	.LCFI24:
+ 1581              		.cfi_def_cfa_offset 8
+ 1582 018e BD46     		mov	sp, r7
+ 1583              	.LCFI25:
+ 1584              		.cfi_def_cfa_register 13
+ 1585              		@ sp needed
+ 1586 0190 80BD     		pop	{r7, pc}
+ 1587              	.L117:
+ 1588 0192 00BF     		.align	2
+ 1589              	.L116:
+ 1590 0194 00000000 		.word	device
+ 1591 0198 00000000 		.word	USB_ControlRequest
+ 1592              		.cfi_endproc
+ 1593              	.LFE194:
+ 1595              		.section	.text.USBD_Initialize,"ax",%progbits
+ 1596              		.align	1
+ 1597              		.global	USBD_Initialize
+ 1598              		.syntax unified
+ 1599              		.thumb
+ 1600              		.thumb_func
+ 1601              		.fpu fpv4-sp-d16
+ 1603              	USBD_Initialize:
+ 1604              	.LFB195:
+ 489:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 490:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /**
+ 491:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \brief Initialize driver core and driver
+ 492:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+ 493:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * Intializes the USB driver core data structures and sets it into default state. Afterwards
+ 494:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * it initializes the USB device controller driver and prepare it for connection via \ref USBD_Conn
+ 495:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  */
+ 496:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** int USBD_Initialize(XMC_USBD_t *usb_init) {
+ 1605              		.loc 1 496 0
+ 1606              		.cfi_startproc
+ 1607              		@ args = 0, pretend = 0, frame = 16
+ 1608              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1609 0000 80B5     		push	{r7, lr}
+ 1610              	.LCFI26:
+ 1611              		.cfi_def_cfa_offset 8
+ 1612              		.cfi_offset 7, -8
+ 1613              		.cfi_offset 14, -4
+ 1614 0002 84B0     		sub	sp, sp, #16
+ 1615              	.LCFI27:
+ 1616              		.cfi_def_cfa_offset 24
+ 1617 0004 00AF     		add	r7, sp, #0
+ 1618              	.LCFI28:
+ 1619              		.cfi_def_cfa_register 7
+ 1620 0006 7860     		str	r0, [r7, #4]
+ 497:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	int32_t status = 0;
+ 1621              		.loc 1 497 0
+ 1622 0008 0023     		movs	r3, #0
+ 1623 000a FB60     		str	r3, [r7, #12]
+ 498:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	memset(&device,0x0,sizeof(USB_Device_t));
+ 1624              		.loc 1 498 0
+ 1625 000c 4FF4A072 		mov	r2, #320
+ 1626 0010 0021     		movs	r1, #0
+ 1627 0012 2948     		ldr	r0, .L122
+ 1628 0014 FFF7FEFF 		bl	memset
+ 499:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	USB_DeviceState = DEVICE_STATE_Unattached;
+ 1629              		.loc 1 499 0
+ 1630 0018 284B     		ldr	r3, .L122+4
+ 1631 001a 0022     		movs	r2, #0
+ 1632 001c 1A70     		strb	r2, [r3]
+ 500:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.Driver = &Driver_USBD0;
+ 1633              		.loc 1 500 0
+ 1634 001e 264B     		ldr	r3, .L122
+ 1635 0020 274A     		ldr	r2, .L122+8
+ 1636 0022 1A60     		str	r2, [r3]
+ 501:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.EP0_State = IDLE;
+ 1637              		.loc 1 501 0
+ 1638 0024 244B     		ldr	r3, .L122
+ 1639 0026 0122     		movs	r2, #1
+ 1640 0028 83F83B21 		strb	r2, [r3, #315]
+ 502:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.Endpoints[0].InBuffer = endpoint0_in_buffer;
+ 1641              		.loc 1 502 0
+ 1642 002c 224B     		ldr	r3, .L122
+ 1643 002e 254A     		ldr	r2, .L122+12
+ 1644 0030 1A62     		str	r2, [r3, #32]
+ 503:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.Endpoints[0].InBufferLength = 256;
+ 1645              		.loc 1 503 0
+ 1646 0032 214B     		ldr	r3, .L122
+ 1647 0034 4FF48072 		mov	r2, #256
+ 1648 0038 5A62     		str	r2, [r3, #36]
+ 504:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.Endpoints[0].OutBuffer = endpoint0_out_buffer;
+ 1649              		.loc 1 504 0
+ 1650 003a 1F4B     		ldr	r3, .L122
+ 1651 003c 224A     		ldr	r2, .L122+16
+ 1652 003e 5A61     		str	r2, [r3, #20]
+ 505:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.Endpoints[0].OutBufferLength = 256;
+ 1653              		.loc 1 505 0
+ 1654 0040 1D4B     		ldr	r3, .L122
+ 1655 0042 4FF48072 		mov	r2, #256
+ 1656 0046 9A61     		str	r2, [r3, #24]
+ 506:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.Endpoints[0].Direction = 0;
+ 1657              		.loc 1 506 0
+ 1658 0048 1B4A     		ldr	r2, .L122
+ 1659 004a 1379     		ldrb	r3, [r2, #4]
+ 1660 004c 6FF3C713 		bfc	r3, #7, #1
+ 1661 0050 1371     		strb	r3, [r2, #4]
+ 507:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.Endpoints[0].IsConfigured = 1;
+ 1662              		.loc 1 507 0
+ 1663 0052 194A     		ldr	r2, .L122
+ 1664 0054 137A     		ldrb	r3, [r2, #8]
+ 1665 0056 43F00103 		orr	r3, r3, #1
+ 1666 005a 1372     		strb	r3, [r2, #8]
+ 508:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.Endpoints[0].IsEnabled = 1;
+ 1667              		.loc 1 508 0
+ 1668 005c 164A     		ldr	r2, .L122
+ 1669 005e 137A     		ldrb	r3, [r2, #8]
+ 1670 0060 43F00203 		orr	r3, r3, #2
+ 1671 0064 1372     		strb	r3, [r2, #8]
+ 509:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.Endpoints[0].MaxPacketSize = 64;
+ 1672              		.loc 1 509 0
+ 1673 0066 144A     		ldr	r2, .L122
+ 1674 0068 1389     		ldrh	r3, [r2, #8]	@ movhi
+ 1675 006a 4021     		movs	r1, #64
+ 1676 006c 61F38C13 		bfi	r3, r1, #6, #7
+ 1677 0070 1381     		strh	r3, [r2, #8]	@ movhi
+ 510:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 511:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	/* First initalize the device */
+ 512:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	status = device.Driver->Initialize(usb_init);
+ 1678              		.loc 1 512 0
+ 1679 0072 114B     		ldr	r3, .L122
+ 1680 0074 1B68     		ldr	r3, [r3]
+ 1681 0076 5B68     		ldr	r3, [r3, #4]
+ 1682 0078 7868     		ldr	r0, [r7, #4]
+ 1683 007a 9847     		blx	r3
+ 1684              	.LVL25:
+ 1685 007c 0346     		mov	r3, r0
+ 1686 007e FB60     		str	r3, [r7, #12]
+ 513:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	if (status != XMC_USBD_STATUS_OK)
+ 1687              		.loc 1 513 0
+ 1688 0080 FB68     		ldr	r3, [r7, #12]
+ 1689 0082 002B     		cmp	r3, #0
+ 1690 0084 02D0     		beq	.L119
+ 514:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		return -1;
+ 1691              		.loc 1 514 0
+ 1692 0086 4FF0FF33 		mov	r3, #-1
+ 1693 008a 11E0     		b	.L120
+ 1694              	.L119:
+ 515:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 516:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	/* then configure endpoint 0 */
+ 517:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	device.Driver->EndpointConfigure(0,XMC_USBD_ENDPOINT_TYPE_CONTROL,
+ 1695              		.loc 1 517 0
+ 1696 008c 0A4B     		ldr	r3, .L122
+ 1697 008e 1B68     		ldr	r3, [r3]
+ 1698 0090 DB69     		ldr	r3, [r3, #28]
+ 1699 0092 4022     		movs	r2, #64
+ 1700 0094 0021     		movs	r1, #0
+ 1701 0096 0020     		movs	r0, #0
+ 1702 0098 9847     		blx	r3
+ 1703              	.LVL26:
+ 518:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 			(uint8_t)XMC_USBD_MAX_PACKET_SIZE);
+ 519:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	if (status != XMC_USBD_STATUS_OK) {
+ 1704              		.loc 1 519 0
+ 1705 009a FB68     		ldr	r3, [r7, #12]
+ 1706 009c 002B     		cmp	r3, #0
+ 1707 009e 06D0     		beq	.L121
+ 520:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Driver->Uninitialize();
+ 1708              		.loc 1 520 0
+ 1709 00a0 054B     		ldr	r3, .L122
+ 1710 00a2 1B68     		ldr	r3, [r3]
+ 1711 00a4 9B68     		ldr	r3, [r3, #8]
+ 1712 00a6 9847     		blx	r3
+ 1713              	.LVL27:
+ 521:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		return -1;
+ 1714              		.loc 1 521 0
+ 1715 00a8 4FF0FF33 		mov	r3, #-1
+ 1716 00ac 00E0     		b	.L120
+ 1717              	.L121:
+ 522:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	}
+ 523:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 524:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	return 0;
+ 1718              		.loc 1 524 0
+ 1719 00ae 0023     		movs	r3, #0
+ 1720              	.L120:
+ 525:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** }
+ 1721              		.loc 1 525 0
+ 1722 00b0 1846     		mov	r0, r3
+ 1723 00b2 1037     		adds	r7, r7, #16
+ 1724              	.LCFI29:
+ 1725              		.cfi_def_cfa_offset 8
+ 1726 00b4 BD46     		mov	sp, r7
+ 1727              	.LCFI30:
+ 1728              		.cfi_def_cfa_register 13
+ 1729              		@ sp needed
+ 1730 00b6 80BD     		pop	{r7, pc}
+ 1731              	.L123:
+ 1732              		.align	2
+ 1733              	.L122:
+ 1734 00b8 00000000 		.word	device
+ 1735 00bc 00000000 		.word	USB_DeviceState
+ 1736 00c0 00000000 		.word	Driver_USBD0
+ 1737 00c4 00000000 		.word	endpoint0_in_buffer
+ 1738 00c8 00000000 		.word	endpoint0_out_buffer
+ 1739              		.cfi_endproc
+ 1740              	.LFE195:
+ 1742              		.section	.text.USB_IsEnumDone,"ax",%progbits
+ 1743              		.align	1
+ 1744              		.global	USB_IsEnumDone
+ 1745              		.syntax unified
+ 1746              		.thumb
+ 1747              		.thumb_func
+ 1748              		.fpu fpv4-sp-d16
+ 1750              	USB_IsEnumDone:
+ 1751              	.LFB196:
+ 526:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 527:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /**
+ 528:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \brief Is the enumeration finished?
+ 529:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+ 530:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * Tell the USB device controller driver if the enumeration interrupt have been reached
+ 531:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  */
+ 532:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** int USB_IsEnumDone(void){
+ 1752              		.loc 1 532 0
+ 1753              		.cfi_startproc
+ 1754              		@ args = 0, pretend = 0, frame = 0
+ 1755              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1756 0000 80B5     		push	{r7, lr}
+ 1757              	.LCFI31:
+ 1758              		.cfi_def_cfa_offset 8
+ 1759              		.cfi_offset 7, -8
+ 1760              		.cfi_offset 14, -4
+ 1761 0002 00AF     		add	r7, sp, #0
+ 1762              	.LCFI32:
+ 1763              		.cfi_def_cfa_register 7
+ 533:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	if (device.Driver->IsEnumDone())
+ 1764              		.loc 1 533 0
+ 1765 0004 054B     		ldr	r3, .L127
+ 1766 0006 1B68     		ldr	r3, [r3]
+ 1767 0008 DB6B     		ldr	r3, [r3, #60]
+ 1768 000a 9847     		blx	r3
+ 1769              	.LVL28:
+ 1770 000c 0346     		mov	r3, r0
+ 1771 000e 002B     		cmp	r3, #0
+ 1772 0010 01D0     		beq	.L125
+ 534:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		return 1;
+ 1773              		.loc 1 534 0
+ 1774 0012 0123     		movs	r3, #1
+ 1775 0014 00E0     		b	.L126
+ 1776              	.L125:
+ 535:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	else
+ 536:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		return 0;
+ 1777              		.loc 1 536 0
+ 1778 0016 0023     		movs	r3, #0
+ 1779              	.L126:
+ 537:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  }
+ 1780              		.loc 1 537 0
+ 1781 0018 1846     		mov	r0, r3
+ 1782 001a 80BD     		pop	{r7, pc}
+ 1783              	.L128:
+ 1784              		.align	2
+ 1785              	.L127:
+ 1786 001c 00000000 		.word	device
+ 1787              		.cfi_endproc
+ 1788              	.LFE196:
+ 1790              		.section	.text.USBD_SetEndpointBuffer,"ax",%progbits
+ 1791              		.align	1
+ 1792              		.global	USBD_SetEndpointBuffer
+ 1793              		.syntax unified
+ 1794              		.thumb
+ 1795              		.thumb_func
+ 1796              		.fpu fpv4-sp-d16
+ 1798              	USBD_SetEndpointBuffer:
+ 1799              	.LFB197:
+ 538:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 539:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 
+ 540:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** /**
+ 541:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \brief Set the buffer for an endpoint
+ 542:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+ 543:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * The user has to ensure the an endpoint has a valid buffer set
+ 544:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * in order to ensure proper work.
+ 545:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  *
+ 546:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \param[in] addr Endpoint address
+ 547:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \param[in] buf Buffer pointer
+ 548:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  * \param[in] len Buffer length
+ 549:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c ****  */
+ 550:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** void USBD_SetEndpointBuffer(uint8_t addr,uint8_t *buf,uint16_t len) {
+ 1800              		.loc 1 550 0
+ 1801              		.cfi_startproc
+ 1802              		@ args = 0, pretend = 0, frame = 16
+ 1803              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1804              		@ link register save eliminated.
+ 1805 0000 80B4     		push	{r7}
+ 1806              	.LCFI33:
+ 1807              		.cfi_def_cfa_offset 4
+ 1808              		.cfi_offset 7, -4
+ 1809 0002 85B0     		sub	sp, sp, #20
+ 1810              	.LCFI34:
+ 1811              		.cfi_def_cfa_offset 24
+ 1812 0004 00AF     		add	r7, sp, #0
+ 1813              	.LCFI35:
+ 1814              		.cfi_def_cfa_register 7
+ 1815 0006 0346     		mov	r3, r0
+ 1816 0008 3960     		str	r1, [r7]
+ 1817 000a FB71     		strb	r3, [r7, #7]
+ 1818 000c 1346     		mov	r3, r2	@ movhi
+ 1819 000e BB80     		strh	r3, [r7, #4]	@ movhi
+ 551:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	uint8_t number  = addr & ENDPOINT_EPNUM_MASK;
+ 1820              		.loc 1 551 0
+ 1821 0010 FB79     		ldrb	r3, [r7, #7]
+ 1822 0012 03F00F03 		and	r3, r3, #15
+ 1823 0016 FB73     		strb	r3, [r7, #15]
+ 552:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	if (addr & ENDPOINT_DIR_MASK) {
+ 1824              		.loc 1 552 0
+ 1825 0018 97F90730 		ldrsb	r3, [r7, #7]
+ 1826 001c 002B     		cmp	r3, #0
+ 1827 001e 12DA     		bge	.L130
+ 553:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Endpoints[number].InBuffer = buf;
+ 1828              		.loc 1 553 0
+ 1829 0020 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 1830 0022 154A     		ldr	r2, .L133
+ 1831 0024 2C21     		movs	r1, #44
+ 1832 0026 01FB03F3 		mul	r3, r1, r3
+ 1833 002a 1344     		add	r3, r3, r2
+ 1834 002c 2033     		adds	r3, r3, #32
+ 1835 002e 3A68     		ldr	r2, [r7]
+ 1836 0030 1A60     		str	r2, [r3]
+ 554:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Endpoints[number].InBufferLength = len;
+ 1837              		.loc 1 554 0
+ 1838 0032 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 1839 0034 BA88     		ldrh	r2, [r7, #4]
+ 1840 0036 1049     		ldr	r1, .L133
+ 1841 0038 2C20     		movs	r0, #44
+ 1842 003a 00FB03F3 		mul	r3, r0, r3
+ 1843 003e 0B44     		add	r3, r3, r1
+ 1844 0040 2433     		adds	r3, r3, #36
+ 1845 0042 1A60     		str	r2, [r3]
+ 555:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	} else {
+ 556:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Endpoints[number].OutBuffer = buf;
+ 557:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Endpoints[number].OutBufferLength = len;
+ 558:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	}
+ 559:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** }
+ 1846              		.loc 1 559 0
+ 1847 0044 11E0     		b	.L132
+ 1848              	.L130:
+ 556:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 		device.Endpoints[number].OutBufferLength = len;
+ 1849              		.loc 1 556 0
+ 1850 0046 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 1851 0048 0B4A     		ldr	r2, .L133
+ 1852 004a 2C21     		movs	r1, #44
+ 1853 004c 01FB03F3 		mul	r3, r1, r3
+ 1854 0050 1344     		add	r3, r3, r2
+ 1855 0052 1433     		adds	r3, r3, #20
+ 1856 0054 3A68     		ldr	r2, [r7]
+ 1857 0056 1A60     		str	r2, [r3]
+ 557:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/USBController_XMC4000.c **** 	}
+ 1858              		.loc 1 557 0
+ 1859 0058 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 1860 005a BA88     		ldrh	r2, [r7, #4]
+ 1861 005c 0649     		ldr	r1, .L133
+ 1862 005e 2C20     		movs	r0, #44
+ 1863 0060 00FB03F3 		mul	r3, r0, r3
+ 1864 0064 0B44     		add	r3, r3, r1
+ 1865 0066 1833     		adds	r3, r3, #24
+ 1866 0068 1A60     		str	r2, [r3]
+ 1867              	.L132:
+ 1868              		.loc 1 559 0
+ 1869 006a 00BF     		nop
+ 1870 006c 1437     		adds	r7, r7, #20
+ 1871              	.LCFI36:
+ 1872              		.cfi_def_cfa_offset 4
+ 1873 006e BD46     		mov	sp, r7
+ 1874              	.LCFI37:
+ 1875              		.cfi_def_cfa_register 13
+ 1876              		@ sp needed
+ 1877 0070 5DF8047B 		ldr	r7, [sp], #4
+ 1878              	.LCFI38:
+ 1879              		.cfi_restore 7
+ 1880              		.cfi_def_cfa_offset 0
+ 1881 0074 7047     		bx	lr
+ 1882              	.L134:
+ 1883 0076 00BF     		.align	2
+ 1884              	.L133:
+ 1885 0078 00000000 		.word	device
+ 1886              		.cfi_endproc
+ 1887              	.LFE197:
+ 1889              		.text
+ 1890              	.Letext0:
+ 1891              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 1892              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 1893              		.file 4 "/usr/arm-none-eabi/include/sys/lock.h"
+ 1894              		.file 5 "/usr/arm-none-eabi/include/sys/_types.h"
+ 1895              		.file 6 "/usr/lib/gcc/arm-none-eabi/7.3.1/include/stddef.h"
+ 1896              		.file 7 "/usr/arm-none-eabi/include/sys/reent.h"
+ 1897              		.file 8 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/CMSIS/Include/core_cm4.h"
+ 1898              		.file 9 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/CMSIS/Infineon/XMC4500_series/Include/system_X
+ 1899              		.file 10 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/CMSIS/Infineon/XMC4500_series/Include/XMC4500
+ 1900              		.file 11 "/usr/arm-none-eabi/include/stdlib.h"
+ 1901              		.file 12 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_usbd_regs.h"
+ 1902              		.file 13 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_usbd.h"
+ 1903              		.file 14 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/.
+ 1904              		.file 15 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/.
+ 1905              		.file 16 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/.
+ 1906              		.file 17 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/.
+ 1907              		.file 18 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/.
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 USBController_XMC4000.c
+                            *COM*:0000000000000140 device
+                            *COM*:0000000000000100 endpoint0_in_buffer
+                            *COM*:0000000000000100 endpoint0_out_buffer
+     /tmp/cc7q8fpb.s:20     .text.USBD_HandleEP0_Stall:0000000000000000 $t
+     /tmp/cc7q8fpb.s:27     .text.USBD_HandleEP0_Stall:0000000000000000 USBD_HandleEP0_Stall
+     /tmp/cc7q8fpb.s:68     .text.USBD_HandleEP0_Stall:0000000000000028 $d
+     /tmp/cc7q8fpb.s:73     .text.USB_Device_ProcessControlRequest:0000000000000000 $t
+     /tmp/cc7q8fpb.s:80     .text.USB_Device_ProcessControlRequest:0000000000000000 USB_Device_ProcessControlRequest
+     /tmp/cc7q8fpb.s:126    .text.USB_Device_ProcessControlRequest:000000000000003c $d
+     /tmp/cc7q8fpb.s:139    .text.USB_Device_ProcessControlRequest:0000000000000070 $t
+     /tmp/cc7q8fpb.s:487    .text.USB_Device_ProcessControlRequest:00000000000002bc $d
+     /tmp/cc7q8fpb.s:493    .text.USB_Device_ProcessControlRequest:00000000000002cc $t
+     /tmp/cc7q8fpb.s:725    .text.USB_Device_ProcessControlRequest:0000000000000430 $d
+     /tmp/cc7q8fpb.s:732    .text.USBD_HandleEP0_IN:0000000000000000 $t
+     /tmp/cc7q8fpb.s:739    .text.USBD_HandleEP0_IN:0000000000000000 USBD_HandleEP0_IN
+     /tmp/cc7q8fpb.s:797    .text.USBD_HandleEP0_IN:0000000000000048 $d
+     /tmp/cc7q8fpb.s:802    .text.USBD_HandleEP0_OUT:0000000000000000 $t
+     /tmp/cc7q8fpb.s:809    .text.USBD_HandleEP0_OUT:0000000000000000 USBD_HandleEP0_OUT
+     /tmp/cc7q8fpb.s:870    .text.USBD_HandleEP0_OUT:0000000000000050 $d
+     /tmp/cc7q8fpb.s:875    .text.USBD_HandleEP0_SETUP:0000000000000000 $t
+     /tmp/cc7q8fpb.s:882    .text.USBD_HandleEP0_SETUP:0000000000000000 USBD_HandleEP0_SETUP
+     /tmp/cc7q8fpb.s:987    .text.USBD_HandleEP0_SETUP:000000000000008c $d
+     /tmp/cc7q8fpb.s:993    .text.USBD_SignalDeviceEventHandler:0000000000000000 $t
+     /tmp/cc7q8fpb.s:1000   .text.USBD_SignalDeviceEventHandler:0000000000000000 USBD_SignalDeviceEventHandler
+     /tmp/cc7q8fpb.s:1027   .text.USBD_SignalDeviceEventHandler:0000000000000018 $d
+     /tmp/cc7q8fpb.s:1037   .text.USBD_SignalDeviceEventHandler:0000000000000040 $t
+     /tmp/cc7q8fpb.s:1318   .text.USBD_SignalDeviceEventHandler:0000000000000214 $d
+     /tmp/cc7q8fpb.s:1327   .text.USBD_SignalEndpointEvent_Handler:0000000000000000 $t
+     /tmp/cc7q8fpb.s:1334   .text.USBD_SignalEndpointEvent_Handler:0000000000000000 USBD_SignalEndpointEvent_Handler
+     /tmp/cc7q8fpb.s:1590   .text.USBD_SignalEndpointEvent_Handler:0000000000000194 $d
+     /tmp/cc7q8fpb.s:1596   .text.USBD_Initialize:0000000000000000 $t
+     /tmp/cc7q8fpb.s:1603   .text.USBD_Initialize:0000000000000000 USBD_Initialize
+     /tmp/cc7q8fpb.s:1734   .text.USBD_Initialize:00000000000000b8 $d
+     /tmp/cc7q8fpb.s:1743   .text.USB_IsEnumDone:0000000000000000 $t
+     /tmp/cc7q8fpb.s:1750   .text.USB_IsEnumDone:0000000000000000 USB_IsEnumDone
+     /tmp/cc7q8fpb.s:1786   .text.USB_IsEnumDone:000000000000001c $d
+     /tmp/cc7q8fpb.s:1791   .text.USBD_SetEndpointBuffer:0000000000000000 $t
+     /tmp/cc7q8fpb.s:1798   .text.USBD_SetEndpointBuffer:0000000000000000 USBD_SetEndpointBuffer
+     /tmp/cc7q8fpb.s:1885   .text.USBD_SetEndpointBuffer:0000000000000078 $d
+                           .group:0000000000000000 wm4.0.7a9f4dea188ccacb7d502cdcabb040c1
+                           .group:0000000000000000 wm4.Common.h.60.c2f00e237f5994003db83c2422602b22
+                           .group:0000000000000000 wm4._newlib_version.h.4.875b979a44719054cd750d0952ad3fd6
+                           .group:0000000000000000 wm4.features.h.33.5bd1eea2d80518b50f7af0b5ce6750e0
+                           .group:0000000000000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:0000000000000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:0000000000000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:0000000000000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:0000000000000000 wm4.stdbool.h.29.07dce69c3b78884144b7f7bd19483461
+                           .group:0000000000000000 wm4.newlib.h.8.f6e543eac3f2f65163ba2ffe3b04987b
+                           .group:0000000000000000 wm4.ieeefp.h.77.220d9cccac42cd58761758bee2df4ce6
+                           .group:0000000000000000 wm4.config.h.220.6cac6a9685cfce5e83c17784171638d9
+                           .group:0000000000000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:0000000000000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:0000000000000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:0000000000000000 wm4._types.h.125.5cf8a495f1f7ef36777ad868a1e32068
+                           .group:0000000000000000 wm4.stddef.h.161.5349cb105733e8777bfb0cf53c4e3f34
+                           .group:0000000000000000 wm4._types.h.184.03611d4f6b5bec9997bcf4279eceba07
+                           .group:0000000000000000 wm4.reent.h.17.90c2574d4acdcfce933db5cb09ff35fe
+                           .group:0000000000000000 wm4.cdefs.h.47.14fad0b327eb9dcf106599b738d85132
+                           .group:0000000000000000 wm4.string.h.15.dab3980bf35408a4c507182805e2de3a
+                           .group:0000000000000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:0000000000000000 wm4.BoardTypes.h.52.ca64813ccee737bcc2115eab5e075fdb
+                           .group:0000000000000000 wm4.CompilerSpecific.h.55.4a5e5ff77cd35e49c89cf2115251aee0
+                           .group:0000000000000000 wm4.Attributes.h.56.73b3ee26b0836c2dec569a5fa6f1b355
+                           .group:0000000000000000 wm4.xmc_device.h.61.ba2d082e12f51240746cffdd60d42b81
+                           .group:0000000000000000 wm4.XMC4500.h.55.9aa45b9b5790506b2dcb963e4e7adeaf
+                           .group:0000000000000000 wm4.core_cm4.h.32.6c6eb1c8daeca23ce7ba79c8e8120d52
+                           .group:0000000000000000 wm4.cmsis_gcc.h.26.91b63349961c35637933e4fba51b867b
+                           .group:0000000000000000 wm4.core_cm4.h.172.fdd5a388a160bb6ff767b7d7ee212268
+                           .group:0000000000000000 wm4.system_XMC4500.h.42.99124977c10ca8844a71949adbeabd70
+                           .group:0000000000000000 wm4.XMC4500.h.208.b340195df97f067735c4c769ba59985a
+                           .group:0000000000000000 wm4.xmc_device.h.1460.8860499b404961ffcfbb8d1fefcb2146
+                           .group:0000000000000000 wm4.xmc_common.h.92.3f4336a80569affab05a81145b87c2fc
+                           .group:0000000000000000 wm4.Endianness.h.57.3ac00c5468f4b91b806a0e6dba047e9c
+                           .group:0000000000000000 wm4.Common.h.105.4b937a9cc9dcdb26c3f07541b0b763a8
+                           .group:0000000000000000 wm4.USBMode.h.56.a52f788f0e008ddfa05fc21a83026151
+                           .group:0000000000000000 wm4.USBController.h.71.ee1835f025f452e305f9559c373a0ca2
+                           .group:0000000000000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:0000000000000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:0000000000000000 wm4.stdlib.h.56.d4493cd3736e51e9d56335045f26df45
+                           .group:0000000000000000 wm4.xmc_usbd_regs.h.80.57c6c85fa0ecbc9f8327ce445aebb9bc
+                           .group:0000000000000000 wm4.xmc4_scu.h.83.0449f5880ac071460ec1a8072311ea51
+                           .group:0000000000000000 wm4.xmc_usbd.h.122.ce57a9e6a9da48ee33ece02813c49593
+                           .group:0000000000000000 wm4.StdRequestType.h.50.461dce94a3ee1fa9ff31ec5f28bd9699
+                           .group:0000000000000000 wm4.StdDescriptors.h.50.ceed7d411c07c338b58b0912d92ed45e
+                           .group:0000000000000000 wm4.USBController_XMC4000.h.71.902f2653e09cb8b25245faa82cc6b907
+                           .group:0000000000000000 wm4.Endpoint.h.73.3734de3e84ab23fb43d81f41fba620ec
+                           .group:0000000000000000 wm4.Device_XMC4000.h.86.6803bdd99d84e764a570256c87a24d0a
+
+UNDEFINED SYMBOLS
+EVENT_USB_Device_ControlRequest
+CALLBACK_USB_GetDescriptor
+USB_ControlRequest
+USB_DeviceState
+EVENT_USB_Device_ConfigurationChanged
+EVENT_USB_Device_StartOfFrame
+EVENT_USB_Device_Connect
+EVENT_USB_Device_Disconnect
+memset
+EVENT_USB_Device_WakeUp
+EVENT_USB_Device_Suspend
+Driver_USBD0

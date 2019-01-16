@@ -1,0 +1,880 @@
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"ConfigDescriptors.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text.USB_GetNextDescriptor,"ax",%progbits
+  17              		.align	1
+  18              		.syntax unified
+  19              		.thumb
+  20              		.thumb_func
+  21              		.fpu fpv4-sp-d16
+  23              	USB_GetNextDescriptor:
+  24              	.LFB132:
+  25              		.file 1 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDesc
+   1:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** /*
+   2:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****              LUFA Library
+   3:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****      Copyright (C) Dean Camera, 2014.
+   4:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+   5:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   dean [at] fourwalledcubicle [dot] com
+   6:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****            www.lufa-lib.org
+   7:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** */
+   8:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+   9:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** /*
+  10:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   Copyright 2014  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  11:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+  12:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   Permission to use, copy, modify, distribute, and sell this
+  13:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   software and its documentation for any purpose is hereby granted
+  14:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   without fee, provided that the above copyright notice appear in
+  15:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   all copies and that both that the copyright notice and this
+  16:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   permission notice and warranty disclaimer appear in supporting
+  17:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   documentation, and that the name of the author not be used in
+  18:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   advertising or publicity pertaining to distribution of the
+  19:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   software without specific, written prior permission.
+  20:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+  21:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   The author disclaims all warranties with regard to this
+  22:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   software, including all implied warranties of merchantability
+  23:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   and fitness.  In no event shall the author be liable for any
+  24:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   special, indirect or consequential damages or any damages
+  25:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   whatsoever resulting from loss of use, data or profits, whether
+  26:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   in an action of contract, negligence or other tortious action,
+  27:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   arising out of or in connection with the use or performance of
+  28:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****   this software.
+  29:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** */
+  30:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+  31:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** /** \file
+  32:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  *  \brief USB Configuration Descriptor definitions.
+  33:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  *  \copydetails Group_ConfigDescriptorParser
+  34:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  *
+  35:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  *  \note This file should not be included directly. It is automatically included as needed by the 
+  36:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  *        dispatch header located in LUFA/Drivers/USB/USB.h.
+  37:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  */
+  38:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+  39:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** /** \ingroup Group_StdDescriptors
+  40:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  *  \defgroup Group_ConfigDescriptorParser Configuration Descriptor Parser
+  41:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  *  \brief USB Configuration Descriptor definitions.
+  42:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  *
+  43:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  *  This section of the library gives a friendly API which can be used in host applications to easi
+  44:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  *  parse an attached device's configuration descriptor so that endpoint, interface and other descr
+  45:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  *  data can be extracted and used as needed.
+  46:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  *
+  47:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  *  @{
+  48:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h ****  */
+  49:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+  50:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** #ifndef __CONFIGDESCRIPTORS_H__
+  51:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** #define __CONFIGDESCRIPTORS_H__
+  52:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+  53:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 	/* Includes: */
+  54:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 		#include "../Common/Common.h"
+  55:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 		#include "USBMode.h"
+  56:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 		#include "StdDescriptors.h"
+  57:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+  58:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 	/* Enable C linkage for C++ Compilers: */
+  59:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 		#if defined(__cplusplus)
+  60:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			extern "C" {
+  61:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 		#endif
+  62:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+  63:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 	/* Preprocessor Checks: */
+  64:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 		#if !defined(__INCLUDE_FROM_USB_DRIVER)
+  65:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			#error Do not include this file directly. Include LUFA/Drivers/USB/USB.h instead.
+  66:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 		#endif
+  67:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+  68:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 	/* Public Interface - May be used in end-application: */
+  69:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 		/* Macros: */
+  70:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Casts a pointer to a descriptor inside the configuration descriptor into a pointer to the gi
+  71:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  descriptor type.
+  72:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+  73:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  Usage Example:
+  74:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \code
+  75:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  uint8_t* CurrDescriptor = &ConfigDescriptor[0]; // Pointing to the configuration header
+  76:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  USB_Descriptor_Configuration_Header_t* ConfigHeaderPtr = DESCRIPTOR_PCAST(CurrDescriptor,
+  77:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *                                                           USB_Descriptor_Configuration_Header
+  78:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+  79:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  // Can now access elements of the configuration header struct using the -> indirection opera
+  80:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \endcode
+  81:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 */
+  82:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			#define DESCRIPTOR_PCAST(DescriptorPtr, Type) ((Type*)(DescriptorPtr))
+  83:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+  84:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Casts a pointer to a descriptor inside the configuration descriptor into the given descripto
+  85:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  type (as an actual struct instance rather than a pointer to a struct).
+  86:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+  87:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  Usage Example:
+  88:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \code
+  89:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  uint8_t* CurrDescriptor = &ConfigDescriptor[0]; // Pointing to the configuration header
+  90:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  USB_Descriptor_Configuration_Header_t ConfigHeader = DESCRIPTOR_CAST(CurrDescriptor,
+  91:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *                                                       USB_Descriptor_Configuration_Header_t);
+  92:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+  93:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  // Can now access elements of the configuration header struct using the . operator
+  94:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \endcode
+  95:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 */
+  96:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			#define DESCRIPTOR_CAST(DescriptorPtr, Type)  (*DESCRIPTOR_PCAST(DescriptorPtr, Type))
+  97:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+  98:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Returns the descriptor's type, expressed as the 8-bit type value in the header of the descri
+  99:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  This value's meaning depends on the descriptor's placement in the descriptor, but standard t
+ 100:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  values can be accessed in the \ref USB_DescriptorTypes_t enum.
+ 101:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 */
+ 102:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			#define DESCRIPTOR_TYPE(DescriptorPtr)    DESCRIPTOR_PCAST(DescriptorPtr, USB_Descriptor_Header_
+ 103:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+ 104:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Returns the descriptor's size, expressed as the 8-bit value indicating the number of bytes. 
+ 105:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			#define DESCRIPTOR_SIZE(DescriptorPtr)    DESCRIPTOR_PCAST(DescriptorPtr, USB_Descriptor_Header_
+ 106:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+ 107:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 		/* Type Defines: */
+ 108:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Type define for a Configuration Descriptor comparator function (function taking a pointer to
+ 109:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  of type void, returning a uint8_t value).
+ 110:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 111:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \see \ref USB_GetNextDescriptorComp function for more details.
+ 112:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 */
+ 113:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			typedef uint8_t (* ConfigComparatorPtr_t)(void*);
+ 114:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+ 115:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 		/* Enums: */
+ 116:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Enum for the possible return codes of the \ref USB_Host_GetDeviceConfigDescriptor() function
+ 117:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			enum USB_Host_GetConfigDescriptor_ErrorCodes_t
+ 118:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			{
+ 119:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				HOST_GETCONFIG_Successful       = 0, /**< No error occurred while retrieving the configuration 
+ 120:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				HOST_GETCONFIG_DeviceDisconnect = 1, /**< The attached device was disconnected while retrieving
+ 121:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				                                      *   descriptor.
+ 122:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				                                      */
+ 123:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				HOST_GETCONFIG_PipeError        = 2, /**< An error occurred in the pipe while sending the reque
+ 124:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				HOST_GETCONFIG_SetupStalled     = 3, /**< The attached device stalled the request to retrieve t
+ 125:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				                                      *   descriptor.
+ 126:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				                                      */
+ 127:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				HOST_GETCONFIG_SoftwareTimeOut  = 4, /**< The request or data transfer timed out. */
+ 128:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				HOST_GETCONFIG_BuffOverflow     = 5, /**< The device's configuration descriptor is too large to
+ 129:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				                                      *   buffer.
+ 130:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				                                      */
+ 131:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				HOST_GETCONFIG_InvalidData      = 6, /**< The device returned invalid configuration descriptor 
+ 132:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			};
+ 133:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+ 134:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Enum for return values of a descriptor comparator function. */
+ 135:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			enum DSearch_Return_ErrorCodes_t
+ 136:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			{
+ 137:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				DESCRIPTOR_SEARCH_Found                = 0, /**< Current descriptor matches comparator criteria
+ 138:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				DESCRIPTOR_SEARCH_Fail                 = 1, /**< No further descriptor could possibly match cri
+ 139:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				DESCRIPTOR_SEARCH_NotFound             = 2, /**< Current descriptor does not match comparator c
+ 140:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			};
+ 141:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+ 142:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Enum for return values of \ref USB_GetNextDescriptorComp(). */
+ 143:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			enum DSearch_Comp_Return_ErrorCodes_t
+ 144:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			{
+ 145:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				DESCRIPTOR_SEARCH_COMP_Found           = 0, /**< Configuration descriptor now points to descrip
+ 146:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				                                             *   search criteria of the given comparator functi
+ 147:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				DESCRIPTOR_SEARCH_COMP_Fail            = 1, /**< Comparator function returned \ref DESCRIPTOR_S
+ 148:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				DESCRIPTOR_SEARCH_COMP_EndOfDescriptor = 2, /**< End of configuration descriptor reached before
+ 149:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			};
+ 150:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+ 151:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 		/* Function Prototypes: */
+ 152:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Retrieves the configuration descriptor data from an attached device via a standard request i
+ 153:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  including validity and size checking to prevent a buffer overflow.
+ 154:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 155:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \param[in]     ConfigNumber   Device configuration descriptor number to fetch from the devic
+ 156:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *                                single configuration devices).
+ 157:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \param[in,out] ConfigSizePtr  Pointer to a location for storing the retrieved configuration 
+ 158:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \param[out]    BufferPtr      Pointer to the buffer for storing the configuration descriptor
+ 159:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \param[out]    BufferSize     Size of the allocated buffer where the configuration descripto
+ 160:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 161:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \return A value from the \ref USB_Host_GetConfigDescriptor_ErrorCodes_t enum.
+ 162:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 */
+ 163:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			uint8_t USB_Host_GetDeviceConfigDescriptor(const uint8_t ConfigNumber,
+ 164:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                           uint16_t* const ConfigSizePtr,
+ 165:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                           void* const BufferPtr,
+ 166:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                           const uint16_t BufferSize) ATTR_NON_NULL_PTR_ARG(2) A
+ 167:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+ 168:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Skips to the next sub-descriptor inside the configuration descriptor of the specified type v
+ 169:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  The bytes remaining value is automatically decremented.
+ 170:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 171:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 * \param[in,out] BytesRem       Pointer to the number of bytes remaining of the configuration d
+ 172:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 * \param[in,out] CurrConfigLoc  Pointer to the current descriptor inside the configuration desc
+ 173:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 * \param[in]     Type           Descriptor type value to search for.
+ 174:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 */
+ 175:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			void USB_GetNextDescriptorOfType(uint16_t* const BytesRem,
+ 176:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                 void** const CurrConfigLoc,
+ 177:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                 const uint8_t Type)
+ 178:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                 ATTR_NON_NULL_PTR_ARG(1) ATTR_NON_NULL_PTR_ARG(2);
+ 179:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+ 180:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Skips to the next sub-descriptor inside the configuration descriptor of the specified type v
+ 181:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  which must come before a descriptor of the second given type value. If the BeforeType type
+ 182:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  descriptor is reached first, the number of bytes remaining to process is set to zero and the
+ 183:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  function exits. The bytes remaining value is automatically decremented.
+ 184:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 185:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 * \param[in,out] BytesRem       Pointer to the number of bytes remaining of the configuration d
+ 186:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 * \param[in,out] CurrConfigLoc  Pointer to the current descriptor inside the configuration desc
+ 187:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 * \param[in]     Type           Descriptor type value to search for.
+ 188:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 * \param[in]     BeforeType     Descriptor type value which must not be reached before the give
+ 189:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 */
+ 190:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			void USB_GetNextDescriptorOfTypeBefore(uint16_t* const BytesRem,
+ 191:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                       void** const CurrConfigLoc,
+ 192:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                       const uint8_t Type,
+ 193:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                       const uint8_t BeforeType)
+ 194:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                       ATTR_NON_NULL_PTR_ARG(1) ATTR_NON_NULL_PTR_ARG(2);
+ 195:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+ 196:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Skips to the next sub-descriptor inside the configuration descriptor of the specified type v
+ 197:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  which must come after a descriptor of the second given type value. The bytes remaining value
+ 198:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  automatically decremented.
+ 199:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 200:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 * \param[in,out] BytesRem       Pointer to the number of bytes remaining of the configuration d
+ 201:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 * \param[in,out] CurrConfigLoc  Pointer to the current descriptor inside the configuration desc
+ 202:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 * \param[in]     Type           Descriptor type value to search for.
+ 203:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 * \param[in]     AfterType      Descriptor type value which must be reached before the given Ty
+ 204:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 */
+ 205:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			void USB_GetNextDescriptorOfTypeAfter(uint16_t* const BytesRem,
+ 206:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                      void** const CurrConfigLoc,
+ 207:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                      const uint8_t Type,
+ 208:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                      const uint8_t AfterType)
+ 209:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                      ATTR_NON_NULL_PTR_ARG(1) ATTR_NON_NULL_PTR_ARG(2);
+ 210:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+ 211:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Searches for the next descriptor in the given configuration descriptor using a pre-made comp
+ 212:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  function. The routine updates the position and remaining configuration descriptor bytes valu
+ 213:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  automatically. If a comparator routine fails a search, the descriptor pointer is retreated b
+ 214:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  so that the next descriptor search invocation will start from the descriptor which first cau
+ 215:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  original search to fail. This behavior allows for one comparator to be used immediately afte
+ 216:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  has failed, starting the second search from the descriptor which failed the first.
+ 217:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 218:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  Comparator functions should be standard functions which accept a pointer to the header of th
+ 219:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  descriptor inside the configuration descriptor which is being compared, and should return a 
+ 220:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  the \ref DSearch_Return_ErrorCodes_t enum as a uint8_t value.
+ 221:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 222:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \note This function is available in USB Host mode only.
+ 223:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 224:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \param[in,out] BytesRem           Pointer to an int storing the remaining bytes in the confi
+ 225:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \param[in,out] CurrConfigLoc      Pointer to the current position in the configuration descr
+ 226:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \param[in]     ComparatorRoutine  Name of the comparator search function to use on the confi
+ 227:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 228:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \return Value of one of the members of the \ref DSearch_Comp_Return_ErrorCodes_t enum.
+ 229:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 230:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  Usage Example:
+ 231:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \code
+ 232:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  uint8_t EndpointSearcher(void* CurrentDescriptor); // Comparator Prototype
+ 233:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 234:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  uint8_t EndpointSearcher(void* CurrentDescriptor)
+ 235:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  {
+ 236:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *     if (DESCRIPTOR_TYPE(CurrentDescriptor) == DTYPE_Endpoint)
+ 237:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *         return DESCRIPTOR_SEARCH_Found;
+ 238:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *     else
+ 239:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *         return DESCRIPTOR_SEARCH_NotFound;
+ 240:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  }
+ 241:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 242:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  //...
+ 243:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 244:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  // After retrieving configuration descriptor:
+ 245:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  if (USB_Host_GetNextDescriptorComp(&BytesRemaining, &CurrentConfigLoc, EndpointSearcher) ==
+ 246:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *      Descriptor_Search_Comp_Found)
+ 247:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  {
+ 248:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *      // Do something with the endpoint descriptor
+ 249:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  }
+ 250:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *  \endcode
+ 251:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 */
+ 252:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			uint8_t USB_GetNextDescriptorComp(uint16_t* const BytesRem,
+ 253:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                  void** const CurrConfigLoc,
+ 254:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                  ConfigComparatorPtr_t const ComparatorRoutine) ATTR_NON_NULL_P
+ 255:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                  ATTR_NON_NULL_PTR_ARG(2) ATTR_NON_NULL_PTR_ARG(3);
+ 256:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+ 257:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 		/* Inline Functions: */
+ 258:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			/** Skips over the current sub-descriptor inside the configuration descriptor, so that the point
+ 259:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			    points to the next sub-descriptor. The bytes remaining value is automatically decremented.
+ 260:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 *
+ 261:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 * \param[in,out] BytesRem       Pointer to the number of bytes remaining of the configuration d
+ 262:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 * \param[in,out] CurrConfigLoc  Pointer to the current descriptor inside the configuration desc
+ 263:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			 */
+ 264:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			static inline void USB_GetNextDescriptor(uint16_t* const BytesRem,
+ 265:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                         void** CurrConfigLoc) ATTR_NON_NULL_PTR_ARG(1) ATTR_NON
+ 266:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			static inline void USB_GetNextDescriptor(uint16_t* const BytesRem,
+ 267:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			                                         void** CurrConfigLoc)
+ 268:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			{
+  26              		.loc 1 268 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 16
+  29              		@ frame_needed = 1, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31 0000 80B4     		push	{r7}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 4
+  34              		.cfi_offset 7, -4
+  35 0002 85B0     		sub	sp, sp, #20
+  36              	.LCFI1:
+  37              		.cfi_def_cfa_offset 24
+  38 0004 00AF     		add	r7, sp, #0
+  39              	.LCFI2:
+  40              		.cfi_def_cfa_register 7
+  41 0006 7860     		str	r0, [r7, #4]
+  42 0008 3960     		str	r1, [r7]
+ 269:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				uint16_t CurrDescriptorSize = DESCRIPTOR_CAST(*CurrConfigLoc, USB_Descriptor_Header_t).Size;
+  43              		.loc 1 269 0
+  44 000a 3B68     		ldr	r3, [r7]
+  45 000c 1B68     		ldr	r3, [r3]
+  46 000e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  47 0010 FB81     		strh	r3, [r7, #14]	@ movhi
+ 270:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+ 271:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				if (*BytesRem < CurrDescriptorSize)
+  48              		.loc 1 271 0
+  49 0012 7B68     		ldr	r3, [r7, #4]
+  50 0014 1B88     		ldrh	r3, [r3]
+  51 0016 FA89     		ldrh	r2, [r7, #14]
+  52 0018 9A42     		cmp	r2, r3
+  53 001a 02D9     		bls	.L2
+ 272:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				  CurrDescriptorSize = *BytesRem;
+  54              		.loc 1 272 0
+  55 001c 7B68     		ldr	r3, [r7, #4]
+  56 001e 1B88     		ldrh	r3, [r3]	@ movhi
+  57 0020 FB81     		strh	r3, [r7, #14]	@ movhi
+  58              	.L2:
+ 273:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 
+ 274:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				*CurrConfigLoc  = (void*)((uintptr_t)*CurrConfigLoc + CurrDescriptorSize);
+  59              		.loc 1 274 0
+  60 0022 3B68     		ldr	r3, [r7]
+  61 0024 1B68     		ldr	r3, [r3]
+  62 0026 1A46     		mov	r2, r3
+  63 0028 FB89     		ldrh	r3, [r7, #14]
+  64 002a 1344     		add	r3, r3, r2
+  65 002c 1A46     		mov	r2, r3
+  66 002e 3B68     		ldr	r3, [r7]
+  67 0030 1A60     		str	r2, [r3]
+ 275:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 				*BytesRem      -= CurrDescriptorSize;
+  68              		.loc 1 275 0
+  69 0032 7B68     		ldr	r3, [r7, #4]
+  70 0034 1A88     		ldrh	r2, [r3]
+  71 0036 FB89     		ldrh	r3, [r7, #14]	@ movhi
+  72 0038 D31A     		subs	r3, r2, r3
+  73 003a 9AB2     		uxth	r2, r3
+  74 003c 7B68     		ldr	r3, [r7, #4]
+  75 003e 1A80     		strh	r2, [r3]	@ movhi
+ 276:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.h **** 			}
+  76              		.loc 1 276 0
+  77 0040 00BF     		nop
+  78 0042 1437     		adds	r7, r7, #20
+  79              	.LCFI3:
+  80              		.cfi_def_cfa_offset 4
+  81 0044 BD46     		mov	sp, r7
+  82              	.LCFI4:
+  83              		.cfi_def_cfa_register 13
+  84              		@ sp needed
+  85 0046 5DF8047B 		ldr	r7, [sp], #4
+  86              	.LCFI5:
+  87              		.cfi_restore 7
+  88              		.cfi_def_cfa_offset 0
+  89 004a 7047     		bx	lr
+  90              		.cfi_endproc
+  91              	.LFE132:
+  93              		.section	.text.USB_GetNextDescriptorOfType,"ax",%progbits
+  94              		.align	1
+  95              		.global	USB_GetNextDescriptorOfType
+  96              		.syntax unified
+  97              		.thumb
+  98              		.thumb_func
+  99              		.fpu fpv4-sp-d16
+ 101              	USB_GetNextDescriptorOfType:
+ 102              	.LFB133:
+ 103              		.file 2 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDesc
+   1:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** /*
+   2:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****              LUFA Library
+   3:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****      Copyright (C) Dean Camera, 2014.
+   4:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+   5:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   dean [at] fourwalledcubicle [dot] com
+   6:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****            www.lufa-lib.org
+   7:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** */
+   8:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+   9:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** /*
+  10:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   Copyright 2014  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  11:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  12:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   Permission to use, copy, modify, distribute, and sell this
+  13:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   software and its documentation for any purpose is hereby granted
+  14:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   without fee, provided that the above copyright notice appear in
+  15:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   all copies and that both that the copyright notice and this
+  16:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   permission notice and warranty disclaimer appear in supporting
+  17:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   documentation, and that the name of the author not be used in
+  18:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   advertising or publicity pertaining to distribution of the
+  19:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   software without specific, written prior permission.
+  20:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  21:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   The author disclaims all warranties with regard to this
+  22:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   software, including all implied warranties of merchantability
+  23:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   and fitness.  In no event shall the author be liable for any
+  24:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   special, indirect or consequential damages or any damages
+  25:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   whatsoever resulting from loss of use, data or profits, whether
+  26:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   in an action of contract, negligence or other tortious action,
+  27:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   arising out of or in connection with the use or performance of
+  28:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****   this software.
+  29:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** */
+  30:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  31:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** #define  __INCLUDE_FROM_USB_DRIVER
+  32:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** #include "ConfigDescriptors.h"
+  33:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  34:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** #if defined(USB_CAN_BE_HOST)
+  35:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** uint8_t USB_Host_GetDeviceConfigDescriptor(const uint8_t ConfigNumber,
+  36:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                                            uint16_t* const ConfigSizePtr,
+  37:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                                            void* const BufferPtr,
+  38:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                                            const uint16_t BufferSize)
+  39:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** {
+  40:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     uint8_t ErrorCode;
+  41:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     uint8_t ConfigHeader[sizeof(USB_Descriptor_Configuration_Header_t)];
+  42:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  43:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     USB_ControlRequest = (USB_Request_Header_t)
+  44:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         {
+  45:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****             .bmRequestType = (REQDIR_DEVICETOHOST | REQTYPE_STANDARD | REQREC_DEVICE),
+  46:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****             .bRequest      = REQ_GetDescriptor,
+  47:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****             .wValue        = ((DTYPE_Configuration << 8) | (ConfigNumber - 1)),
+  48:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****             .wIndex        = 0,
+  49:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****             .wLength       = sizeof(USB_Descriptor_Configuration_Header_t),
+  50:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         };
+  51:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  52:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     Pipe_SelectPipe(PIPE_CONTROLPIPE);
+  53:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  54:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     if ((ErrorCode = USB_Host_SendControlRequest(ConfigHeader)) != HOST_SENDCONTROL_Successful)
+  55:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****       return ErrorCode;
+  56:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  57:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     *ConfigSizePtr = le16_to_cpu(DESCRIPTOR_PCAST(ConfigHeader, USB_Descriptor_Configuration_Header
+  58:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  59:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     if (*ConfigSizePtr > BufferSize)
+  60:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****       return HOST_GETCONFIG_BuffOverflow;
+  61:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  62:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     USB_ControlRequest.wLength = *ConfigSizePtr;
+  63:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  64:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     if ((ErrorCode = USB_Host_SendControlRequest(BufferPtr)) != HOST_SENDCONTROL_Successful)
+  65:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****       return ErrorCode;
+  66:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  67:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     if (DESCRIPTOR_TYPE(BufferPtr) != DTYPE_Configuration)
+  68:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****       return HOST_GETCONFIG_InvalidData;
+  69:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  70:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     return HOST_GETCONFIG_Successful;
+  71:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** }
+  72:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** #endif
+  73:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  74:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** void USB_GetNextDescriptorOfType(uint16_t* const BytesRem,
+  75:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                                  void** const CurrConfigLoc,
+  76:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                                  const uint8_t Type)
+  77:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** {
+ 104              		.loc 2 77 0
+ 105              		.cfi_startproc
+ 106              		@ args = 0, pretend = 0, frame = 16
+ 107              		@ frame_needed = 1, uses_anonymous_args = 0
+ 108 0000 80B5     		push	{r7, lr}
+ 109              	.LCFI6:
+ 110              		.cfi_def_cfa_offset 8
+ 111              		.cfi_offset 7, -8
+ 112              		.cfi_offset 14, -4
+ 113 0002 84B0     		sub	sp, sp, #16
+ 114              	.LCFI7:
+ 115              		.cfi_def_cfa_offset 24
+ 116 0004 00AF     		add	r7, sp, #0
+ 117              	.LCFI8:
+ 118              		.cfi_def_cfa_register 7
+ 119 0006 F860     		str	r0, [r7, #12]
+ 120 0008 B960     		str	r1, [r7, #8]
+ 121 000a 1346     		mov	r3, r2
+ 122 000c FB71     		strb	r3, [r7, #7]
+  78:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     while (*BytesRem)
+ 123              		.loc 2 78 0
+ 124 000e 09E0     		b	.L4
+ 125              	.L6:
+  79:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     {
+  80:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         USB_GetNextDescriptor(BytesRem, CurrConfigLoc);
+ 126              		.loc 2 80 0
+ 127 0010 B968     		ldr	r1, [r7, #8]
+ 128 0012 F868     		ldr	r0, [r7, #12]
+ 129 0014 FFF7FEFF 		bl	USB_GetNextDescriptor
+  81:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  82:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         if (DESCRIPTOR_TYPE(*CurrConfigLoc) == Type)
+ 130              		.loc 2 82 0
+ 131 0018 BB68     		ldr	r3, [r7, #8]
+ 132 001a 1B68     		ldr	r3, [r3]
+ 133 001c 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 134 001e FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 135 0020 9A42     		cmp	r2, r3
+ 136 0022 04D0     		beq	.L7
+ 137              	.L4:
+  78:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     {
+ 138              		.loc 2 78 0
+ 139 0024 FB68     		ldr	r3, [r7, #12]
+ 140 0026 1B88     		ldrh	r3, [r3]
+ 141 0028 002B     		cmp	r3, #0
+ 142 002a F1D1     		bne	.L6
+ 143 002c 00E0     		b	.L3
+ 144              	.L7:
+  83:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****           return;
+ 145              		.loc 2 83 0
+ 146 002e 00BF     		nop
+ 147              	.L3:
+  84:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     }
+  85:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** }
+ 148              		.loc 2 85 0
+ 149 0030 1037     		adds	r7, r7, #16
+ 150              	.LCFI9:
+ 151              		.cfi_def_cfa_offset 8
+ 152 0032 BD46     		mov	sp, r7
+ 153              	.LCFI10:
+ 154              		.cfi_def_cfa_register 13
+ 155              		@ sp needed
+ 156 0034 80BD     		pop	{r7, pc}
+ 157              		.cfi_endproc
+ 158              	.LFE133:
+ 160              		.section	.text.USB_GetNextDescriptorOfTypeBefore,"ax",%progbits
+ 161              		.align	1
+ 162              		.global	USB_GetNextDescriptorOfTypeBefore
+ 163              		.syntax unified
+ 164              		.thumb
+ 165              		.thumb_func
+ 166              		.fpu fpv4-sp-d16
+ 168              	USB_GetNextDescriptorOfTypeBefore:
+ 169              	.LFB134:
+  86:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  87:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** void USB_GetNextDescriptorOfTypeBefore(uint16_t* const BytesRem,
+  88:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                                        void** const CurrConfigLoc,
+  89:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                                        const uint8_t Type,
+  90:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                                        const uint8_t BeforeType)
+  91:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** {
+ 170              		.loc 2 91 0
+ 171              		.cfi_startproc
+ 172              		@ args = 0, pretend = 0, frame = 16
+ 173              		@ frame_needed = 1, uses_anonymous_args = 0
+ 174 0000 80B5     		push	{r7, lr}
+ 175              	.LCFI11:
+ 176              		.cfi_def_cfa_offset 8
+ 177              		.cfi_offset 7, -8
+ 178              		.cfi_offset 14, -4
+ 179 0002 84B0     		sub	sp, sp, #16
+ 180              	.LCFI12:
+ 181              		.cfi_def_cfa_offset 24
+ 182 0004 00AF     		add	r7, sp, #0
+ 183              	.LCFI13:
+ 184              		.cfi_def_cfa_register 7
+ 185 0006 F860     		str	r0, [r7, #12]
+ 186 0008 B960     		str	r1, [r7, #8]
+ 187 000a 1146     		mov	r1, r2
+ 188 000c 1A46     		mov	r2, r3
+ 189 000e 0B46     		mov	r3, r1
+ 190 0010 FB71     		strb	r3, [r7, #7]
+ 191 0012 1346     		mov	r3, r2
+ 192 0014 BB71     		strb	r3, [r7, #6]
+  92:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     while (*BytesRem)
+ 193              		.loc 2 92 0
+ 194 0016 13E0     		b	.L9
+ 195              	.L12:
+  93:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     {
+  94:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         USB_GetNextDescriptor(BytesRem, CurrConfigLoc);
+ 196              		.loc 2 94 0
+ 197 0018 B968     		ldr	r1, [r7, #8]
+ 198 001a F868     		ldr	r0, [r7, #12]
+ 199 001c FFF7FEFF 		bl	USB_GetNextDescriptor
+  95:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+  96:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         if (DESCRIPTOR_TYPE(*CurrConfigLoc) == Type)
+ 200              		.loc 2 96 0
+ 201 0020 BB68     		ldr	r3, [r7, #8]
+ 202 0022 1B68     		ldr	r3, [r3]
+ 203 0024 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 204 0026 FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 205 0028 9A42     		cmp	r2, r3
+ 206 002a 0ED0     		beq	.L13
+  97:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         {
+  98:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****             return;
+  99:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         }
+ 100:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         else if (DESCRIPTOR_TYPE(*CurrConfigLoc) == BeforeType)
+ 207              		.loc 2 100 0
+ 208 002c BB68     		ldr	r3, [r7, #8]
+ 209 002e 1B68     		ldr	r3, [r3]
+ 210 0030 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 211 0032 BA79     		ldrb	r2, [r7, #6]	@ zero_extendqisi2
+ 212 0034 9A42     		cmp	r2, r3
+ 213 0036 03D1     		bne	.L9
+ 101:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         {
+ 102:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****             *BytesRem = 0;
+ 214              		.loc 2 102 0
+ 215 0038 FB68     		ldr	r3, [r7, #12]
+ 216 003a 0022     		movs	r2, #0
+ 217 003c 1A80     		strh	r2, [r3]	@ movhi
+ 103:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****             return;
+ 218              		.loc 2 103 0
+ 219 003e 05E0     		b	.L8
+ 220              	.L9:
+  92:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     {
+ 221              		.loc 2 92 0
+ 222 0040 FB68     		ldr	r3, [r7, #12]
+ 223 0042 1B88     		ldrh	r3, [r3]
+ 224 0044 002B     		cmp	r3, #0
+ 225 0046 E7D1     		bne	.L12
+ 226 0048 00E0     		b	.L8
+ 227              	.L13:
+  98:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         }
+ 228              		.loc 2 98 0
+ 229 004a 00BF     		nop
+ 230              	.L8:
+ 104:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         }
+ 105:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     }
+ 106:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** }
+ 231              		.loc 2 106 0
+ 232 004c 1037     		adds	r7, r7, #16
+ 233              	.LCFI14:
+ 234              		.cfi_def_cfa_offset 8
+ 235 004e BD46     		mov	sp, r7
+ 236              	.LCFI15:
+ 237              		.cfi_def_cfa_register 13
+ 238              		@ sp needed
+ 239 0050 80BD     		pop	{r7, pc}
+ 240              		.cfi_endproc
+ 241              	.LFE134:
+ 243              		.section	.text.USB_GetNextDescriptorOfTypeAfter,"ax",%progbits
+ 244              		.align	1
+ 245              		.global	USB_GetNextDescriptorOfTypeAfter
+ 246              		.syntax unified
+ 247              		.thumb
+ 248              		.thumb_func
+ 249              		.fpu fpv4-sp-d16
+ 251              	USB_GetNextDescriptorOfTypeAfter:
+ 252              	.LFB135:
+ 107:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+ 108:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** void USB_GetNextDescriptorOfTypeAfter(uint16_t* const BytesRem,
+ 109:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                                       void** const CurrConfigLoc,
+ 110:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                                       const uint8_t Type,
+ 111:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                                       const uint8_t AfterType)
+ 112:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** {
+ 253              		.loc 2 112 0
+ 254              		.cfi_startproc
+ 255              		@ args = 0, pretend = 0, frame = 16
+ 256              		@ frame_needed = 1, uses_anonymous_args = 0
+ 257 0000 80B5     		push	{r7, lr}
+ 258              	.LCFI16:
+ 259              		.cfi_def_cfa_offset 8
+ 260              		.cfi_offset 7, -8
+ 261              		.cfi_offset 14, -4
+ 262 0002 84B0     		sub	sp, sp, #16
+ 263              	.LCFI17:
+ 264              		.cfi_def_cfa_offset 24
+ 265 0004 00AF     		add	r7, sp, #0
+ 266              	.LCFI18:
+ 267              		.cfi_def_cfa_register 7
+ 268 0006 F860     		str	r0, [r7, #12]
+ 269 0008 B960     		str	r1, [r7, #8]
+ 270 000a 1146     		mov	r1, r2
+ 271 000c 1A46     		mov	r2, r3
+ 272 000e 0B46     		mov	r3, r1
+ 273 0010 FB71     		strb	r3, [r7, #7]
+ 274 0012 1346     		mov	r3, r2
+ 275 0014 BB71     		strb	r3, [r7, #6]
+ 113:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     USB_GetNextDescriptorOfType(BytesRem, CurrConfigLoc, AfterType);
+ 276              		.loc 2 113 0
+ 277 0016 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 278 0018 1A46     		mov	r2, r3
+ 279 001a B968     		ldr	r1, [r7, #8]
+ 280 001c F868     		ldr	r0, [r7, #12]
+ 281 001e FFF7FEFF 		bl	USB_GetNextDescriptorOfType
+ 114:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+ 115:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     if (*BytesRem)
+ 282              		.loc 2 115 0
+ 283 0022 FB68     		ldr	r3, [r7, #12]
+ 284 0024 1B88     		ldrh	r3, [r3]
+ 285 0026 002B     		cmp	r3, #0
+ 286 0028 05D0     		beq	.L16
+ 116:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****       USB_GetNextDescriptorOfType(BytesRem, CurrConfigLoc, Type);
+ 287              		.loc 2 116 0
+ 288 002a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 289 002c 1A46     		mov	r2, r3
+ 290 002e B968     		ldr	r1, [r7, #8]
+ 291 0030 F868     		ldr	r0, [r7, #12]
+ 292 0032 FFF7FEFF 		bl	USB_GetNextDescriptorOfType
+ 293              	.L16:
+ 117:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** }
+ 294              		.loc 2 117 0
+ 295 0036 00BF     		nop
+ 296 0038 1037     		adds	r7, r7, #16
+ 297              	.LCFI19:
+ 298              		.cfi_def_cfa_offset 8
+ 299 003a BD46     		mov	sp, r7
+ 300              	.LCFI20:
+ 301              		.cfi_def_cfa_register 13
+ 302              		@ sp needed
+ 303 003c 80BD     		pop	{r7, pc}
+ 304              		.cfi_endproc
+ 305              	.LFE135:
+ 307              		.section	.text.USB_GetNextDescriptorComp,"ax",%progbits
+ 308              		.align	1
+ 309              		.global	USB_GetNextDescriptorComp
+ 310              		.syntax unified
+ 311              		.thumb
+ 312              		.thumb_func
+ 313              		.fpu fpv4-sp-d16
+ 315              	USB_GetNextDescriptorComp:
+ 316              	.LFB136:
+ 118:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+ 119:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** uint8_t USB_GetNextDescriptorComp(uint16_t* const BytesRem,
+ 120:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                                   void** const CurrConfigLoc,
+ 121:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                                   ConfigComparatorPtr_t const ComparatorRoutine)
+ 122:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** {
+ 317              		.loc 2 122 0
+ 318              		.cfi_startproc
+ 319              		@ args = 0, pretend = 0, frame = 24
+ 320              		@ frame_needed = 1, uses_anonymous_args = 0
+ 321 0000 80B5     		push	{r7, lr}
+ 322              	.LCFI21:
+ 323              		.cfi_def_cfa_offset 8
+ 324              		.cfi_offset 7, -8
+ 325              		.cfi_offset 14, -4
+ 326 0002 86B0     		sub	sp, sp, #24
+ 327              	.LCFI22:
+ 328              		.cfi_def_cfa_offset 32
+ 329 0004 00AF     		add	r7, sp, #0
+ 330              	.LCFI23:
+ 331              		.cfi_def_cfa_register 7
+ 332 0006 F860     		str	r0, [r7, #12]
+ 333 0008 B960     		str	r1, [r7, #8]
+ 334 000a 7A60     		str	r2, [r7, #4]
+ 123:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     uint8_t ErrorCode;
+ 124:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+ 125:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     while (*BytesRem)
+ 335              		.loc 2 125 0
+ 336 000c 1EE0     		b	.L18
+ 337              	.L21:
+ 338              	.LBB2:
+ 126:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     {
+ 127:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         uint8_t* PrevDescLoc  = *CurrConfigLoc;
+ 339              		.loc 2 127 0
+ 340 000e BB68     		ldr	r3, [r7, #8]
+ 341 0010 1B68     		ldr	r3, [r3]
+ 342 0012 7B61     		str	r3, [r7, #20]
+ 128:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         uint16_t PrevBytesRem = *BytesRem;
+ 343              		.loc 2 128 0
+ 344 0014 FB68     		ldr	r3, [r7, #12]
+ 345 0016 1B88     		ldrh	r3, [r3]	@ movhi
+ 346 0018 7B82     		strh	r3, [r7, #18]	@ movhi
+ 129:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+ 130:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         USB_GetNextDescriptor(BytesRem, CurrConfigLoc);
+ 347              		.loc 2 130 0
+ 348 001a B968     		ldr	r1, [r7, #8]
+ 349 001c F868     		ldr	r0, [r7, #12]
+ 350 001e FFF7FEFF 		bl	USB_GetNextDescriptor
+ 131:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+ 132:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         if ((ErrorCode = ComparatorRoutine(*CurrConfigLoc)) != DESCRIPTOR_SEARCH_NotFound)
+ 351              		.loc 2 132 0
+ 352 0022 BB68     		ldr	r3, [r7, #8]
+ 353 0024 1A68     		ldr	r2, [r3]
+ 354 0026 7B68     		ldr	r3, [r7, #4]
+ 355 0028 1046     		mov	r0, r2
+ 356 002a 9847     		blx	r3
+ 357              	.LVL0:
+ 358 002c 0346     		mov	r3, r0
+ 359 002e 7B74     		strb	r3, [r7, #17]
+ 360 0030 7B7C     		ldrb	r3, [r7, #17]	@ zero_extendqisi2
+ 361 0032 022B     		cmp	r3, #2
+ 362 0034 0AD0     		beq	.L18
+ 133:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         {
+ 134:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****             if (ErrorCode == DESCRIPTOR_SEARCH_Fail)
+ 363              		.loc 2 134 0
+ 364 0036 7B7C     		ldrb	r3, [r7, #17]	@ zero_extendqisi2
+ 365 0038 012B     		cmp	r3, #1
+ 366 003a 05D1     		bne	.L19
+ 135:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****             {
+ 136:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                 *CurrConfigLoc = PrevDescLoc;
+ 367              		.loc 2 136 0
+ 368 003c BB68     		ldr	r3, [r7, #8]
+ 369 003e 7A69     		ldr	r2, [r7, #20]
+ 370 0040 1A60     		str	r2, [r3]
+ 137:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****                 *BytesRem      = PrevBytesRem;
+ 371              		.loc 2 137 0
+ 372 0042 FB68     		ldr	r3, [r7, #12]
+ 373 0044 7A8A     		ldrh	r2, [r7, #18]	@ movhi
+ 374 0046 1A80     		strh	r2, [r3]	@ movhi
+ 375              	.L19:
+ 138:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****             }
+ 139:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+ 140:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****             return ErrorCode;
+ 376              		.loc 2 140 0
+ 377 0048 7B7C     		ldrb	r3, [r7, #17]	@ zero_extendqisi2
+ 378 004a 04E0     		b	.L20
+ 379              	.L18:
+ 380              	.LBE2:
+ 125:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     {
+ 381              		.loc 2 125 0
+ 382 004c FB68     		ldr	r3, [r7, #12]
+ 383 004e 1B88     		ldrh	r3, [r3]
+ 384 0050 002B     		cmp	r3, #0
+ 385 0052 DCD1     		bne	.L21
+ 141:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****         }
+ 142:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     }
+ 143:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** 
+ 144:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c ****     return DESCRIPTOR_SEARCH_COMP_EndOfDescriptor;
+ 386              		.loc 2 144 0
+ 387 0054 0223     		movs	r3, #2
+ 388              	.L20:
+ 145:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/ConfigDescriptors.c **** }
+ 389              		.loc 2 145 0
+ 390 0056 1846     		mov	r0, r3
+ 391 0058 1837     		adds	r7, r7, #24
+ 392              	.LCFI24:
+ 393              		.cfi_def_cfa_offset 8
+ 394 005a BD46     		mov	sp, r7
+ 395              	.LCFI25:
+ 396              		.cfi_def_cfa_register 13
+ 397              		@ sp needed
+ 398 005c 80BD     		pop	{r7, pc}
+ 399              		.cfi_endproc
+ 400              	.LFE136:
+ 402              		.text
+ 403              	.Letext0:
+ 404              		.file 3 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 405              		.file 4 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 406              		.file 5 "/usr/arm-none-eabi/include/sys/lock.h"
+ 407              		.file 6 "/usr/arm-none-eabi/include/sys/_types.h"
+ 408              		.file 7 "/usr/lib/gcc/arm-none-eabi/7.3.1/include/stddef.h"
+ 409              		.file 8 "/usr/arm-none-eabi/include/sys/reent.h"
+ 410              		.file 9 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/CMSIS/Include/core_cm4.h"
+ 411              		.file 10 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/CMSIS/Infineon/XMC4500_series/Include/system_
+ 412              		.file 11 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/StdDescri
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ConfigDescriptors.c
+     /tmp/ccXZQucm.s:17     .text.USB_GetNextDescriptor:0000000000000000 $t
+     /tmp/ccXZQucm.s:23     .text.USB_GetNextDescriptor:0000000000000000 USB_GetNextDescriptor
+     /tmp/ccXZQucm.s:94     .text.USB_GetNextDescriptorOfType:0000000000000000 $t
+     /tmp/ccXZQucm.s:101    .text.USB_GetNextDescriptorOfType:0000000000000000 USB_GetNextDescriptorOfType
+     /tmp/ccXZQucm.s:161    .text.USB_GetNextDescriptorOfTypeBefore:0000000000000000 $t
+     /tmp/ccXZQucm.s:168    .text.USB_GetNextDescriptorOfTypeBefore:0000000000000000 USB_GetNextDescriptorOfTypeBefore
+     /tmp/ccXZQucm.s:244    .text.USB_GetNextDescriptorOfTypeAfter:0000000000000000 $t
+     /tmp/ccXZQucm.s:251    .text.USB_GetNextDescriptorOfTypeAfter:0000000000000000 USB_GetNextDescriptorOfTypeAfter
+     /tmp/ccXZQucm.s:308    .text.USB_GetNextDescriptorComp:0000000000000000 $t
+     /tmp/ccXZQucm.s:315    .text.USB_GetNextDescriptorComp:0000000000000000 USB_GetNextDescriptorComp
+                           .group:0000000000000000 wm4.0.7a9f4dea188ccacb7d502cdcabb040c1
+                           .group:0000000000000000 wm4.Common.h.60.c2f00e237f5994003db83c2422602b22
+                           .group:0000000000000000 wm4._newlib_version.h.4.875b979a44719054cd750d0952ad3fd6
+                           .group:0000000000000000 wm4.features.h.33.5bd1eea2d80518b50f7af0b5ce6750e0
+                           .group:0000000000000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:0000000000000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:0000000000000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:0000000000000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:0000000000000000 wm4.stdbool.h.29.07dce69c3b78884144b7f7bd19483461
+                           .group:0000000000000000 wm4.newlib.h.8.f6e543eac3f2f65163ba2ffe3b04987b
+                           .group:0000000000000000 wm4.ieeefp.h.77.220d9cccac42cd58761758bee2df4ce6
+                           .group:0000000000000000 wm4.config.h.220.6cac6a9685cfce5e83c17784171638d9
+                           .group:0000000000000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:0000000000000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:0000000000000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:0000000000000000 wm4._types.h.125.5cf8a495f1f7ef36777ad868a1e32068
+                           .group:0000000000000000 wm4.stddef.h.161.5349cb105733e8777bfb0cf53c4e3f34
+                           .group:0000000000000000 wm4._types.h.184.03611d4f6b5bec9997bcf4279eceba07
+                           .group:0000000000000000 wm4.reent.h.17.90c2574d4acdcfce933db5cb09ff35fe
+                           .group:0000000000000000 wm4.cdefs.h.47.14fad0b327eb9dcf106599b738d85132
+                           .group:0000000000000000 wm4.string.h.15.dab3980bf35408a4c507182805e2de3a
+                           .group:0000000000000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:0000000000000000 wm4.BoardTypes.h.52.ca64813ccee737bcc2115eab5e075fdb
+                           .group:0000000000000000 wm4.CompilerSpecific.h.55.4a5e5ff77cd35e49c89cf2115251aee0
+                           .group:0000000000000000 wm4.Attributes.h.56.73b3ee26b0836c2dec569a5fa6f1b355
+                           .group:0000000000000000 wm4.xmc_device.h.61.ba2d082e12f51240746cffdd60d42b81
+                           .group:0000000000000000 wm4.XMC4500.h.55.9aa45b9b5790506b2dcb963e4e7adeaf
+                           .group:0000000000000000 wm4.core_cm4.h.32.6c6eb1c8daeca23ce7ba79c8e8120d52
+                           .group:0000000000000000 wm4.cmsis_gcc.h.26.91b63349961c35637933e4fba51b867b
+                           .group:0000000000000000 wm4.core_cm4.h.172.fdd5a388a160bb6ff767b7d7ee212268
+                           .group:0000000000000000 wm4.system_XMC4500.h.42.99124977c10ca8844a71949adbeabd70
+                           .group:0000000000000000 wm4.XMC4500.h.208.b340195df97f067735c4c769ba59985a
+                           .group:0000000000000000 wm4.xmc_device.h.1460.8860499b404961ffcfbb8d1fefcb2146
+                           .group:0000000000000000 wm4.xmc_common.h.92.3f4336a80569affab05a81145b87c2fc
+                           .group:0000000000000000 wm4.Endianness.h.57.3ac00c5468f4b91b806a0e6dba047e9c
+                           .group:0000000000000000 wm4.Common.h.105.4b937a9cc9dcdb26c3f07541b0b763a8
+                           .group:0000000000000000 wm4.USBMode.h.56.a52f788f0e008ddfa05fc21a83026151
+                           .group:0000000000000000 wm4.StdDescriptors.h.73.7d17e8be7a73b855fc0f8827303b7597
+                           .group:0000000000000000 wm4.ConfigDescriptors.h.82.797c4fc50d9d29bc683dd59218c24e0b
+
+NO UNDEFINED SYMBOLS
