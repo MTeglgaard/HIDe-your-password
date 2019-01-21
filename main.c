@@ -10,7 +10,16 @@
 /* Systick */
 void SysTick_Handler(void);
 
-uint32_t timeMeasured[12]=0;
+uint32_t timeMeasured[12];
+uint32_t timeNumOn[24];
+uint32_t timeNumOff[24];
+uint32_t timeCapsOn[24];
+uint32_t timeCapsOff[24];
+static uint8_t indexNumOn =0;
+static uint8_t indexNumOff =0;
+static uint8_t indexCapsOn =0;
+static uint8_t indexCapsOff =0;
+static uint32_t ticks = 0;
 
 /* Clock configuration */
 XMC_SCU_CLOCK_CONFIG_t clock_config = {
@@ -82,15 +91,15 @@ bool CALLBACK_HID_Device_CreateHIDReport(
 
 	// string to be sent
 	static uint8_t stringToSend[12] = {
-		GERMAN_KEYBOARD_SC_H,
-		GERMAN_KEYBOARD_SC_E,
-		GERMAN_KEYBOARD_SC_9_AND_CLOSING_PARENTHESIS_AND_CLOSING_BRACKET,
-		GERMAN_KEYBOARD_SC_8_AND_OPENING_PARENTHESIS_AND_OPENING_BRACKET,
+		GERMAN_KEYBOARD_SC_F,
+		GERMAN_KEYBOARD_SC_D,
+		GERMAN_KEYBOARD_SC_Y,
+		GERMAN_KEYBOARD_SC_ENTER,
+		GERMAN_KEYBOARD_SC_F,
+		GERMAN_KEYBOARD_SC_D,
 		GERMAN_KEYBOARD_SC_Z,
-		GERMAN_KEYBOARD_SC_SPACE,
-		GERMAN_KEYBOARD_SC_W,
-		GERMAN_KEYBOARD_SC_O,
-		GERMAN_KEYBOARD_SC_R,
+		GERMAN_KEYBOARD_SC_ENTER,
+		GERMAN_KEYBOARD_SC_F,
 		GERMAN_KEYBOARD_SC_L,
 		GERMAN_KEYBOARD_SC_D,
 		GERMAN_KEYBOARD_SC_ENTER
@@ -102,15 +111,23 @@ bool CALLBACK_HID_Device_CreateHIDReport(
 			report->Reserved = 0;
 			report->KeyCode[0] = 0;
 			characterSent = 0;
-			timeMeasured[indexToSend]=ticks;
+	//		timeMeasured[indexToSend]=ticks;
 			++indexToSend;
 		} else {
-			report->Modifier = HID_KEYBOARD_MODIFIER_RIGHTALT;// altgr = 6 = 0
+			if (indexToSend == 1 || indexToSend == 5){report->Modifier =HID_KEYBOARD_MODIFIER_RIGHTSHIFT;}
+			else {report->Modifier = 0;}//HID_KEYBOARD_MODIFIER_RIGHTALT;// altgr = 6 = 0
+			//report->Modifier = 0;
 			report->Reserved = 0;
 			report->KeyCode[0] = stringToSend[indexToSend];
 			characterSent = 1;
-			ticks = 0;
+		//	ticks = 0
 		}
+	} else {
+		// indexNumOn  = 0;
+		// indexNumOff = 0;
+		indexCapsOn = 0;
+		indexCapsOff= 0;
+		//printf("%d\n", timeMeasured[0]);
 	}
 
 	return true;
@@ -126,14 +143,32 @@ void CALLBACK_HID_Device_ProcessHIDReport(
 	uint8_t *report = (uint8_t*)ReportData;
 
 	if(*report & HID_KEYBOARD_LED_NUMLOCK)
-		XMC_GPIO_SetOutputHigh(LED1);
+		{XMC_GPIO_SetOutputHigh(LED1);
+		timeNumOn[indexNumOn]=ticks;
+		indexNumOn++;}
 	else
-		XMC_GPIO_SetOutputLow(LED1);
-
+		{XMC_GPIO_SetOutputLow(LED1);
+		timeNumOff[indexNumOff]=ticks;
+		indexNumOff++;
+		if(indexNumOff == 3)
+			{
+				int loop;
+				for(loop = 0; loop < 3; loop++)
+	      {
+					printf("%d ", timeNumOff[loop]);//printf("%d\n%d\n%d\n", timeNumOff[0], timeNumOff[1], timeNumOff[2]);}
+				}
+ 			}
+		}
 	if(*report & HID_KEYBOARD_LED_CAPSLOCK)
-		XMC_GPIO_SetOutputHigh(LED2);
+		{XMC_GPIO_SetOutputHigh(LED2);
+		timeCapsOn[indexCapsOn]=ticks;
+		indexCapsOn++;
+		}
 	else
-		XMC_GPIO_SetOutputLow(LED2);
+		{XMC_GPIO_SetOutputLow(LED2);
+		timeCapsOff[indexCapsOff]=ticks;
+		indexCapsOff++;
+		}
 }
 
 void SystemCoreClockSetup(void) {
@@ -150,8 +185,7 @@ void SystemCoreClockSetup(void) {
 }
 
 void SysTick_Handler(void)
-{
-  static uint32_t ticks = 0;
+{  //static uint32_t ticks = 0;
 
   ticks++;
 }
