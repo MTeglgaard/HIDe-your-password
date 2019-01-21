@@ -87,38 +87,45 @@ bool CALLBACK_HID_Device_CreateHIDReport(
 	USB_KeyboardReport_Data_t* report = (USB_KeyboardReport_Data_t *)ReportData;
 	*ReportSize = sizeof(USB_KeyboardReport_Data_t);
 	static uint8_t characterSent = 0,
-				   indexToSend = 0;
+				   indexToSend1 = 0,
+					 indexToSend2 = 0;
 
 	// string to be sent
-	static uint8_t stringToSend[12] = {
-		GERMAN_KEYBOARD_SC_F,
-		GERMAN_KEYBOARD_SC_D,
-		GERMAN_KEYBOARD_SC_Y,
-		GERMAN_KEYBOARD_SC_ENTER,
-		GERMAN_KEYBOARD_SC_F,
-		GERMAN_KEYBOARD_SC_D,
-		GERMAN_KEYBOARD_SC_Z,
-		GERMAN_KEYBOARD_SC_ENTER,
-		GERMAN_KEYBOARD_SC_F,
-		GERMAN_KEYBOARD_SC_L,
-		GERMAN_KEYBOARD_SC_D,
-		GERMAN_KEYBOARD_SC_ENTER
+	static uint8_t stringToSend[3][4] = {
+			{	GERMAN_KEYBOARD_SC_F,
+				GERMAN_KEYBOARD_SC_D,
+				GERMAN_KEYBOARD_SC_Y,
+				GERMAN_KEYBOARD_SC_ENTER},
+			{	GERMAN_KEYBOARD_SC_F,
+				GERMAN_KEYBOARD_SC_D,
+				GERMAN_KEYBOARD_SC_Z,
+				GERMAN_KEYBOARD_SC_ENTER},
+		 	{ GERMAN_KEYBOARD_SC_F,
+				GERMAN_KEYBOARD_SC_L,
+				GERMAN_KEYBOARD_SC_D,
+				GERMAN_KEYBOARD_SC_ENTER}
 	};
 
-	if(indexToSend < 12) {
+	if(indexToSend1 < 3) {
 		if(characterSent) {
 			report->Modifier = 0;
 			report->Reserved = 0;
 			report->KeyCode[0] = 0;
 			characterSent = 0;
 	//		timeMeasured[indexToSend]=ticks;
-			++indexToSend;
+
+			if (indexToSend2 < 4) {
+					++indexToSend2;
+			} else {
+				indexToSend1++;
+				indexToSend2 =0;
+			}
 		} else {
-			if (indexToSend == 1 || indexToSend == 5){report->Modifier =HID_KEYBOARD_MODIFIER_RIGHTSHIFT;}
-			else {report->Modifier = 0;}//HID_KEYBOARD_MODIFIER_RIGHTALT;// altgr = 6 = 0
+			if (indexToSend2 == 1 || indexToSend2 == 5){report->Modifier =HID_KEYBOARD_MODIFIER_RIGHTSHIFT;}
+			else {report->Modifier = 0;}//HID_KEYBOARD_MODIFIER_RIGHTALT;// altgr = 6 = 0x40
 			//report->Modifier = 0;
 			report->Reserved = 0;
-			report->KeyCode[0] = stringToSend[indexToSend];
+			report->KeyCode[0] = stringToSend[indexToSend1][indexToSend2];
 			characterSent = 1;
 		//	ticks = 0
 		}
