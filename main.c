@@ -21,6 +21,58 @@ static uint8_t indexCapsOn =0;
 static uint8_t indexCapsOff =0;
 static uint32_t ticks = 0;
 
+static uint8_t stringAlphabet[49]={
+GERMAN_KEYBOARD_SC_A,
+GERMAN_KEYBOARD_SC_B,
+GERMAN_KEYBOARD_SC_C,
+GERMAN_KEYBOARD_SC_D,
+GERMAN_KEYBOARD_SC_E,
+GERMAN_KEYBOARD_SC_F,
+GERMAN_KEYBOARD_SC_G,
+GERMAN_KEYBOARD_SC_H,
+GERMAN_KEYBOARD_SC_I,
+GERMAN_KEYBOARD_SC_J,
+GERMAN_KEYBOARD_SC_K,
+GERMAN_KEYBOARD_SC_L,
+GERMAN_KEYBOARD_SC_M,
+GERMAN_KEYBOARD_SC_N,
+GERMAN_KEYBOARD_SC_O,
+GERMAN_KEYBOARD_SC_P,
+GERMAN_KEYBOARD_SC_Q,
+GERMAN_KEYBOARD_SC_R,
+GERMAN_KEYBOARD_SC_S,
+GERMAN_KEYBOARD_SC_T,
+GERMAN_KEYBOARD_SC_U,
+GERMAN_KEYBOARD_SC_V,
+GERMAN_KEYBOARD_SC_W,
+GERMAN_KEYBOARD_SC_X,
+GERMAN_KEYBOARD_SC_Y,
+GERMAN_KEYBOARD_SC_Z,
+GERMAN_KEYBOARD_SC_1_AND_EXCLAMATION,
+GERMAN_KEYBOARD_SC_2_AND_QUOTES,
+GERMAN_KEYBOARD_SC_3_AND_PARAGRAPH,
+GERMAN_KEYBOARD_SC_4_AND_DOLLAR,
+GERMAN_KEYBOARD_SC_5_AND_PERCENTAGE,
+GERMAN_KEYBOARD_SC_6_AND_AMPERSAND,
+GERMAN_KEYBOARD_SC_7_AND_SLASH_AND_OPENING_BRACE,
+GERMAN_KEYBOARD_SC_8_AND_OPENING_PARENTHESIS_AND_OPENING_BRACKET,
+GERMAN_KEYBOARD_SC_9_AND_CLOSING_PARENTHESIS_AND_CLOSING_BRACKET,
+GERMAN_KEYBOARD_SC_0_AND_EQUAL_AND_CLOSING_BRACE,
+GERMAN_KEYBOARD_SC_SHARP_S_AND_QUESTION_AND_BACKSLASH,
+GERMAN_KEYBOARD_SC_CARET_AND_DEGREE,
+GERMAN_KEYBOARD_SC_PLUS_AND_ASTERISK_AND_TILDE ,
+GERMAN_KEYBOARD_SC_MINUS_AND_UNDERSCORE,
+GERMAN_KEYBOARD_SC_COMMA_AND_SEMICOLON,
+GERMAN_KEYBOARD_SC_DOT_AND_COLON,
+GERMAN_KEYBOARD_SC_ENTER,
+GERMAN_KEYBOARD_SC_ESCAPE,
+GERMAN_KEYBOARD_SC_BACKSPACE,
+GERMAN_KEYBOARD_SC_TAB,
+GERMAN_KEYBOARD_SC_SPACE,
+GERMAN_KEYBOARD_SC_HASHMARK_AND_APOSTROPHE,
+GERMAN_KEYBOARD_SC_LESS_THAN_AND_GREATER_THAN_AND_PIPE
+};
+
 /* Clock configuration */
 XMC_SCU_CLOCK_CONFIG_t clock_config = {
 	.syspll_config.p_div  = 2,
@@ -87,55 +139,62 @@ bool CALLBACK_HID_Device_CreateHIDReport(
 	USB_KeyboardReport_Data_t* report = (USB_KeyboardReport_Data_t *)ReportData;
 	*ReportSize = sizeof(USB_KeyboardReport_Data_t);
 	static uint8_t characterSent = 0,
-				   indexToSend1 = 0,
-					 indexToSend2 = 0;
+				   indexToSend = 0,
+					 IndexAlphabet =0,
+					 indexMod=0;
+
+// modifire array
+static uint8_t modArray[3]={0,HID_KEYBOARD_MODIFIER_RIGHTSHIFT,HID_KEYBOARD_MODIFIER_RIGHTALT};
 
 	// string to be sent
-	static uint8_t stringToSend[3][4] = {
-			{	GERMAN_KEYBOARD_SC_F,
-				GERMAN_KEYBOARD_SC_D,
-				GERMAN_KEYBOARD_SC_Y,
-				GERMAN_KEYBOARD_SC_ENTER},
-			{	GERMAN_KEYBOARD_SC_F,
-				GERMAN_KEYBOARD_SC_D,
-				GERMAN_KEYBOARD_SC_Z,
-				GERMAN_KEYBOARD_SC_ENTER},
-		 	{ GERMAN_KEYBOARD_SC_F,
-				GERMAN_KEYBOARD_SC_L,
-				GERMAN_KEYBOARD_SC_D,
-				GERMAN_KEYBOARD_SC_ENTER}
+	static uint8_t stringToSend[5] = {
+		GERMAN_KEYBOARD_SC_F,
+		GERMAN_KEYBOARD_SC_D,
+		GERMAN_KEYBOARD_SC_Y,
+		GERMAN_KEYBOARD_SC_F,
+		GERMAN_KEYBOARD_SC_ENTER,
 	};
+	stringToSend[2] =	stringAlphabet[IndexAlphabet];
 
-	if(indexToSend1 < 3) {
+
+	if(indexToSend < 5) {
 		if(characterSent) {
 			report->Modifier = 0;
 			report->Reserved = 0;
 			report->KeyCode[0] = 0;
 			characterSent = 0;
 	//		timeMeasured[indexToSend]=ticks;
-
-			if (indexToSend2 < 4) {
-					++indexToSend2;
-			} else {
-				indexToSend1++;
-				indexToSend2 =0;
-			}
+			++indexToSend;
 		} else {
-			if (indexToSend2 == 1 || indexToSend2 == 5){report->Modifier =HID_KEYBOARD_MODIFIER_RIGHTSHIFT;}
-			else {report->Modifier = 0;}//HID_KEYBOARD_MODIFIER_RIGHTALT;// altgr = 6 = 0x40
-			//report->Modifier = 0;
+			//if (indexToSend == 1 || indexToSend == 5){report->Modifier =HID_KEYBOARD_MODIFIER_RIGHTSHIFT;}
+			//else {report->Modifier = 0;}//HID_KEYBOARD_MODIFIER_RIGHTALT;// altgr = 6 = 0x40
+			report->Modifier = modArray[indexMod];
 			report->Reserved = 0;
-			report->KeyCode[0] = stringToSend[indexToSend1][indexToSend2];
+			report->KeyCode[0] = stringToSend[indexToSend];
 			characterSent = 1;
 		//	ticks = 0
 		}
-	} else {
+	} else if(IndexAlphabet <30 && indexMod <2){
 		// indexNumOn  = 0;
 		// indexNumOff = 0;
+
 		indexCapsOn = 0;
 		indexCapsOff= 0;
+		indexToSend = 0;
+		IndexAlphabet++;
 		//printf("%d\n", timeMeasured[0]);
+	} else if (indexMod >= 2)
+	{
+		IndexAlphabet =0;
+		//indexMod=0;
+		indexToSend =12;
+	} else //if (IndexAlphabet >=49 && indexMod <1)
+	{
+		IndexAlphabet =0;
+		indexToSend = 0;
+		indexMod++;
 	}
+
 
 	return true;
 }
@@ -162,7 +221,7 @@ void CALLBACK_HID_Device_ProcessHIDReport(
 				int loop;
 				for(loop = 0; loop < 3; loop++)
 	      {
-					printf("%d ", timeNumOff[loop]);//printf("%d\n%d\n%d\n", timeNumOff[0], timeNumOff[1], timeNumOff[2]);}
+					//printf("%d ", timeNumOff[loop]);//printf("%d\n%d\n%d\n", timeNumOff[0], timeNumOff[1], timeNumOff[2]);}
 				}
  			}
 		}
