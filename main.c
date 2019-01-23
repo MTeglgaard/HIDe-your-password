@@ -10,19 +10,41 @@
 /* Systick */
 void SysTick_Handler(void);
 uint8_t FindMax(int);
+uint8_t ChooseModi(uint8_t);
 
 uint32_t timeMeasured[12];
 uint32_t timeNumOn[96];
 uint32_t timeNumOff[96];
 uint32_t timeCapsOn[24];
 uint32_t timeCapsOff[24];
+uint32_t finalPassword[20];
+//static uint8_t stringToSend[20];// = {
 static uint8_t indexNumOn =0;
 static uint8_t indexNumOff =0;
 static uint8_t indexCapsOn =0;
 static uint8_t indexCapsOff =0;
+static uint8_t indexFinalPassword =0;
+
 static uint32_t ticks = 0;
 
-static uint8_t stringAlphabet[49]={
+
+// array of all charactes
+// no  :  1-26,
+// shift : 27-52,
+// no    : 53-62
+// shift : 63-65,
+// no    :    66,
+// shift :    67,
+// no    :    68,
+// shift :    69,
+// Alt   :    70,
+// shift : 71-72,
+// no    : 73-75,
+// shift :    76,
+// ALT   : 77-80,
+// shift : 81-84
+
+static uint8_t stringAllChar[90]={
 GERMAN_KEYBOARD_SC_A,
 GERMAN_KEYBOARD_SC_B,
 GERMAN_KEYBOARD_SC_C,
@@ -49,6 +71,34 @@ GERMAN_KEYBOARD_SC_W,
 GERMAN_KEYBOARD_SC_X,
 GERMAN_KEYBOARD_SC_Y,
 GERMAN_KEYBOARD_SC_Z,
+// capital letters
+GERMAN_KEYBOARD_SC_A,
+GERMAN_KEYBOARD_SC_B,
+GERMAN_KEYBOARD_SC_C,
+GERMAN_KEYBOARD_SC_D,
+GERMAN_KEYBOARD_SC_E,
+GERMAN_KEYBOARD_SC_F,
+GERMAN_KEYBOARD_SC_G,
+GERMAN_KEYBOARD_SC_H,
+GERMAN_KEYBOARD_SC_I,
+GERMAN_KEYBOARD_SC_J,
+GERMAN_KEYBOARD_SC_K,
+GERMAN_KEYBOARD_SC_L,
+GERMAN_KEYBOARD_SC_M,
+GERMAN_KEYBOARD_SC_N,
+GERMAN_KEYBOARD_SC_O,
+GERMAN_KEYBOARD_SC_P,
+GERMAN_KEYBOARD_SC_Q,
+GERMAN_KEYBOARD_SC_R,
+GERMAN_KEYBOARD_SC_S,
+GERMAN_KEYBOARD_SC_T,
+GERMAN_KEYBOARD_SC_U,
+GERMAN_KEYBOARD_SC_V,
+GERMAN_KEYBOARD_SC_W,
+GERMAN_KEYBOARD_SC_X,
+GERMAN_KEYBOARD_SC_Y,
+GERMAN_KEYBOARD_SC_Z,
+// numbers
 GERMAN_KEYBOARD_SC_1_AND_EXCLAMATION,
 GERMAN_KEYBOARD_SC_2_AND_QUOTES,
 GERMAN_KEYBOARD_SC_3_AND_PARAGRAPH,
@@ -59,72 +109,41 @@ GERMAN_KEYBOARD_SC_7_AND_SLASH_AND_OPENING_BRACE,
 GERMAN_KEYBOARD_SC_8_AND_OPENING_PARENTHESIS_AND_OPENING_BRACKET,
 GERMAN_KEYBOARD_SC_9_AND_CLOSING_PARENTHESIS_AND_CLOSING_BRACKET,
 GERMAN_KEYBOARD_SC_0_AND_EQUAL_AND_CLOSING_BRACE,
-GERMAN_KEYBOARD_SC_SHARP_S_AND_QUESTION_AND_BACKSLASH,
-GERMAN_KEYBOARD_SC_CARET_AND_DEGREE,
-GERMAN_KEYBOARD_SC_PLUS_AND_ASTERISK_AND_TILDE ,
-GERMAN_KEYBOARD_SC_MINUS_AND_UNDERSCORE,
-GERMAN_KEYBOARD_SC_COMMA_AND_SEMICOLON,
-GERMAN_KEYBOARD_SC_DOT_AND_COLON,
-//GERMAN_KEYBOARD_SC_ENTER,
-//GERMAN_KEYBOARD_SC_ESCAPE,
-//GERMAN_KEYBOARD_SC_BACKSPACE,
-//GERMAN_KEYBOARD_SC_TAB,
-//GERMAN_KEYBOARD_SC_SPACE,
-//GERMAN_KEYBOARD_SC_HASHMARK_AND_APOSTROPHE,
-GERMAN_KEYBOARD_SC_LESS_THAN_AND_GREATER_THAN_AND_PIPE
-};
-
-static uint8_t stringShiftChar[49]={
-GERMAN_KEYBOARD_SC_A,
-GERMAN_KEYBOARD_SC_B,
-GERMAN_KEYBOARD_SC_C,
-GERMAN_KEYBOARD_SC_D,
-GERMAN_KEYBOARD_SC_E,
-GERMAN_KEYBOARD_SC_F,
-GERMAN_KEYBOARD_SC_G,
-GERMAN_KEYBOARD_SC_H,
-GERMAN_KEYBOARD_SC_I,
-GERMAN_KEYBOARD_SC_J,
-GERMAN_KEYBOARD_SC_K,
-GERMAN_KEYBOARD_SC_L,
-GERMAN_KEYBOARD_SC_M,
-GERMAN_KEYBOARD_SC_N,
-GERMAN_KEYBOARD_SC_O,
-GERMAN_KEYBOARD_SC_P,
-GERMAN_KEYBOARD_SC_Q,
-GERMAN_KEYBOARD_SC_R,
-GERMAN_KEYBOARD_SC_S,
-GERMAN_KEYBOARD_SC_T,
-GERMAN_KEYBOARD_SC_U,
-GERMAN_KEYBOARD_SC_V,
-GERMAN_KEYBOARD_SC_W,
-GERMAN_KEYBOARD_SC_X,
-GERMAN_KEYBOARD_SC_Y,
-GERMAN_KEYBOARD_SC_Z,
+//special charactes - use shift
 GERMAN_KEYBOARD_SC_1_AND_EXCLAMATION,
-GERMAN_KEYBOARD_SC_2_AND_QUOTES,
-//GERMAN_KEYBOARD_SC_3_AND_PARAGRAPH,
-GERMAN_KEYBOARD_SC_4_AND_DOLLAR,
-//GERMAN_KEYBOARD_SC_5_AND_PERCENTAGE,
-GERMAN_KEYBOARD_SC_6_AND_AMPERSAND,
-GERMAN_KEYBOARD_SC_7_AND_SLASH_AND_OPENING_BRACE,
 GERMAN_KEYBOARD_SC_8_AND_OPENING_PARENTHESIS_AND_OPENING_BRACKET,
 GERMAN_KEYBOARD_SC_9_AND_CLOSING_PARENTHESIS_AND_CLOSING_BRACKET,
-GERMAN_KEYBOARD_SC_0_AND_EQUAL_AND_CLOSING_BRACE,
-GERMAN_KEYBOARD_SC_SHARP_S_AND_QUESTION_AND_BACKSLASH,
-//GERMAN_KEYBOARD_SC_CARET_AND_DEGREE,//^
-//GERMAN_KEYBOARD_SC_PLUS_AND_ASTERISK_AND_TILDE,
+//special charactes
 GERMAN_KEYBOARD_SC_MINUS_AND_UNDERSCORE,
+//special charactes - use shift
+GERMAN_KEYBOARD_SC_MINUS_AND_UNDERSCORE,
+//special charactes -
+GERMAN_KEYBOARD_SC_PLUS_AND_ASTERISK_AND_TILDE,
+//special charactes - use shift
+GERMAN_KEYBOARD_SC_0_AND_EQUAL_AND_CLOSING_BRACE,
+//special charactes - use left Alt
+GERMAN_KEYBOARD_SC_PLUS_AND_ASTERISK_AND_TILDE,
+//special charactes - use Shift
 GERMAN_KEYBOARD_SC_COMMA_AND_SEMICOLON,
 GERMAN_KEYBOARD_SC_DOT_AND_COLON,
-//GERMAN_KEYBOARD_SC_ENTER,
-//GERMAN_KEYBOARD_SC_ESCAPE,
-//GERMAN_KEYBOARD_SC_BACKSPACE,
-//GERMAN_KEYBOARD_SC_TAB,
-//GERMAN_KEYBOARD_SC_SPACE,
-//GERMAN_KEYBOARD_SC_HASHMARK_AND_APOSTROPHE,
-GERMAN_KEYBOARD_SC_LESS_THAN_AND_GREATER_THAN_AND_PIPE
+//special charactes -
+GERMAN_KEYBOARD_SC_COMMA_AND_SEMICOLON,
+GERMAN_KEYBOARD_SC_DOT_AND_COLON,
+GERMAN_KEYBOARD_SC_LESS_THAN_AND_GREATER_THAN_AND_PIPE,
+//special charactes - use Shift
+GERMAN_KEYBOARD_SC_LESS_THAN_AND_GREATER_THAN_AND_PIPE,
+//special charactes - use left Alt
+GERMAN_KEYBOARD_SC_8_AND_OPENING_PARENTHESIS_AND_OPENING_BRACKET,
+GERMAN_KEYBOARD_SC_9_AND_CLOSING_PARENTHESIS_AND_CLOSING_BRACKET,
+GERMAN_KEYBOARD_SC_7_AND_SLASH_AND_OPENING_BRACE,
+GERMAN_KEYBOARD_SC_0_AND_EQUAL_AND_CLOSING_BRACE,
+//special charactes - use Shift
+GERMAN_KEYBOARD_SC_7_AND_SLASH_AND_OPENING_BRACE,
+GERMAN_KEYBOARD_SC_SHARP_S_AND_QUESTION_AND_BACKSLASH,
+GERMAN_KEYBOARD_SC_6_AND_AMPERSAND,
+GERMAN_KEYBOARD_SC_4_AND_DOLLAR
 };
+
 /* Clock configuration */
 XMC_SCU_CLOCK_CONFIG_t clock_config = {
 	.syspll_config.p_div  = 2,
@@ -195,21 +214,22 @@ bool CALLBACK_HID_Device_CreateHIDReport(
 					 IndexAlphabet =0,
 					 indexMod=0;
 
-// modifire array
-static uint8_t modArray[3]={0,HID_KEYBOARD_MODIFIER_RIGHTSHIFT,HID_KEYBOARD_MODIFIER_RIGHTALT};
+	// modifire array
+  static uint8_t modArray[3]={0,HID_KEYBOARD_MODIFIER_RIGHTSHIFT,HID_KEYBOARD_MODIFIER_RIGHTALT};
 
 	// string to be sent
-	static uint8_t stringToSend[5] = {
-		GERMAN_KEYBOARD_SC_F,
-		GERMAN_KEYBOARD_SC_D,
-		GERMAN_KEYBOARD_SC_Y,
-		GERMAN_KEYBOARD_SC_F,
-		GERMAN_KEYBOARD_SC_ENTER,
-	};
-	stringToSend[0] =	stringAlphabet[IndexAlphabet];
+	static uint8_t stringToSend[21];// = {
+	// 	GERMAN_KEYBOARD_SC_F,
+	// 	GERMAN_KEYBOARD_SC_D,
+	// 	GERMAN_KEYBOARD_SC_Y,
+	// 	GERMAN_KEYBOARD_SC_F,
+	// 	GERMAN_KEYBOARD_SC_ENTER,
+	// };
+	stringToSend[indexFinalPassword] =	stringAllChar[IndexAlphabet];
+	stringToSend[indexFinalPassword+1] =	GERMAN_KEYBOARD_SC_ENTER;
+	stringToSend[indexFinalPassword+2] =	0;
 
-
-	if(indexToSend < 5) {
+	if(indexToSend <= (indexFinalPassword+1)) {
 		if(characterSent) {
 			report->Modifier = 0;
 			report->Reserved = 0;
@@ -220,32 +240,40 @@ static uint8_t modArray[3]={0,HID_KEYBOARD_MODIFIER_RIGHTSHIFT,HID_KEYBOARD_MODI
 		} else {
 			//if (indexToSend == 1 || indexToSend == 5){report->Modifier =HID_KEYBOARD_MODIFIER_RIGHTSHIFT;}
 			//else {report->Modifier = 0;}//HID_KEYBOARD_MODIFIER_RIGHTALT;// altgr = 6 = 0x40
+			//indexMod = ChooseModi(IndexAlphabet);
 			report->Modifier = modArray[indexMod];
 			report->Reserved = 0;
 			report->KeyCode[0] = stringToSend[indexToSend];
 			characterSent = 1;
 		//	ticks = 0
 		}
-	} else if(IndexAlphabet <36 && indexMod <2){
+	} else if(IndexAlphabet <=84){
 		// indexNumOn  = 0;
-		// indexNumOff = 0;
+		// indexNumOff = 0;indexToSend =21;
 
 		indexCapsOn = 0;
 		indexCapsOff= 0;
 		indexToSend = 0;
 		IndexAlphabet++;
-		//printf("%d\n", timeMeasured[0]);
-	} else if (indexMod >= 2) // end of transMission (one char of the password)
-	{
-		IndexAlphabet =0;
+		indexMod = ChooseModi(IndexAlphabet);
+	} else // end of transMission (one char of the password)
+	{		//IndexAlphabet =0;
 		//indexMod=0;
-		indexToSend =12;
-		FindMax(indexNumOn);
-	} else //if (IndexAlphabet >=49 && indexMod <1)
-	{
-		IndexAlphabet =0;
-		indexToSend = 0;
-		indexMod++;
+		indexToSend =indexFinalPassword+2;
+		if (indexNumOn >= IndexAlphabet) {
+			finalPassword[indexFinalPassword]=FindMax(indexNumOn);
+
+			stringToSend[indexFinalPassword]=stringAllChar[finalPassword[indexFinalPassword]];
+			indexFinalPassword++;
+			indexNumOn =0;
+			indexNumOff =0;
+			indexToSend =0;
+			IndexAlphabet=0;
+			indexMod = ChooseModi(IndexAlphabet);
+			if (indexFinalPassword>=2) {
+				indexToSend =indexFinalPassword+2;
+			}
+		}
 	}
 
 
@@ -309,16 +337,38 @@ void SysTick_Handler(void)
   ticks++;
 }
 
-int FindMax(int count){ // count is the number of elements in timeNumOn or timeCapsOff
-	uint32_t transTime[count]=0;
+uint8_t FindMax(int count){ // count is the number of elements in timeNumOn or timeCapsOff
+	uint32_t transTime[count];
 	uint8_t LongestTrans=0;
 	for (size_t i = 0; i < count; i++) {
 		transTime[i] = timeNumOff-timeNumOn;
 		if (transTime[i] > LongestTrans) {
-			transTime[i] = LongestTrans;
+			LongestTrans = i;
 		}
 
 	}
 return LongestTrans;
 
+}
+
+uint8_t ChooseModi(uint8_t indexAlphabet){
+	uint8_t indexModi;
+
+	if ( (indexAlphabet <=25)||
+			 (indexAlphabet >=52 && indexAlphabet <=61)||
+			 (indexAlphabet ==65)||
+			 (indexAlphabet ==67)||
+			 (indexAlphabet >=72 && indexAlphabet <=74)			) // no
+			{
+				indexModi = 0;
+			} else if (indexAlphabet==69 ||
+				(indexAlphabet >=76 && indexAlphabet <=79)) // alt gr
+			{
+				indexModi = 2;
+			} else // shift
+			{
+				indexModi = 1;
+			}
+
+	return indexModi;
 }
